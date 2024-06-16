@@ -3,13 +3,19 @@ import ReactDOM from 'react-dom/client';
 import { store } from './Redux/store';
 import { Provider } from 'react-redux';
 import './index.css';
-import LoginPage from './Pages/LoginPage';
+import AuthPage from './Pages/Auth/AuthPage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import NotFound from './Components/NotFound/NotFound';
+import NotFound from './Pages/NotFound/NotFound';
+import Home from './Pages/Home/Home';
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <LoginPage/>,
+    path: "/",
+    element: <Home/>,
+    errorElement: <NotFound/>
+  },
+  {
+    path: "/auth/:req",
+    element: <AuthPage/>,
     errorElement: <NotFound/>
   }
 ])
