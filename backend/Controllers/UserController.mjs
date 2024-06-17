@@ -23,11 +23,12 @@ const registerUser= async (req, res, next)=>{
   
     // Encrypt the password
       req.body.password= await Utils.generatePasswordHash(req.body.password);
+console.log(req.body);
 
     // Create a new document inside User Collection
       const userDoc = new UserModel(req.body);
-
-    // Save the doc
+      
+    // // Save the doc
       userDoc.save();
   
     // Generate JWT Token

@@ -27,7 +27,8 @@ const PasswordField = forwardRef((props, refPassword) => {
         className='bg-[#1e1e1e] p-[1rem] rounded-md w-[100%] outline-none focus:border-[#f3f5f726] border border-transparent focus:text-[#f3f5f7] transition'
       />
       <span
-        className="fa-solid fa-eye-slash text-[2rem] absolute right-[1rem]"
+        className="fa-solid fa-eye-slash text-[2rem]"
+        style={{position: "absolute", right: "1rem"}}
         onClick={handleEyeClick}
       ></span>
     </div>

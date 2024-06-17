@@ -16,6 +16,20 @@ const app = new e();
     console.log('Exiting...');
     process.exit(1);
   });
+// CORS
+  app.use((req, res, next) => {
+    if (req.headers.host.includes('localhost')) {
+      // console.log('its localhost');
+      res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    } else {
+      res.header('Access-Control-Allow-Origin', 'https://frontend-m6node-file-sharing-application.vercel.app');
+    }
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
+
+
 
 // allowing json to be parsed in req.body
   app.use(e.json())
@@ -24,7 +38,7 @@ const app = new e();
   app.use(morgan('dev'));
 
 // linking Router
-  app.use('/api/v1/user', UserRouter);
+  app.use('/api/v1/user',  UserRouter);
 
 // Default Error handling middleware
   app.use((err, req, res, next)=>{

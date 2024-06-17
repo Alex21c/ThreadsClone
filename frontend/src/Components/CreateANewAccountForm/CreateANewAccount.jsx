@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import PasswordField from '../PasswordField/PasswordField.mjs';
 import MuiSnackbar from '../MuiSnackbar/MuiSnackbar.mjs';
-import { openTheMuiSnackbar } from '../../Redux/Slices/muiSnackbar.mjs';
+import { openTheMuiSnackbar } from '../../Redux/Slices/muiSnackbarSlice.mjs';
+import { setJwt } from '../../Redux/Slices/authSlice.mjs';
 import { useDispatch } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 export default function CreateANewAccountForm(){
   const theme = useSelector(store => store.theme);
   const refUsername = useRef(null);
@@ -16,10 +17,11 @@ export default function CreateANewAccountForm(){
   const refBio = useRef(null);
   const refLink = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function handleSubmitRequest(event){
     event.preventDefault();
-    console.log('submit button pressed')
+    
     // are required fields provided?
     if(
       refUsername.current.value === "" ||
@@ -58,13 +60,21 @@ export default function CreateANewAccountForm(){
         if(!response){
           throw new Error("Failed to Make Req. with Server! please try again later...");
         }
-        response = response.json();
+        response = await response.json();
+        if(!response.success){
+          throw new Error(response.message);        
+        }
         console.log(response);
 
+        // save the token in the local storage, and redirect the user to homepage
+          dispatch(setJwt(response.Authorization));
+        
+        // redirect user to homepage          
+          navigate("/");
 
-      } catch (error) {
-        console.log(openTheMuiSnackbar)
-        // dispatch(openTheMuiSnackbar());
+
+      } catch (error) {        
+        dispatch(openTheMuiSnackbar({message: error.message, type: "error"}));
         console.log(error.message);
       }
   }
