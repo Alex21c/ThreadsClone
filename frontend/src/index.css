@@ -21,4 +21,10 @@ html{
 }
 
 
+/* SCROLLBAR */
 
+/* Width of the scrollbar */
+* {
+  scrollbar-width: thin; /* auto, thin, or none */
+  scrollbar-color: #777777 #101010; /* thumb color and track color */
+}

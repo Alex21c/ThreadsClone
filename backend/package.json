@@ -1,0 +1,34 @@
+{
+  "name": "backend-threads-clone",
+  "version": "1.0.0",
+  "description": "Threads is an online social media and social networking service operated by Meta Platforms. Functionality is similar to Twitter, users can post text, images, and videos, as well as interact with other users' posts through replies, reposts, and likes.",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev" : "nodemon index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alex21c/ThreadsClone"
+  },
+  "keywords": [
+    "Backend",
+    "Threads Clone",
+    "MERN Stack project",
+    "alex21c"
+  ],
+  "author": "Abhishek kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Alex21c/ThreadsClone/issues"
+  },
+  "homepage": "https://github.com/Alex21c/ThreadsClone#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.1",
+    "morgan": "^1.10.0"
+  }
+}

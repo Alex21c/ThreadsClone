@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
   open: false
 };
@@ -19,6 +20,8 @@ export const muiModalHavingQrCodeForAppDownloadSlice = createSlice({
 export const {openMuiModalHavingQrCodeForAppDownloadSlice, closeMuiModalHavingQrCodeForAppDownloadSlice} = muiModalHavingQrCodeForAppDownloadSlice.actions;
 const muiModalHavingQrCodeForAppDownloadSliceReducer = muiModalHavingQrCodeForAppDownloadSlice.reducer;
 export default muiModalHavingQrCodeForAppDownloadSliceReducer;
+
+
 
 
 
