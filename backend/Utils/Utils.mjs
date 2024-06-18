@@ -17,6 +17,13 @@ export default class Utils{
     }
   }
 
+  static async isPasswordValid(plainTextPassword="", userPwdHashFromDB="123"){
+    try {
+     return await bcrypt.compare(plainTextPassword, userPwdHashFromDB);
+    } catch (error) {
+      return false;
+    }
+  }
   static generateJwtToken(userDoc){
     try {
       return "Bearer " + jwt.sign({

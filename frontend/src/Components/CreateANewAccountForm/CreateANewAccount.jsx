@@ -6,6 +6,8 @@ import { openTheMuiSnackbar } from '../../Redux/Slices/muiSnackbarSlice.mjs';
 import { setJwt } from '../../Redux/Slices/authSlice.mjs';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import API_ENDPOINTS from '../../config.mjs';
+
 export default function CreateANewAccountForm(){
   const theme = useSelector(store => store.theme);
   const refUsername = useRef(null);
@@ -50,8 +52,7 @@ export default function CreateANewAccountForm(){
           "Content-Type": "application/json"
         };
 
-        const serverURL = "http://localhost:4000"
-        const reqURL = `${serverURL}/api/v1/user/register`;
+        const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.User.register}`;
         let response = await fetch(reqURL, {
           method: "POST",
           headers,       

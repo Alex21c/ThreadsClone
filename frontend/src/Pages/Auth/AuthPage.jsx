@@ -10,13 +10,27 @@ import LoginForm from "../../Components/LoginForm/LoginForm";
 import CreateANewAccountForm from "../../Components/CreateANewAccountForm/CreateANewAccount";
 import ForgotPasswordForm from "../../Components/ForgotPasswordForm/ForgotPasswordForm";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthPage(){
   const {req} = useParams();
+  const navigate = useNavigate();
   const pageName = "Authentication";
+  const auth = useSelector(store=>store.auth);
   useEffect(()=>{
-    document.title=pageName + ` (${req})`
+    document.title=pageName + ` (${req})`;
+
+    // is it login page?
+    /// is user already logged in ?
+    if(req==='login' && auth.authorization){
+      navigate('/'); // redirect to home
+    }
+
+
   }, []);
+
+
+
 
   const theme = useSelector((store)=> store.theme);
   const dispath=useDispatch();

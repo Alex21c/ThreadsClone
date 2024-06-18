@@ -1,13 +1,22 @@
 import UserModel from "../Models/UserModel.mjs";
 import CustomError from "../Utils/CustomError.mjs";
 import Utils from "../Utils/Utils.mjs";
+import validator from "validator";
 
 
 const registerUser= async (req, res, next)=>{
   try {
-    
+    // Input Validations  
+    /// is it valid email?
+      if(!validator.isEmail(req.body.email)){
+        return next(new CustomError(400, "invalid email !"));
+      }
+    /// is it valid 10 digits mobile number?
+      if(!validator.isMobilePhone(req.body.mobile) || req.body.mobile.length <10){
+        return next(new CustomError(400, "invalid mobile number !"));
+      }
 
-    // Validations
+    // DB Validations
     /// Does email already exist?
     if(await UserModel.findOne({email: req.body.email})){
       return next(new CustomError(400, "email already exist!"))
@@ -23,7 +32,7 @@ const registerUser= async (req, res, next)=>{
   
     // Encrypt the password
       req.body.password= await Utils.generatePasswordHash(req.body.password);
-console.log(req.body);
+// console.log(req.body);
 
     // Create a new document inside User Collection
       const userDoc = new UserModel(req.body);
@@ -44,7 +53,46 @@ console.log(req.body);
   } catch (error) {
     return next(new CustomError(500, error.message));
   }
-}
+};
 
-const UserController = {registerUser};
+const loginUser = async (req, res, next)=>{
+  try {
+    const {usernameOrEmailOrMobile, password} = req.body;
+    if(!usernameOrEmailOrMobile || !password){
+      return next(new CustomError(400, "Credentials missing !"));
+    }
+
+    
+    // first detect type of id
+    let typeOfID = 'username';
+    if(validator.isEmail(usernameOrEmailOrMobile)){
+      typeOfID = 'email';
+    }else if(validator.isMobilePhone(usernameOrEmailOrMobile)){
+      typeOfID='mobile';
+    }
+
+    console.log(typeOfID, usernameOrEmailOrMobile, password);
+    // find the document
+    const userDoc = await UserModel.findOne({ [typeOfID]: usernameOrEmailOrMobile});
+    if(!userDoc){
+      return next(new CustomError(400, "No such User exist !"));
+    }
+
+    // verify the password    
+      if(! await Utils.isPasswordValid(password, userDoc.password)){
+        return next(new CustomError(400, "Invalid Credentials !"));
+      }
+    // generate JWT
+    const Authorization = Utils.generateJwtToken(userDoc);
+    
+    // response
+    res.json({success: true, Authorization})
+    
+  } catch (error) {
+    return next(new CustomError(500, error.message));
+  }
+
+};
+
+const UserController = {registerUser,loginUser};
 export default UserController;
