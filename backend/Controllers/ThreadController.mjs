@@ -68,6 +68,29 @@ const unlikeAThread = async(req, res, next)=>{
   }
 }
 
+const deleteAThread = async(req, res, next)=>{
+  try{
+    // check if this thread is created by current user?
+      if(req.thread.createdBy.toString() !== req.user._id.toString()){
+        return next (new CustomError(400, "Not allowed, this thread doesn't belogs to You, it was created by other user!"));
+      }
 
-const ThreadController = {createNewThread, likeAThread, unlikeAThread};
+    // remove the doc
+    console.log(req.thread)
+      await req.thread.deleteOne();
+
+    // response success !    
+      res.json({
+        success: true, 
+        message: "Thread Deleted Successfully !",        
+      })
+  } catch (error) {
+    return next(new CustomError(500, "Cannot delete a thread, ERROR:"+ error.message));
+  }
+}
+
+
+
+
+const ThreadController = {createNewThread, likeAThread, unlikeAThread, deleteAThread};
 export default ThreadController;
