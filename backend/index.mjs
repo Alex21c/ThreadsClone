@@ -2,8 +2,9 @@ import e from "express";
 import 'dotenv/config'
 import morgan from "morgan";
 import UserRouter from "./Routes/UserRoutes.mjs";
+import ThreadRouter from "./Routes/ThreadRoutes.mjs";
 import mongoose, { mongo } from "mongoose";
-
+import passport from "./Passport/passport-config.mjs";
 const app = new e();
 
 // connecting to db
@@ -30,15 +31,20 @@ const app = new e();
   });
 
 
-
 // allowing json to be parsed in req.body
   app.use(e.json())
 
 // Request logging using morgan
   app.use(morgan('dev'));
 
-// linking Router
+// linking passport
+  app.use(passport.initialize());
+
+// linking Routers
   app.use('/api/v1/user',  UserRouter);
+  app.use('/api/v1/thread',  ThreadRouter);  
+  
+
 
 // Default Error handling middleware
   app.use((err, req, res, next)=>{
