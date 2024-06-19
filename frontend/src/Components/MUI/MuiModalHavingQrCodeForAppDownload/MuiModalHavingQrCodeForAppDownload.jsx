@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import qrCode from '../../../Assests/Images/Login/qrCodeDownloadApp.png';
 import { useSelector, useDispatch } from 'react-redux';

@@ -15,10 +15,10 @@ import { useNavigate } from "react-router-dom";
 export default function AuthPage(){
   const {req} = useParams();
   const navigate = useNavigate();
-  const pageName = "Authentication";
+  const pageName = "Auth";
   const auth = useSelector(store=>store.auth);
   useEffect(()=>{
-    document.title=pageName + ` (${req})`;
+    document.title= process.env.REACT_APP_PRJ_NAME + ", " + pageName + ` (${req})`;
 
     // is it login page?
     /// is user already logged in ?

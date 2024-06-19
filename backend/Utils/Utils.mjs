@@ -29,7 +29,7 @@ export default class Utils{
       return "Bearer " + jwt.sign({
         _id: userDoc._id,
         firstName: userDoc.firstName
-      }, process.env.JWT_PRIVATE_KEY, {expiresIn: '1d'} )
+      }, process.env.JWT_PRIVATE_KEY, {expiresIn: process.env.USER_SESSION_EXPIRES_AFTER} )
     } catch (error) {
       throw error;
     }

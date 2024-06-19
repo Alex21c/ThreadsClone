@@ -7,7 +7,6 @@ import AuthPage from './Pages/Auth/AuthPage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import NotFound from './Pages/NotFound/NotFound';
 import Home from './Pages/Home/Home';
-import './Assests/fontAwesomeProIcons/fontAwesomeIcons.css';
 const router = createBrowserRouter([
   {
     path: "/",
