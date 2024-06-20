@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const muiSnackbarSlice = createSlice({
   name: 'muiSnackbar',
   initialState: {
-    open: true,
+    open: false,
     message: 'Success !',
-    type: 'Success'
+    type: 'success'
 
   },
   reducers: {

@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import PasswordField from '../PasswordField/PasswordField.mjs';
 import { useRef } from 'react';
-import MuiSnackbar from '../MuiSnackbar/MuiSnackbar.mjs';
+import MuiSnackbar from '../MUI/MuiSnackbar/MuiSnackbar.mjs';
 import { openTheMuiSnackbar } from '../../Redux/Slices/muiSnackbarSlice.mjs';
 import { setJwt } from '../../Redux/Slices/authSlice.mjs';
 import { useDispatch } from 'react-redux';

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import HeaderLeft from "../../Components/HeaderLeft/HeaderLeft";
-
+import MuiModalCreateNewThread from "../../Components/MUI/MuiModalCreateNewThread/MuiModalCreateNewThread";
 export default function Home(){
   const navigate = useNavigate();
   const auth = useSelector(store=>store.auth);
@@ -21,6 +21,7 @@ export default function Home(){
   return (
     <div className="flex justify-between" style={{backgroundColor: theme.background, color: theme.primaryText}}>
       <HeaderLeft/>
+      <MuiModalCreateNewThread/>
       <main>
         Home
       </main>

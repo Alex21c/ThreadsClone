@@ -10,29 +10,47 @@ export default function HeaderLeft(){
 
   function handleMouseLeave(event, icon){
     // console.log('mouse Leave' + new Date().getSeconds());
-    event.target.firstChild.src = icon;
-    event.target.style.backgroundColor = theme.background;
+    try {    
+      event.target.firstChild.src = icon;
+      event.target.style.backgroundColor = theme.background;      
+    } catch (error) {
+      console.error(`${process.env.REACT_APP_PRJ_NAME.replaceAll(' ', '')}-ERROR: ${error.message}`);
+    }
     
   }
   function handleMouseEnter(event, activeIcon){
     // console.log('mouse enter' + new Date().getSeconds());
-    event.target.firstChild.src = activeIcon;    
-    event.target.style.backgroundColor = theme.backgroundHover;
+    try {
+      event.target.firstChild.src = activeIcon;    
+      event.target.style.backgroundColor = theme.backgroundHover;      
+    } catch (error) {
+      console.error(`${process.env.REACT_APP_PRJ_NAME.replaceAll(' ', '')}-ERROR: ${error.message}`);
+    }
   }
 
   function handleMouseEnterSettingsBar(event, borderColorActive){
     // console.log('mouse enter' + new Date().getSeconds());
-    event.target.childNodes.forEach(element=>{
-      element.style.borderColor= borderColorActive;   
-      event.target.style.backgroundColor = theme.backgroundHover;   
-    })    
+    try {
+      event.target.childNodes.forEach(element=>{
+        element.style.borderColor= borderColorActive;   
+        event.target.style.backgroundColor = theme.backgroundHover;   
+      });    
+      
+    } catch (error) {
+      console.error(`${process.env.REACT_APP_PRJ_NAME.replaceAll(' ', '')}-ERROR: ${error.message}`);
+    }
   }
   function handleMouseLeaveSettingsBar(event, borderColor){
     // console.log('mouse leave' + new Date().getSeconds());
-    event.target.childNodes.forEach(element=>{
-      element.style.borderColor= borderColor;
-      event.target.style.backgroundColor = theme.background;
-    })    
+    try {
+      event.target.childNodes.forEach(element=>{
+        element.style.borderColor= borderColor;
+        event.target.style.backgroundColor = theme.background;
+      })    
+      
+    } catch (error) {
+      console.error(`${process.env.REACT_APP_PRJ_NAME.replaceAll(' ', '')}-ERROR: ${error.message}`);
+    }
   }
 
 

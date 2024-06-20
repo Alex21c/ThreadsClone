@@ -4,7 +4,7 @@ import {Alert} from '@mui/material';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { closeTheMuiSnackbar } from '../../Redux/Slices/muiSnackbarSlice.mjs';
+import { closeTheMuiSnackbar } from '../../../Redux/Slices/muiSnackbarSlice.mjs';
 
 export default function MuiSnackbar({type, message}){
   const muiSnackbar = useSelector(store=>store.muiSnackbar);
