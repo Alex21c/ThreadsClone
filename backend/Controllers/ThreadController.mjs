@@ -1,20 +1,52 @@
 import ThreadModel from "../Models/ThreadModel.mjs";
 import CustomError from "../Utils/CustomError.mjs";
 import mongoose from "mongoose";
+import CloudinaryHelper from '../Utils/CloudinaryHelper.mjs';
+import fs from "fs";
+
 const createNewThread = async (req, res, next)=>{
-  try {
-    const {bodyText, bodyImage} = req.body;
-    console.log(req.body);
+  try {    
+    const {bodyText} = req.body;
+    const bodyImage = req?.file;
+    
+    // console.log(req.body);
     // first check if both text or image are empty 
       if(!bodyText && !bodyImage){
         return next(new CustomError(200, "Cannot create empty thread, make sure you provide either image or text as body!"));
       }
+
+    
     // append userID
       req.body.createdBy = req.user._id;
 
     // Create a new document
-      const doc = new ThreadModel(req.body);
-      doc.save();
+      const doc =  new ThreadModel(req.body);
+      // upload image file to clodinary
+      if(bodyImage){
+        try {        
+          const objCloudinary = new CloudinaryHelper();
+          const response = await objCloudinary.uploadFile(bodyImage, `ThreadsClone/${doc._id}`); 
+          if(!response){
+            throw new Error("failed to upload file");          
+          }
+
+          const imgData = {
+            public_id: response.public_id,
+            url: response.secure_url,
+          };
+          doc.bodyImage = imgData;
+
+
+        } catch (error) {          
+          return next(new CustomError(500, "Failed to upload image file to server ! ", error.message));
+        } finally{
+          // delete file from uploads dir
+          setTimeout(()=>{fs.unlinkSync(req.file.path);}, 2000);
+          
+        }
+      }
+
+      await doc.save();
 
     // response back
       res.status(201).json({
@@ -36,6 +68,10 @@ const likeAThread = async(req, res, next)=>{
       req.thread.likes.addToSet(req.user._id);
       req.thread.save();
 
+    // now push the thread ID into the users likedThreads array as well
+      req.user.likedThreads.addToSet(req.thread._id);
+      req.user.save();
+
     // response success !
 
     // response
@@ -51,9 +87,13 @@ const likeAThread = async(req, res, next)=>{
 
 const unlikeAThread = async(req, res, next)=>{
   try{
-    // then push the current user id to the likes
+    // then pull the current user id to the likes
       req.thread.likes.pull(req.user._id);
       req.thread.save();
+
+    // now push the thread ID into the users likedThreads array as well
+      req.user.likedThreads.pull(req.thread._id);
+      req.user.save();
 
     // response success !
 
@@ -76,7 +116,7 @@ const deleteAThread = async(req, res, next)=>{
       }
 
     // remove the doc
-    console.log(req.thread)
+    // console.log(req.thread)
       await req.thread.deleteOne();
 
     // response success !    

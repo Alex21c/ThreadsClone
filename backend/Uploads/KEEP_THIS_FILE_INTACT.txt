@@ -1,0 +1,1 @@
+otherwise empty Uploads folder will be ignored while git push, and resulting in error while uploading files on server!

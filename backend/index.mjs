@@ -3,6 +3,7 @@ import 'dotenv/config'
 import morgan from "morgan";
 import UserRouter from "./Routes/UserRoutes.mjs";
 import ThreadRouter from "./Routes/ThreadRoutes.mjs";
+import ReplyRouter from "./Routes/ReplyRoutes.mjs";
 import mongoose, { mongo } from "mongoose";
 import passport from "./Passport/passport-config.mjs";
 const app = new e();
@@ -43,6 +44,7 @@ const app = new e();
 // linking Routers
   app.use('/api/v1/user',  UserRouter);
   app.use('/api/v1/thread',  ThreadRouter);  
+  app.use('/api/v1/reply',  ReplyRouter);  
   
 
 
