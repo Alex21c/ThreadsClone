@@ -5,6 +5,8 @@ import muiModalCreateNewThreadSliceReducer from './Slices/muiModalCreateNewThrea
 import muiSnackbarReducer from "./Slices/muiSnackbarSlice.mjs";
 import reducerAuthSlice from "./Slices/authSlice.mjs";
 import reducericonsSlice from "./Slices/iconsSlice.mjs";
+import reducerUserSlice from "./Slices/userSlice.mjs";
+import reducerThreadsSlice from "./Slices/threadsSlice.mjs";
 export const store = configureStore({
   reducer: {
     'theme': themeReducer,
@@ -12,6 +14,8 @@ export const store = configureStore({
     'muiModalCreateNewThread': muiModalCreateNewThreadSliceReducer,
     'muiSnackbar': muiSnackbarReducer,
     'auth': reducerAuthSlice,
-    'icons': reducericonsSlice
+    'icons': reducericonsSlice,
+    'user': reducerUserSlice,
+    'threads': reducerThreadsSlice
   }
 });

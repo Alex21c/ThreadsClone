@@ -2,7 +2,9 @@ import { useSelector } from 'react-redux';
 import { useRef } from 'react';
 import { useCallback } from 'react';
 import Utils from '../../Utils.mjs';
+import { useNavigate } from 'react-router-dom';
 export default function HeaderLeft(){
+  const navigate = useNavigate();
   const theme = useSelector(store=>store.theme);
   const icons = useSelector(store=>store.icons);
   const textColor = theme.primaryText;
@@ -11,7 +13,9 @@ export default function HeaderLeft(){
   function handleMouseLeave(event, icon){
     // console.log('mouse Leave' + new Date().getSeconds());
     try {    
-      event.target.firstChild.src = icon;
+      if(event?.target?.firstChild?.src){
+        event.target.firstChild.src = icon;
+      }
       event.target.style.backgroundColor = theme.background;      
     } catch (error) {
       console.error(`${process.env.REACT_APP_PRJ_NAME.replaceAll(' ', '')}-ERROR: ${error.message}`);
@@ -21,7 +25,9 @@ export default function HeaderLeft(){
   function handleMouseEnter(event, activeIcon){
     // console.log('mouse enter' + new Date().getSeconds());
     try {
-      event.target.firstChild.src = activeIcon;    
+      if(event?.target?.firstChild?.src){
+        event.target.firstChild.src = activeIcon;    
+      }
       event.target.style.backgroundColor = theme.backgroundHover;      
     } catch (error) {
       console.error(`${process.env.REACT_APP_PRJ_NAME.replaceAll(' ', '')}-ERROR: ${error.message}`);
@@ -82,7 +88,7 @@ export default function HeaderLeft(){
       </a>
 
       <div className='flex items-center gap-[1rem] flex-col '>
-        <div  className="cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"
+        <div onClick={()=>navigate('/')}   className="cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"
         
         onMouseLeave={(event)=>debouncedMouseLeave(event, icons.home)} 
         onMouseEnter={(event)=>debouncedMouseEnter(event, icons.homeActive)}
@@ -106,7 +112,7 @@ export default function HeaderLeft(){
           <img src={icons.heart} alt="icon heart" className='w-[100%]' />
         </div>
 
-        <div  className="cursor-pointer  w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"
+        <div onClick={()=>navigate('/profile')} className="cursor-pointer  w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"
         onMouseLeave={(event)=>debouncedMouseLeave(event, icons.user)} 
         onMouseEnter={(event)=>debouncedMouseEnter(event, icons.userActive)}
         >

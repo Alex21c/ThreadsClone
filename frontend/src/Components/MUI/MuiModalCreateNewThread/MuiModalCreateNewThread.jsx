@@ -8,12 +8,15 @@ import Utils from '../../../Utils.mjs';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { openTheMuiSnackbar } from '../../../Redux/Slices/muiSnackbarSlice.mjs';
-import MuiSnackbar from '../MuiSnackbar/MuiSnackbar.mjs';
+import MuiSnackbar from '../MuiSnackbar/MuiSnackbar.jsx';
 import CircularProgressInfinite from '../CirclularProgressInfinite/CircularProgressInfinite';
 import API_ENDPOINTS from '../../../config.mjs';
+import { fetchThreadsCreatedByCurrentUser } from '../../../Redux/Slices/threadsSlice.mjs';
 
 export default function MuiModalCreateNewThread(){
   const auth = useSelector(store=>store.auth);  
+  const user = useSelector(store=>store.user);  
+  const userProfileImage = user?.data?.profileImage?.url || null;
   const dispatch = useDispatch();
   const open = useSelector((store)=>store.muiModalCreateNewThread.open);
 
@@ -175,6 +178,9 @@ export default function MuiModalCreateNewThread(){
           });
         };
         await closeTheModal();
+
+      // refresh the threads
+      dispatch(fetchThreadsCreatedByCurrentUser(auth));
         
 
 
@@ -213,38 +219,39 @@ export default function MuiModalCreateNewThread(){
     <div>
       
       <Modal
+        className='relative'
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="create a New Thread"
+        aria-describedby="helps creating a new thread"
         slotProps={{
           backdrop: {
             sx: {
-              backgroundColor: 'rgba(0, 0, 0, 0.5)', // Darker background color
+               backgroundColor: 'rgba(0, 0, 0, 0.9)', // Darker background color
             },
           },
         }}        
         
       >
-        <Box sx={style} className={`outline-none p-[.8rem] border rounded-xl  cursor-pointer hover:border-[blue-300] relative w-[35rem]  flex flex-col reltative`} >
+        <Box sx={style} className={`outline-none p-[.8rem] border rounded-xl  cursor-pointer hover:border-[blue-300]  w-[35rem]  flex flex-col `} >
           
-          <h2 className='font-bold self-center top-[-2rem] absolute'>New thread</h2>
+          <h2 className='font-bold self-center top-[-1.3rem] relative font-semibold text-[1.1rem]'>New thread</h2>
           <div className="flex gap-[2rem]">
             <div  className='flex items-center flex-col w-[10%]'>
               <div className='w-[3rem]  overflow-hidden  ' >
-                <img src="https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718603004/SharedResources/a7syt68cd0kyj3tiyhux.png" alt="user profile image" className='w-[100%] rounded-full' />
+                <img src={userProfileImage || process.env.REACT_APP_DEFAULT_USER_PROFILE_IMAGE_URL} alt="user profile image" className='w-[100%] rounded-full' />
               </div>
               <div ref={refDivVerticalLine} className='w-[.1rem] h-[2rem] my-[1rem]' style={{backgroundColor: theme.borderColor}}>
 
               </div>
               <div className='w-[1.5rem] overflow-hidden'>
-                <img src="https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718603004/SharedResources/a7syt68cd0kyj3tiyhux.png" alt="user profile image-small" 
+                <img src={userProfileImage || process.env.REACT_APP_DEFAULT_USER_PROFILE_IMAGE_URL} alt="user profile image-small" 
                 className="w-[100%] rounded-full " />
               </div>
             </div>
 
             <div className='w-[90%] flex flex-col gap-[1rem]'>
-              <h3 className='font-medium'>alex21c</h3>
+              <h3 className='font-medium'>{user?.data?.username || "username"}</h3>
               <textarea ref={refTextarea} onChange={()=>debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser)} type="text" style={{backgroundColor: "transparent", color: theme.primaryText}} className='w-[100%] outline-none font-normal text-[1rem] ' placeholder="Start a thread"/>
 
               {

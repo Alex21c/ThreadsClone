@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import PasswordField from '../PasswordField/PasswordField.mjs';
 import { useRef } from 'react';
-import MuiSnackbar from '../MUI/MuiSnackbar/MuiSnackbar.mjs';
+import MuiSnackbar from '../MUI/MuiSnackbar/MuiSnackbar.jsx';
 import { openTheMuiSnackbar } from '../../Redux/Slices/muiSnackbarSlice.mjs';
 import { setJwt } from '../../Redux/Slices/authSlice.mjs';
 import { useDispatch } from 'react-redux';
@@ -52,7 +52,7 @@ export default function LoginForm(){
         if(!response.success){
           throw new Error(response.message);        
         }
-        console.log(response);
+        // console.log(response);
 
         // save the token in the local storage, and redirect the user to homepage
           dispatch(setJwt(response.Authorization));

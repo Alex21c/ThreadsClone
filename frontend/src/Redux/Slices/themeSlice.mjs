@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  primaryText: "#f3f5f7",
+  primaryText: "#f3f5f7",  
   secondaryText: "#777777",
   brightText: "white",
   background : "#101010",

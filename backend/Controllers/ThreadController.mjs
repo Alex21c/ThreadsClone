@@ -22,11 +22,11 @@ const createNewThread = async (req, res, next)=>{
     // Create a new document
       const doc =  new ThreadModel(req.body);
       // upload image file to clodinary
-      console.log(bodyImage);
+      // console.log(bodyImage);
       if(bodyImage){
         try {        
           const objCloudinary = new CloudinaryHelper();
-          const response = await objCloudinary.uploadFile(bodyImage, `ThreadsClone/${doc._id}`); 
+          const response = await objCloudinary.uploadFile(bodyImage, `${process.env.PRJ_NAME || "ThreadsClone"}/${req.user.username}-threads/${doc._id}`); 
           if(!response){
             throw new Error("failed to upload file");          
           }
@@ -62,6 +62,53 @@ const createNewThread = async (req, res, next)=>{
   }
 }
 
+const getHomepageThreadsForCurrentUser = async(req, res, next)=>{
+  try {
+    // just get threads crated by alex21c as of now
+    
+      const threadsCreatedByAlex21C = await ThreadModel.find({createdBy: "6675a61ce6d62838497e55a3"}).populate('createdBy', 'username profileImage').
+      sort({createdAt: -1});
+      
+    // if no thread are there just send success false
+      if(threadsCreatedByAlex21C.length === 0){
+        return res.json({
+          success: false, 
+          message: `hello ${req.user.username}, Alex21C hasn't created any thread yet!`
+        })
+      }
+    // send the threads back 
+      res.json({
+        success: true, 
+        data: threadsCreatedByAlex21C
+      })
+    
+  } catch (error) {
+    return next(new CustomError(500, "failed to fetch homepage threads for current user, ERROR: "+ error.message));
+  }
+
+}
+const getAllTheThreadsCreatedByCurrentUser = async(req, res, next)=>{
+  try {
+    // query the database and ask for all the threads created by current user
+      const threadsCreatedByCurrentUser = await ThreadModel.find({createdBy: req.user._id});
+      // console.log(threadsCreatedByCurrentUser);
+    // if no thread are there just send success false
+      if(threadsCreatedByCurrentUser.length === 0){
+        return res.json({
+          success: false, 
+          message: `hello ${req.user.username}, You havn't created any thread yet!`
+        })
+      }
+    // send the threads back 
+      res.json({
+        success: true, 
+        data: threadsCreatedByCurrentUser
+      })
+    
+  } catch (error) {
+    return next(new CustomError(500, "failed to fetch all the threads, ERROR: "+ error.message));
+  }
+}
 
 const likeAThread = async(req, res, next)=>{
   try {
@@ -134,5 +181,5 @@ const deleteAThread = async(req, res, next)=>{
 
 
 
-const ThreadController = {createNewThread, likeAThread, unlikeAThread, deleteAThread};
+const ThreadController = {createNewThread, likeAThread, unlikeAThread, deleteAThread, getAllTheThreadsCreatedByCurrentUser, getHomepageThreadsForCurrentUser};
 export default ThreadController;

@@ -8,11 +8,16 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import NotFound from './Pages/NotFound/NotFound';
 import Home from './Pages/Home/Home';
 import './Assests/fontAwesomeProIcons/fontAwesomeIcons.css';
-
+import Profile from './Pages/Profile/Profile';
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home/>,
+    errorElement: <NotFound/>
+  },
+  {
+    path: "/profile",
+    element: <Profile/>,
     errorElement: <NotFound/>
   },
   {

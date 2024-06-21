@@ -12,7 +12,7 @@ export const muiSnackbarSlice = createSlice({
     openTheMuiSnackbar: (state, action)=>{
       state.open= true;
       state.message = action.payload.message;
-      state.type = action.payload.type;
+      state.type = action.payload.type;    
     },
     closeTheMuiSnackbar: (state)=>{
       state.open= false;

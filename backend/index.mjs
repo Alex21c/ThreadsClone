@@ -9,7 +9,7 @@ import passport from "./Passport/passport-config.mjs";
 const app = new e();
 
 // connecting to db
-  mongoose.connect(process.env.MONGODB_CONNECTION_STRING_LOCALHOST)
+  mongoose.connect(process.env.MONGODB_CONNECTION_STRING_ATLAS)
   .then(()=>{
     console.log('Connection established with Database!');
   })

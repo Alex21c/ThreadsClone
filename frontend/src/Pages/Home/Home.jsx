@@ -6,6 +6,11 @@ import MuiModalCreateNewThread from "../../Components/MUI/MuiModalCreateNewThrea
 import { openMuiModalCreateNewThread } from "../../Redux/Slices/muiModalCreateNewThreadSlice.mjs";
 import { useDispatch } from "react-redux";
 import { closeTheMuiSnackbar } from "../../Redux/Slices/muiSnackbarSlice.mjs";
+import { fetchUser } from "../../Redux/Slices/userSlice.mjs";
+import { Divider } from "@mui/material";
+import API_ENDPOINTS from "../../config.mjs";
+import { useState } from "react";
+import Thread from "../../Components/Thread/Thread";
 export default function Home(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -13,13 +18,61 @@ export default function Home(){
   const auth = useSelector(store=>store.auth);
   const icons = useSelector(store=>store.icons);
   const theme = useSelector(store=>store.theme);
+  const user = useSelector(store=>store.user);
 
+  const [stateHomepageThreads, setStateHomepageThreads] = useState([]);
+  async function fetchThreadsForHomepage(){
+    try {
+      console.log('fetching homepage Threads threds !'); // keep it
+      const headers = {          
+        "Authorization": auth.authorization
+      };
+      
+      const requestOptions = {
+        method: "GET",
+        headers: headers
+      };
+      
+  
+      const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.Thread['get-homepage-threads-for-current-user']}`;    
+      
+      let response = await fetch(reqURL, requestOptions);   
+      
+      if(response?.statusText === "Unauthorized"){
+        // just delete the authorization from local storage
+        localStorage.removeItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE +"Authorization");
+        
+        throw new Error ("Kindly login again");
+      }
+      response = await response.json();
+      // console.log(response);
+
+      if(response.success){        
+        setStateHomepageThreads(response.data);
+      }else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('ThreadsCloneCustomError: failed to req to fetch threads for homepage ' + error.message)
+    }
+  }
+  useEffect(()=>{
+
+    fetchThreadsForHomepage();
+
+  }, []);
   
   useEffect(()=>{
     document.title=process.env.REACT_APP_PRJ_NAME;
     if(!auth.authorization){
       navigate('/auth/login');
     }
+    
+    if(Object.keys(user.data).length ===0 ){
+      // fetch user data
+      dispatch(fetchUser(auth));
+    }
+
   }, []);
 
   function handleReqCreateThreadBtnClicked(){
@@ -27,13 +80,38 @@ export default function Home(){
     dispatch(closeTheMuiSnackbar());
     
   }
-
+  
   return (
     <div className="flex justify-between" style={{backgroundColor: theme.background, color: theme.primaryText}}>
       <HeaderLeft/>
       <MuiModalCreateNewThread/>
-      <main>
-        Home
+      <main style={{ backgroundColor: theme.backgroundHover, borderColor: theme.borderColor, color: theme.primaryText}}
+        className = "border border-[.1rem] rounded-tl-2xl rounded-tr-2xl p-[1rem] w-[40rem] min-h-[96vh] border-b-[0] m-[auto] mt-[2rem]" >
+
+          <div className="flex justify-between items-center">
+            <div className="flex gap-[1rem] items-center ">
+               <div className='w-[3rem]  overflow-hidden  ' >
+                  <img src={user?.data?.profileImage?.url || process.env.REACT_APP_DEFAULT_USER_PROFILE_IMAGE_URL} alt="user profile image" className='w-[100%] rounded-full' />
+              </div>
+                        
+              <span style={{color: theme.secondaryText}}>Start a thread...</span>
+            </div>
+            <div>
+              <button className='px-[1rem] py-[.4rem] border border-[.1rem] rounded-xl w-[5rem] h- ' style={{borderColor:theme.borderColor}} onClick={()=>handleReqCreateThreadBtnClicked()}>Post</button>
+            </div>
+          </div>
+
+          <div className='py-[1rem]'>
+            <Divider flexItem orientation="horizontal"  className=" h-[.2rem]" style={{ backgroundColor: theme.borderColor }}/>
+          </div>
+
+          {
+          stateHomepageThreads.length >0 && 
+          stateHomepageThreads.map((thread, idx)=><Thread key={thread._id} threadData={thread} totalItems={stateHomepageThreads.length} idx={idx} createdByOtherUser={true}/>)
+
+        }
+
+        
       </main>
 
       <div className="p-[1rem] self-end" onClick={()=> handleReqCreateThreadBtnClicked() }>

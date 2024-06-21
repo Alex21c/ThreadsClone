@@ -3,6 +3,7 @@ import CustomError from "../Utils/CustomError.mjs";
 import mongoose from "mongoose";
 export default async function InputValidationThreadMiddleware(req, res, next){
   try {        
+    // console.log(req.body);
     const {threadID} = req.body;
     if(!threadID){
       return next(new CustomError(400, "Missing threadID in the request !"));      

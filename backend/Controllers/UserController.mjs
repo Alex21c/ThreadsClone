@@ -32,6 +32,12 @@ const registerUser= async (req, res, next)=>{
   
     // Encrypt the password
       req.body.password= await Utils.generatePasswordHash(req.body.password);
+    // default profile image
+      const imgData = {
+        public_id: null, // actually it is provided by cloudinary, and helpful when deleting a resource
+        url: process.env.DEFAULT_USER_PROFILE_IMAGE_URL,
+      };
+      req.body.profileImage = imgData;
 // console.log(req.body);
 
     // Create a new document inside User Collection
@@ -54,6 +60,16 @@ const registerUser= async (req, res, next)=>{
     return next(new CustomError(500, error.message));
   }
 };
+
+const getCurrentUserInfo = async(req, res, next)=>{
+ 
+  const sanitizedUserInfo = await UserModel.findById(req.user._id).select('-password'); 
+
+  res.json({
+    success: true, 
+    data: sanitizedUserInfo
+  })
+}
 
 const loginUser = async (req, res, next)=>{
   try {
@@ -94,5 +110,5 @@ const loginUser = async (req, res, next)=>{
 
 };
 
-const UserController = {registerUser,loginUser};
+const UserController = {registerUser,loginUser, getCurrentUserInfo};
 export default UserController;
