@@ -23,7 +23,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: Number(process.env.MAX_ALLOWED_FILE_UPLOAD_SIZE) * 1024 },
+  limits: { fileSize: Number(process.env.MAX_ALLOWED_FILE_UPLOAD_SIZE_IN_KB) * 1024 },
 });
 
 const multerUploadMiddleware = upload.single('bodyImage');

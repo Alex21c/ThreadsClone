@@ -38,7 +38,7 @@ export default function LoginForm(){
         };
         
         const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.User.login}`;
-        console.log(reqURL);
+        // console.log(reqURL);
 
         let response = await fetch(reqURL, {
           method: "POST",

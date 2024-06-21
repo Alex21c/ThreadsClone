@@ -26,8 +26,9 @@ const app = new e();
     } else {
       res.header('Access-Control-Allow-Origin', 'https://frontend-m6node-file-sharing-application.vercel.app');
     }
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');1    
+    
     next();
   });
 

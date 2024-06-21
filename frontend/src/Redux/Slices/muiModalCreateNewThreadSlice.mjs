@@ -1,23 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  open: true
+  open: false
 };
 
 export const muiModalCreateNewThreadSlice = createSlice({
   name: 'muiModalHavingQrCodeForAppDownload',
   initialState,
   reducers: {
-    openMuiModalCreateNewThreadSlice: (state)=>{
+    openMuiModalCreateNewThread: (state)=>{
       state.open= true
     },
-    closeMuiModalCreateNewThreadSlice: (state)=>{
+    closeMuiModalCreateNewThread: (state)=>{
       state.open= false
     }
   }
 });
 
-export const {openMuiModalCreateNewThreadSlice, closeMuiModalCreateNewThreadSlice} = muiModalCreateNewThreadSlice.actions;
+export const {openMuiModalCreateNewThread, closeMuiModalCreateNewThread} = muiModalCreateNewThreadSlice.actions;
 const muiModalCreateNewThreadSliceReducer = muiModalCreateNewThreadSlice.reducer;
 export default muiModalCreateNewThreadSliceReducer;
 

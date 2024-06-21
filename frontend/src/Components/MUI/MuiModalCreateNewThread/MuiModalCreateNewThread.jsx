@@ -2,20 +2,24 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useSelector, useDispatch } from 'react-redux';
-import { closeMuiModalCreateNewThreadSlice, openMuiModalCreateNewThreadSlice } from '../../../Redux/Slices/muiModalCreateNewThreadSlice.mjs';
+import { closeMuiModalCreateNewThread } from '../../../Redux/Slices/muiModalCreateNewThreadSlice.mjs';
 import { useRef } from 'react';
 import Utils from '../../../Utils.mjs';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
+import { openTheMuiSnackbar } from '../../../Redux/Slices/muiSnackbarSlice.mjs';
+import MuiSnackbar from '../MuiSnackbar/MuiSnackbar.mjs';
+import CircularProgressInfinite from '../CirclularProgressInfinite/CircularProgressInfinite';
+import API_ENDPOINTS from '../../../config.mjs';
 
 export default function MuiModalCreateNewThread(){
-
+  const auth = useSelector(store=>store.auth);  
   const dispatch = useDispatch();
   const open = useSelector((store)=>store.muiModalCreateNewThread.open);
 
   
-  const handleOpen = () => dispatch(openMuiModalCreateNewThreadSlice());
-  const handleClose = () => dispatch(closeMuiModalCreateNewThreadSlice());
+  
+  const handleClose = () => dispatch(closeMuiModalCreateNewThread());
   const theme = useSelector((store)=>store.theme);
 
   const style = {
@@ -24,22 +28,45 @@ export default function MuiModalCreateNewThread(){
     left: '50%',
     transform: 'translate(-50%, -50%)',
     boxShadow: 24,
-    borderColor: theme.secondaryText,
+    borderColor: theme.borderColor,
     p: 4,
     borderWidth: ".13rem",
     backgroundColor: theme.backgroundHover,
-    color: theme.brightText
+    color: theme.brightText,
+    maxHeight: "90vh",
+    overflowY: "auto"
   };
+  
+  const [statePreviewImageSrc, setStatePreviewImageSrc] = React.useState("");
+  useEffect(()=>{    
+    debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser);
+  }, [statePreviewImageSrc]);
+  const [statePosting, setStatePosting] = React.useState(false);
+
 
   const refTextarea = useRef(null);
   const refDivVerticalLine =useRef(null);
   const refImageUploadByUser =useRef(null);
+  const refInputFile = useRef(null);
+
+ 
+
 
   function handleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser ){
-    refTextarea.current.style.height = 'auto';
-    refTextarea.current.style.height = refTextarea.current.scrollHeight + "px";
-    refDivVerticalLine.current.style.height  = Number(refTextarea.current.scrollHeight + refImageUploadByUser.current.scrollHeight - 75 )+ "px";  
-     
+    try {    
+      if(!refTextarea?.current){
+        return;
+      }
+      refTextarea.current.style.height = 'auto';
+      refTextarea.current.style.height = refTextarea.current.scrollHeight + "px";
+      const previewImageScrollHeight = refImageUploadByUser?.current ? refImageUploadByUser.current.scrollHeight : 0;
+      const decrement = refTextarea.current.scrollHeight>100 ? 10 : 10;
+  
+      refDivVerticalLine.current.style.height  = Number(refTextarea.current.scrollHeight + previewImageScrollHeight - decrement )+ "px";  
+    } catch (error) {
+      console.error(error.message);
+    }    
+        
   }
   const debouncedHandleTextareaChange = useCallback(
     Utils.debouce(
@@ -49,14 +76,124 @@ export default function MuiModalCreateNewThread(){
    
 
   function handleXBtnClick(event){
-    // clear & hide image
-      refImageUploadByUser.current.src = "";
-      refImageUploadByUser.current.style.display="none";
-    // hide self
-      event.target.style.display="none";
-      debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser);
+    setStatePreviewImageSrc("");      
+    // remove the file from the list
+    if(refInputFile?.current?.files){
+      refInputFile.current.value="";
+    }
 
   }
+
+  function handleReqImageUpload(){
+    refInputFile.current.focus();
+    refInputFile.current.click();
+  }
+
+  function handleInputImageFileChange(){
+    const file = refInputFile.current.files[0];
+    
+    if(file){
+      const reader = new FileReader();      
+      reader.onloadend = ()=>{       
+        setStatePreviewImageSrc(reader.result);
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+
+  async function handleReqCreateANewPost(){
+
+    // fetch bodyImage, iff any
+      let bodyImage = null;
+      if(refInputFile?.current?.files[0]){
+        bodyImage = refInputFile.current.files[0];
+      }
+    
+    // fetch body Text
+      const bodyText=refTextarea.current.value;
+
+    // if both body image and text are empty then just return
+      if(bodyImage === null && bodyText === ''){
+        return dispatch(openTheMuiSnackbar({message: "Kindly provide either any text or image as thread!", type: "info"}));        
+      }
+
+
+    try {      
+      // make an api req to the server using form-data 
+      /// hide the post button and show the spinner in place of it              
+        setStatePosting(true);
+
+      // i need to make send request to backend to authenticate
+        const formData = new FormData();
+        if(bodyImage){
+          formData.append('bodyImage', bodyImage);
+        }
+        formData.append('bodyText', bodyText);
+      
+        const headers = {          
+          "Authorization": auth.authorization
+        };
+        
+        const requestOptions = {
+          method: "POST",
+          headers: headers,
+          body: formData
+        };
+  
+  
+        const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.Thread['create-new-thread']}`;
+        
+
+        let response = await fetch(reqURL, requestOptions);        
+
+        if(!response){
+          return dispatch(openTheMuiSnackbar({message: "Unable to Post Thread!", type: "error"}));                    
+        }
+        response = await response.json();        
+      // if sucess: false
+        if(!response.success){          
+          return dispatch(openTheMuiSnackbar({message: response.message, type: "error"})); 
+        }
+      
+
+      // show success messsage to user 
+        dispatch(openTheMuiSnackbar({message: response.message, type: "success"})); 
+
+    // close the modal
+    /// clear image and textarea
+        refTextarea.current.value = "";
+        refInputFile.current.value="";
+        setStatePreviewImageSrc("");
+        async function closeTheModal(){
+          return new Promise((resolve, rejected)=>{
+            setTimeout(()=>{
+              handleClose();
+              resolve();
+
+            }, 3000)
+
+          });
+        };
+        await closeTheModal();
+        
+
+
+      
+    } catch (error) {      
+      console.log(error.message);
+      dispatch(openTheMuiSnackbar({message: "Unable to Post a Thread, please try again after some time!", type: "error"}));      
+    } finally{
+      // operation completed
+        setStatePosting(false);
+    }
+               
+
+    
+  
+    
+    
+  }
+
   useEffect(()=>{
     // adjust height of vertical bar between users
     debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser);
@@ -90,35 +227,57 @@ export default function MuiModalCreateNewThread(){
         
       >
         <Box sx={style} className={`outline-none p-[.8rem] border rounded-xl  cursor-pointer hover:border-[blue-300] relative w-[35rem]  flex flex-col reltative`} >
+          
           <h2 className='font-bold self-center top-[-2rem] absolute'>New thread</h2>
           <div className="flex gap-[2rem]">
             <div  className='flex items-center flex-col w-[10%]'>
-              <div className='w-[4rem]  overflow-hidden  ' >
+              <div className='w-[3rem]  overflow-hidden  ' >
                 <img src="https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718603004/SharedResources/a7syt68cd0kyj3tiyhux.png" alt="user profile image" className='w-[100%] rounded-full' />
               </div>
-              <div ref={refDivVerticalLine} className='w-[.2rem] h-[2rem] bg-gray-300 my-[1rem]'>
+              <div ref={refDivVerticalLine} className='w-[.1rem] h-[2rem] my-[1rem]' style={{backgroundColor: theme.borderColor}}>
 
               </div>
-              <div className='w-[2rem] overflow-hidden'>
+              <div className='w-[1.5rem] overflow-hidden'>
                 <img src="https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718603004/SharedResources/a7syt68cd0kyj3tiyhux.png" alt="user profile image-small" 
                 className="w-[100%] rounded-full " />
               </div>
             </div>
 
-            <div className='w-[90%]'>
+            <div className='w-[90%] flex flex-col gap-[1rem]'>
               <h3 className='font-medium'>alex21c</h3>
-              <textarea ref={refTextarea} onChange={()=>debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser)} type="text" style={{backgroundColor: "transparent", color: theme.primaryText}} className='w-[100%] outline-none' placeholder="Start a thread"/>
+              <textarea ref={refTextarea} onChange={()=>debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser)} type="text" style={{backgroundColor: "transparent", color: theme.primaryText}} className='w-[100%] outline-none font-normal text-[1rem] ' placeholder="Start a thread"/>
 
-              <div className='relative'>              
-                <i className="cursor-pointer absolute right-[.5rem] top-[.5rem] fa-sharp fa-regular fa-xmark text-[1rem] text-white py-[.2rem] px-[.7rem] rounded-full bg-black hover:bg-white transition hover:text-black" onClick={(event)=>{handleXBtnClick(event)}}></i>
-                <img ref={refImageUploadByUser} src="https://miro.medium.com/v2/resize:fit:1400/1*gIoRZCKodZT12rbl6Z5Lwg.png" alt="image upload by user"/>
+              {
+                statePreviewImageSrc !== "" ?
+                <div className='relative'>              
+                  <i className="cursor-pointer absolute right-[.5rem] top-[.5rem] fa-sharp fa-regular fa-xmark text-[1rem] text-white py-[.2rem] px-[.7rem] rounded-full bg-black hover:bg-white transition hover:text-black" onClick={(event)=>{handleXBtnClick(event)}}></i>
+                  <img ref={refImageUploadByUser} src={statePreviewImageSrc} alt="image upload by user"/>
+                </div>
+
+              :
+              <div className='flex gap-[.5rem] items-center cursor-pointer'  style={{color: theme.secondaryText}} onClick={()=>handleReqImageUpload()}>
+                <i className="fa-solid fa-image text-[1.5rem]" ></i>
+                <span className='font-medium'>Add</span>
               </div>
+              }
+
+              {
+                statePosting ? 
+                <div className='self-end'>
+                  <CircularProgressInfinite /> 
+                </div>
+                :
+                <button className='px-[1rem] py-[.5rem] border border-[.1rem] rounded-xl w-[5rem] self-end' style={{borderColor:theme.borderColor}} onClick={()=>handleReqCreateANewPost()}>Post</button>
+              }
+              <input ref={refInputFile} type="file" className='invisible absolute' onChange={()=>handleInputImageFileChange()}/>
+
+
             </div>
           </div>
           
 
+          <MuiSnackbar/>
         </Box>
-        
       </Modal>
     </div>
   );

@@ -22,6 +22,7 @@ const createNewThread = async (req, res, next)=>{
     // Create a new document
       const doc =  new ThreadModel(req.body);
       // upload image file to clodinary
+      console.log(bodyImage);
       if(bodyImage){
         try {        
           const objCloudinary = new CloudinaryHelper();
@@ -38,7 +39,8 @@ const createNewThread = async (req, res, next)=>{
 
 
         } catch (error) {          
-          return next(new CustomError(500, "Failed to upload image file to server ! ", error.message));
+          
+          return next(new CustomError(500, "Failed to upload image file to server ! "+ error.message));
         } finally{
           // delete file from uploads dir
           setTimeout(()=>{fs.unlinkSync(req.file.path);}, 2000);
