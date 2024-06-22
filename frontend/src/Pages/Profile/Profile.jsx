@@ -19,7 +19,7 @@ export default function Profile(){
   useEffect(()=>{
     document.title=process.env.REACT_APP_PRJ_NAME + " (Profile)";
     if(!auth.authorization){
-      navigate('/auth/login');
+     return navigate('/auth/login');
     }
     
     if(Object.keys(user.data).length ===0 ){

@@ -57,21 +57,21 @@ export default function Home(){
     }
   }
   useEffect(()=>{
-
-    fetchThreadsForHomepage();
-
-  }, []);
-  
-  useEffect(()=>{
     document.title=process.env.REACT_APP_PRJ_NAME;
+
     if(!auth.authorization){
-      navigate('/auth/login');
+      return navigate('/auth/login');
+      
     }
     
     if(Object.keys(user.data).length ===0 ){
+      console.log(auth.authorization)
       // fetch user data
       dispatch(fetchUser(auth));
     }
+
+    fetchThreadsForHomepage();
+
 
   }, []);
 

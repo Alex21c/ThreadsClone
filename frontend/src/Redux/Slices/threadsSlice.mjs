@@ -4,6 +4,12 @@ import API_ENDPOINTS from "../../config.mjs";
 
 export const fetchThreadsCreatedByCurrentUser = createAsyncThunk('threads/fetch', async (auth) => {
   try {
+    // safeguard
+    if(!auth.authorization){
+      return;
+    }
+
+
     console.log('redux Thunk is fetching threds !'); // keep it
     const headers = {          
       "Authorization": auth.authorization
