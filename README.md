@@ -138,7 +138,7 @@ JSON BODY
 JSON
 {
     "success": true,
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTE3OCwiZXhwIjoxNzE5MTIxNTc4fQ.EKvFT1Mwfk3IMv36ezsc0CMma7GDojtjgnSW5mYxPds"
+    "Authorization": "Bearer JWT_TOKEN"
 }
 ```
 ### Response failure:
@@ -166,7 +166,7 @@ JSON BODY
 JSON
 {
     "success": true,
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E"
+    "Authorization": "Bearer JWT_TOKEN"
 }
 ```
 ### 1.3 GET /api/v1/user/get-current-user-info
@@ -175,7 +175,7 @@ Get current user document from database, after excluding password, Useful for fe
 ### Request Body:
 ```javascript
 HEADERS
-Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E
+Authorization = Bearer JWT_TOKEN
 ```
 ### Response Success:
 ```javascript
@@ -214,7 +214,7 @@ Create a new Thread
 Either bodyText or BodyImage is required, or can provide both !
 ```javascript
 HEADERS
-Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E
+Authorization = Bearer JWT_TOKEN
 
 FORM-DATA
 bodyImage : Image File
@@ -235,7 +235,7 @@ Like a Thread
 ### Request Body:
 ```javascript
 HEADERS
-Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E
+Authorization = Bearer JWT_TOKEN
 
 JSON BODY
 {
@@ -257,7 +257,7 @@ Unlike a Thread
 ### Request Body:
 ```javascript
 HEADERS
-Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E
+Authorization = Bearer JWT_TOKEN
 
 JSON BODY
 {
@@ -279,7 +279,7 @@ Delete a Thread, iff created by current user
 ### Request Body:
 ```javascript
 HEADERS
-Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E
+Authorization = Bearer JWT_TOKEN
 
 JSON BODY
 {
@@ -300,7 +300,7 @@ Get all the threads created by current user
 ### Request Body:
 ```javascript
 HEADERS
-Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E
+Authorization = Bearer JWT_TOKEN
 ```
 ### Response Success:
 ```javascript
@@ -339,7 +339,7 @@ Get all the threads from the users who have been followed by current user, if no
 ### Request Body:
 ```javascript
 HEADERS
-Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E
+Authorization = Bearer JWT_TOKEN
 ```
 ### Response Success:
 ```javascript
