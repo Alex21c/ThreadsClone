@@ -27,7 +27,7 @@ const app = new e();
       res.header('Access-Control-Allow-Origin', 'https://threads-clone-weld-ten.vercel.app/');
     }
     res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');1    
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');    
     
     next();
   });

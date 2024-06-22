@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import API_ENDPOINTS from "../../config.mjs";
 
 export const fetchUser = createAsyncThunk('user/fetchUser', async (auth) => {
-  try {
+  try {    
     console.log('redux Thunk is fetching user data !'); // keep it
     const headers = {          
       "Authorization": auth.authorization
