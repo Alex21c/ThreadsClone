@@ -74,12 +74,17 @@ export const handshakeSlice = createSlice({
     data: handshakeDataFromLocalStorage ? JSON.parse(handshakeDataFromLocalStorage) : {}
   }, 
   reducers : {
+
     setHandshakeData: (state, action)=>{      
       localStorage.setItem(
-        process.env.REACT_APP_PREFIX_LOCALSTORAGE+"handshakeData",
-        action.payload ?  JSON.stringify(action.payload) : {}
+        process.env.REACT_APP_PREFIX_LOCALSTORAGE+"handshakeData", JSON.stringify(action.payload || {})
       );        
       state.data = action.payload || {};
+    },
+    clearHandshakeData: (state)=>{      
+      localStorage.removeItem(
+        process.env.REACT_APP_PREFIX_LOCALSTORAGE+"handshakeData");        
+      state.data = {};
     },
 
   },
@@ -94,8 +99,7 @@ export const handshakeSlice = createSlice({
         // is there any data ?
         if(action.payload){
           localStorage.setItem(
-            process.env.REACT_APP_PREFIX_LOCALSTORAGE+"handshakeData",
-            action.payload ?  JSON.stringify(action.payload) : {}
+            process.env.REACT_APP_PREFIX_LOCALSTORAGE+"handshakeData", JSON.stringify(action.payload ||  {})
           );              
           state.data = action.payload || {}
         }
@@ -107,7 +111,7 @@ export const handshakeSlice = createSlice({
   }  
 });
 // exporting actions
-export const  {setHandshakeData} = handshakeSlice.actions;
+export const  {setHandshakeData, clearHandshakeData} = handshakeSlice.actions;
 
 // exporting reducers
 const reducerHandshakeSlice = handshakeSlice.reducer;

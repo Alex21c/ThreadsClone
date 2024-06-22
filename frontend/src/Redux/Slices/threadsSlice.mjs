@@ -84,13 +84,20 @@ export const threadsSlice = createSlice({
   name: "threads", 
   initialState: {    
     threadsCreatedByCurrentUser: threadsCreatedByCurrentUserFetchedFromLocalStorage ? JSON.parse(threadsCreatedByCurrentUserFetchedFromLocalStorage) : [],
+
     homepageThreads: homepageThreadsFromLocalStorage ? JSON.parse(homepageThreadsFromLocalStorage) : []
   }, 
   reducers : {
     setThreadsCreatedByCurrentUser: (state, action)=>{      
-      localStorage.setItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE+"threadsCreatedByCurrentUser", action.payload || []);      
+      localStorage.setItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE+"threadsCreatedByCurrentUser", JSON.stringify(action.payload || []));      
       state.threadsCreatedByCurrentUser = action.payload || [];
     },
+    clearThreadsData: (state, action)=>{
+      localStorage.removeItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE+"threadsCreatedByCurrentUser");
+      state.threadsCreatedByCurrentUser = []; 
+      localStorage.removeItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE+"homepageThreads")
+      state.homepageThreads = []; 
+    }
 
   },
   extraReducers(builder) {
@@ -113,7 +120,7 @@ export const threadsSlice = createSlice({
   }  
 });
 // exporting actions
-export const  {threadsCreatedByCurrentUser} = threadsSlice.actions;
+export const  {threadsCreatedByCurrentUser, clearThreadsData} = threadsSlice.actions;
 
 // exporting reducers
 const reducerThreadsSlice = threadsSlice.reducer;

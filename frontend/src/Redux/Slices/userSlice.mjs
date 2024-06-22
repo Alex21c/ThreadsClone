@@ -47,11 +47,15 @@ export const userSlice = createSlice({
   reducers : {
     setUserData: (state, action)=>{      
       localStorage.setItem(
-        process.env.REACT_APP_PREFIX_LOCALSTORAGE+"userData",
-        action.payload ?  JSON.stringify(action.payload) : {}
-      );        
+        process.env.REACT_APP_PREFIX_LOCALSTORAGE+"userData", JSON.stringify(action.payload || {}));        
       state.data = action.payload || {};
     },
+    clearUserData: (state)=>{      
+      localStorage.removeItem(
+        process.env.REACT_APP_PREFIX_LOCALSTORAGE+"userData");        
+      state.data = {};
+    },
+    
 
   },
   extraReducers(builder) {
@@ -63,8 +67,7 @@ export const userSlice = createSlice({
         // is there any data ?
         if(action.payload){
           localStorage.setItem(
-            process.env.REACT_APP_PREFIX_LOCALSTORAGE+"userData",
-            action.payload ?  JSON.stringify(action.payload) : {}
+            process.env.REACT_APP_PREFIX_LOCALSTORAGE+"userData",JSON.stringify(action.payload || {})
           );              
           state.data = action.payload || {}
         }
@@ -76,7 +79,7 @@ export const userSlice = createSlice({
   }  
 });
 // exporting actions
-export const  {setUserData} = userSlice.actions;
+export const  {setUserData, clearUserData} = userSlice.actions;
 
 // exporting reducers
 const reducerUserSlice = userSlice.reducer;
