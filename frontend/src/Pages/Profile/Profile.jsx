@@ -6,7 +6,7 @@ import MuiTabForProfilePage from "../../Components/MUI/MuiTabsForProfilePage/Mui
 import { useDispatch } from "react-redux";
 import { closeTheMuiSnackbar } from "../../Redux/Slices/muiSnackbarSlice.mjs";
 import { fetchUser } from "../../Redux/Slices/userSlice.mjs";
-
+import { handshakeHello } from "../../Redux/Slices/handshakeSlice.mjs";
 export default function Profile(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,7 +26,9 @@ export default function Profile(){
       // fetch user data
       dispatch(fetchUser(auth));
     }
-
+    // perform handshake with server
+    dispatch(handshakeHello());
+    
   }, []);
 
 

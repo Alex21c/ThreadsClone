@@ -25,6 +25,7 @@ export const handshakeHello = createAsyncThunk('user/handshakeHello', async () =
       const {timestamp} = JSON.parse(dataFromLocalStorage);
 
       if(timestamp && !isTimeStamp10MinutesOlder(timestamp)){
+        console.log('no need to perform handshake !');
        return null;
      }
     }

@@ -11,6 +11,8 @@ import { Divider } from "@mui/material";
 import API_ENDPOINTS from "../../config.mjs";
 import { useState } from "react";
 import Thread from "../../Components/Thread/Thread";
+import { handshakeHello } from "../../Redux/Slices/handshakeSlice.mjs";
+
 export default function Home(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -69,6 +71,10 @@ export default function Home(){
       // fetch user data
       dispatch(fetchUser(auth));
     }
+
+    // perform handshake with server
+    dispatch(handshakeHello());
+
 
     fetchThreadsForHomepage();
 
