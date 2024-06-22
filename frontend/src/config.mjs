@@ -2,6 +2,7 @@ const API_ENDPOINTS = {
   "User": {
     register : "/api/v1/user/register",
     login : "/api/v1/user/login",    
+    handshake : "/api/v1/user/handshake-hello",    
     "get-current-user-info" : "/api/v1/user/get-current-user-info"  
   },
   "Thread": {

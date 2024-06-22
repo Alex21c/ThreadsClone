@@ -7,6 +7,8 @@ import reducerAuthSlice from "./Slices/authSlice.mjs";
 import reducericonsSlice from "./Slices/iconsSlice.mjs";
 import reducerUserSlice from "./Slices/userSlice.mjs";
 import reducerThreadsSlice from "./Slices/threadsSlice.mjs";
+import reducerHandshakeSlice from "./Slices/handshakeSlice.mjs";
+
 export const store = configureStore({
   reducer: {
     'theme': themeReducer,
@@ -16,6 +18,7 @@ export const store = configureStore({
     'auth': reducerAuthSlice,
     'icons': reducericonsSlice,
     'user': reducerUserSlice,
-    'threads': reducerThreadsSlice
+    'threads': reducerThreadsSlice,
+    'handshake': reducerHandshakeSlice
   }
 });

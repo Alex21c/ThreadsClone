@@ -6,7 +6,7 @@ export const fetchThreadsCreatedByCurrentUser = createAsyncThunk('threads/fetch'
   try {
     // safeguard
     if(!auth.authorization){
-      return;
+      return null;
     }
 
 
@@ -58,10 +58,11 @@ export const threadsSlice = createSlice({
         // state.status = 'loading'
       })
       .addCase(fetchThreadsCreatedByCurrentUser.fulfilled, (state, action) => {
-        // state.status = 'succeeded'
-        // Add any fetched posts to the array
-        localStorage.setItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE+"threadsCreatedByCurrentUser", JSON.stringify(action.payload || []));              
-        state.threadsCreatedByCurrentUser =action.payload || [];
+        // is there any data 
+        if(action.payload){
+          localStorage.setItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE+"threadsCreatedByCurrentUser", JSON.stringify(action.payload || []));              
+          state.threadsCreatedByCurrentUser =action.payload || [];
+        }
       })
       .addCase(fetchThreadsCreatedByCurrentUser.rejected, (state, action) => {
         // state.status = 'failed'

@@ -5,7 +5,7 @@ import API_ENDPOINTS from "../../config.mjs";
 export const fetchUser = createAsyncThunk('user/fetchUser', async (auth) => {
   // safeguard
     if(!auth.authorization){
-      return;
+      return null;
     }
 
   try {    
@@ -59,15 +59,15 @@ export const userSlice = createSlice({
       .addCase(fetchUser.pending, (state, action) => {
         // state.status = 'loading'
       })
-      .addCase(fetchUser.fulfilled, (state, action) => {
-        // state.status = 'succeeded'
-        // Add any fetched posts to the array
-
-        localStorage.setItem(
-          process.env.REACT_APP_PREFIX_LOCALSTORAGE+"userData",
-          action.payload ?  JSON.stringify(action.payload) : {}
-        );              
-        state.data = action.payload || {}
+      .addCase(fetchUser.fulfilled, (state, action) => {        
+        // is there any data ?
+        if(action.payload){
+          localStorage.setItem(
+            process.env.REACT_APP_PREFIX_LOCALSTORAGE+"userData",
+            action.payload ?  JSON.stringify(action.payload) : {}
+          );              
+          state.data = action.payload || {}
+        }
       })
       .addCase(fetchUser.rejected, (state, action) => {
         // state.status = 'failed'

@@ -110,5 +110,12 @@ const loginUser = async (req, res, next)=>{
 
 };
 
-const UserController = {registerUser,loginUser, getCurrentUserInfo};
+const handshakeHello = async (req, res)=>{
+  res.json({
+    success: true,
+    message: "hi there!"
+  });
+}
+
+const UserController = {registerUser,loginUser, getCurrentUserInfo, handshakeHello};
 export default UserController;

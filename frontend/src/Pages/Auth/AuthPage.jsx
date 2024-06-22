@@ -11,20 +11,26 @@ import CreateANewAccountForm from "../../Components/CreateANewAccountForm/Create
 import ForgotPasswordForm from "../../Components/ForgotPasswordForm/ForgotPasswordForm";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { handshakeHello } from "../../Redux/Slices/handshakeSlice.mjs";
 
 export default function AuthPage(){
   const {req} = useParams();
   const navigate = useNavigate();
   const pageName = "Auth";
   const auth = useSelector(store=>store.auth);
+  const dispatch=useDispatch();
+
   useEffect(()=>{
     document.title= process.env.REACT_APP_PRJ_NAME + ", " + pageName + ` (${req})`;
 
     // is it login page?
     /// is user already logged in ?
     if(req==='login' && auth.authorization){
-      navigate('/'); // redirect to home
+      return navigate('/'); // redirect to home
     }
+
+    // perform handshake with server
+    dispatch(handshakeHello());
 
 
   }, []);
@@ -33,7 +39,7 @@ export default function AuthPage(){
 
 
   const theme = useSelector((store)=> store.theme);
-  const dispath=useDispatch();
+  
   const renderForm = (req) => {
     switch (req){
       case 'login':
@@ -72,7 +78,7 @@ export default function AuthPage(){
             <span >Scan to get the app</span>
             
             <div style={{borderColor: theme.text}} className={`p-[.8rem] border  rounded-xl bg-[#181818] cursor-pointer  overflow-hidden hover:scale-[1.1] transition`}>
-              <img src={qrCode} className="w-[100%]" onClick={()=>{dispath(openMuiModalHavingQrCodeForAppDownloadSlice())}}/>
+              <img src={qrCode} className="w-[100%]" onClick={()=>{dispatch(openMuiModalHavingQrCodeForAppDownloadSlice())}}/>
             </div>          
           </div>
         </footer>
