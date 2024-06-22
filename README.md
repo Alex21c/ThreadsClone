@@ -8,13 +8,17 @@
 + Functionality is similar to Twitter, users can post text, images, and videos, as well as interact with other users' posts through replies, reposts, and likes.
 
 
-## Member Features
-### Create a New Thread
-+ Thread can have: text, image
+## Features
+### User
++ Register and create a new account
++ Login into the system
 
-### Delete previously created self-Threads
-
-### Like/Unlike other user threads
+### Thread
++ create new threads having text, images
++ like thread
++ unlike thread
++ delete thread
++ see all the threads created by self/other-users
 
 
 ## Tech. Stack Used:
