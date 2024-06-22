@@ -65,7 +65,7 @@ export default function Home(){
     }
     
     if(Object.keys(user.data).length ===0 ){
-      console.log(auth.authorization)
+      // console.log(auth.authorization)
       // fetch user data
       dispatch(fetchUser(auth));
     }

@@ -65,7 +65,7 @@ export default function CreateANewAccountForm(){
         if(!response.success){
           throw new Error(response.message);        
         }
-        console.log(response);
+        // console.log(response);
 
         // save the token in the local storage, and redirect the user to homepage
           dispatch(setJwt(response.Authorization));
