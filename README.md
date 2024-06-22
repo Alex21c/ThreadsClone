@@ -1,5 +1,5 @@
 # Threads Clone
-
+![](thumbnail.png)
 ## Hosted Link
 [Threads Clone](https://threads-clone-weld-ten.vercel.app/)
 
