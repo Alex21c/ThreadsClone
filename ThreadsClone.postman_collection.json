@@ -1,0 +1,441 @@
+{
+	"info": {
+		"_postman_id": "6e003d44-9541-4dd7-9d10-62bbce0b506b",
+		"name": "ThreadsClone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32540147"
+	},
+	"item": [
+		{
+			"name": "localhost",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"firstName\" : \"del\",\r\n\"lastName\" : \"\", \r\n\"email\" : \"del@alex21c.com\", \r\n\"mobile\" : \"1234567891\", \r\n\"username\" : \"del\", \r\n\"password\" : \"admin123\", \r\n\"bio\" : \"MERN Stack Developer\", \r\n\"customLink\" : \"https://www.alex21c.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"usernameOrEmailOrMobile\": \"admin1@alex21c.com\",\r\n \"password\": \"admin123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-current-user-info",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc1MzUzZWZiOGIyNDg3MzRkZDQwN2IiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODk1NzM3NCwiZXhwIjoxNzE5MDQzNzc0fQ.aKLzvCVFEYW78H3fwWTKiarVj_wwZebg0lWxD7JkYSw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/get-current-user-info",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"get-current-user-info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Thread",
+					"item": [
+						{
+							"name": "create-new-thread",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczOTRiNjcyZDgyYmZkOTczODMzYWYiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODk0MzEwNCwiZXhwIjoxNzE5MDI5NTA0fQ.DPZePmfRqWVPbRi0x_5ul7k3zKhtmPxKftMCDqgYKEw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "bodyImage",
+											"type": "file",
+											"src": "/C:/Users/Admin/Pictures/Screenshots/Screenshot 2024-05-21 211503.png"
+										},
+										{
+											"key": "bodyText",
+											"value": "this is sample thread",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/thread/create-new-thread",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"thread",
+										"create-new-thread"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "like-a-thread",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczOTRiNjcyZDgyYmZkOTczODMzYWYiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg1MDgwOSwiZXhwIjoxNzE4OTM3MjA5fQ.8kMHXZcYlBAPah7FIPGjxoMTmfkZAzmwD_1E_cX-u-0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"threadID\" :  \"667394ca72d82bfd973833b2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/thread/like-a-thread",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"thread",
+										"like-a-thread"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "unlike-a-thread",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczOTRiNjcyZDgyYmZkOTczODMzYWYiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg1MDgwOSwiZXhwIjoxNzE4OTM3MjA5fQ.8kMHXZcYlBAPah7FIPGjxoMTmfkZAzmwD_1E_cX-u-0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"threadID\" :  \"667394ca72d82bfd973833b2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/thread/unlike-a-thread",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"thread",
+										"unlike-a-thread"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-a-thread",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczYmE0NjhiODhlZDc3MzVkZDdlMzAiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg2MDM1OCwiZXhwIjoxNzE4OTQ2NzU4fQ.SP96QmUrxqL1khSmgJwiT1kJDIPOl3kki5OuHIcBt2g",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"threadID\" :  \"6673c762fe63d6993bb6f033\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/thread/delete-a-thread",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"thread",
+										"delete-a-thread"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-all-the-threads-created-by-current-user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc1MzUzZWZiOGIyNDg3MzRkZDQwN2IiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODk3MDQwNywiZXhwIjoxNzE5MDU2ODA3fQ.RDTFOvnJzYLZdM8DUNdCPil2OfgW5gUQLsv298gn3bM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/thread/get-all-the-threads-created-by-current-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"thread",
+										"get-all-the-threads-created-by-current-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-homepage-threads-for-current-user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc1YjQ1ZDU2OGEyOGQ1Yzk0OGUzYjMiLCJmaXJzdE5hbWUiOiJkZWwiLCJpYXQiOjE3MTg5ODk5MTcsImV4cCI6MTcxOTA3NjMxN30.9gWkeWWR4ROvh8zBxqVqpWW9htKDnJk2aHpcgd_csag",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/thread/get-homepage-threads-for-current-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"thread",
+										"get-homepage-threads-for-current-user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reply",
+					"item": [
+						{
+							"name": "create-new-reply",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczN2ZhZDQyNWZiODc0ZTQwMDI3OWEiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg0NTM1NywiZXhwIjoxNzE4OTMxNzU3fQ.OJiYq5z8R75lnn09ZQt_AF4SfjO93-RLW-8lhAEu03k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"bodyText\": \"this is a sample reply\",\r\n \"replyBelongsToThisThreadID\": \"66738564a7943506583715e0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/reply/create-new-reply",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"reply",
+										"create-new-reply"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-a-reply",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczN2ZhZDQyNWZiODc0ZTQwMDI3OWEiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg0NTM1NywiZXhwIjoxNzE4OTMxNzU3fQ.OJiYq5z8R75lnn09ZQt_AF4SfjO93-RLW-8lhAEu03k",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"replyID\": \"667385b76f258ff09eb1bc81\",\r\n \"replyBelongsToThisThreadID\": \"66738564a7943506583715e0\",\r\n \"req\": \"delete-a-reply\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/reply/delete-a-reply",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"reply",
+										"delete-a-reply"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
