@@ -17,12 +17,6 @@
 ### Like/Unlike other user threads
 
 
-## How to install and run in yours local machine
-```bash
-npm install
-npm run start
-```
-
 ## Tech. Stack Used:
 ### Front End
 + [ReactJS](https://react.dev/)
@@ -44,6 +38,13 @@ npm run start
 + [Morgan](https://www.npmjs.com/package/morgan) for logging user requests
 + [Multer](https://www.npmjs.com/package/multer) for files upload
 + [Validator](https://www.npmjs.com/package/validator) for input validation
+
+
+## How to install and run in yours local machine
+```bash
+npm install
+npm start
+```
 
 ## .env Files
 ### Front End
@@ -96,6 +97,110 @@ i express my gratitude towards [Geekster](https://www.geekster.in/) for providin
 + Success Managers: Palak Bhardwaj Mam, Yatharth Sharma Sir, Aanchal Parnami Mam, Avinash Prakash Sir
 + Geekster Curriculum Team: for designing cutting edge ReactJs Curriculum along with real life industry standard assignments as projects
 + Geekster Administrative Team: for timely starting classes, providing concept videos and study material!
+
+
+
+## API Endpoints
+### Download Postman endpoints file 
++ [postman-api-endpoints.json](ThreadsClone.postman_collection.json)
+### Server Base URL 
+```javascript
+LOCALHOST=http://localhost:4000
+RENDER=https://threadsclone-m3i6.onrender.com
+```
+
+## 1. User Endpoints
+### 1.1 POST /api/v1/user/register
+### Purpose:
+Create new User Account.
+### Request Body:
+```javascript
+JSON BODY
+{
+"firstName" : "abhishek",
+"lastName" : "kumar", 
+"email" : "abhishek@alex21c.com", 
+"mobile" : "01234567893", 
+"username" : "admin", 
+"password" : "admin123", 
+"bio" : "MERN Stack Developer", 
+"customLink" : "https://www.alex21c.com"
+}
+
+```
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTE3OCwiZXhwIjoxNzE5MTIxNTc4fQ.EKvFT1Mwfk3IMv36ezsc0CMma7GDojtjgnSW5mYxPds"
+}
+```
+### Response failure:
+```javascript
+JSON
+{
+    "success": false,
+    "message": "username already exist!"
+}
+```
+### 1.2 POST /api/v1/user/login
+### Purpose:
+Authentication, Sign-In user
+### Request Body:
+```javascript
+JSON BODY
+{
+ "usernameOrEmailOrMobile": "admin",
+ "password": "admin123"
+}
+
+```
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E"
+}
+```
+### 1.2 GET /api/v1/user/get-current-user-info
+### Purpose:
+Get current user document from database, after excluding password, Useful for fetching what users follows, likes, profileImage and name etc.
+### Request Body:
+```javascript
+HEADERS
+Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E
+```
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "data": {
+        "_id": "6676652aaa7e004433c0da79",
+        "firstName": "abhishek",
+        "lastName": "kumar",
+        "email": "abhishek@alex21c.com",
+        "mobile": "01234567893",
+        "username": "admin",
+        "bio": "MERN Stack Developer",
+        "profileImage": {
+            "public_id": null,
+            "url": "https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718603004/SharedResources/a7syt68cd0kyj3tiyhux.png"
+        },
+        "customLink": "https://www.alex21c.com",
+        "followers": [],
+        "following": [],
+        "likedThreads": [],
+        "createdAt": "2024-06-22T05:46:18.595Z",
+        "updatedAt": "2024-06-22T05:46:18.595Z",
+        "__v": 0
+    }
+}
+```
+
+
 
 
 ## Developer
