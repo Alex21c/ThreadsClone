@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import PasswordField from '../PasswordField/PasswordField.mjs';
 import MuiSnackbar from '../MUI/MuiSnackbar/MuiSnackbar.jsx';
 import { openTheMuiSnackbar } from '../../Redux/Slices/muiSnackbarSlice.mjs';
@@ -7,7 +7,7 @@ import { setJwt } from '../../Redux/Slices/authSlice.mjs';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import API_ENDPOINTS from '../../config.mjs';
-
+import CircularProgressInfinite from '../MUI/CirclularProgressInfinite/CircularProgressInfinite.jsx';
 export default function CreateANewAccountForm(){
   const theme = useSelector(store => store.theme);
   const refUsername = useRef(null);
@@ -20,6 +20,9 @@ export default function CreateANewAccountForm(){
   const refLink = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [stateApiReqMessage, setStateApiReqMessage] = useState('Wait...');
+  const [stateMakingApiCallAfterBtnClick, setStateMakingApiCallAfterBtnClick] = useState(false);
+
 
   async function handleSubmitRequest(event){
     event.preventDefault();
@@ -37,6 +40,9 @@ export default function CreateANewAccountForm(){
 
     // make http req
       try {
+        setStateMakingApiCallAfterBtnClick(true);
+        setStateApiReqMessage("Creating Yours ThreadsClone Account...");
+
         const data ={
           "firstName" : refFirstName.current.value,
           "lastName" : refLastName.current.value,
@@ -77,6 +83,8 @@ export default function CreateANewAccountForm(){
       } catch (error) {        
         dispatch(openTheMuiSnackbar({message: error.message, type: "error"}));
         console.log(error.message);
+      }finally{
+        setStateMakingApiCallAfterBtnClick(false);
       }
   }
 
@@ -107,8 +115,14 @@ export default function CreateANewAccountForm(){
         <input ref={refLink} type="url" placeholder='Link' className='bg-[#1e1e1e] p-[1rem] rounded-md w-[100%] outline-none focus:border-[#f3f5f726] border border-transparent focus:text-[#f3f5f7] transition' />
         
     
-        
-        <button className='bg-white p-[1rem] rounded-xl font-medium'>Register</button>
+        {
+          stateMakingApiCallAfterBtnClick ?
+          <div className='self-end'>
+            <CircularProgressInfinite message={stateApiReqMessage}/> 
+          </div>
+          :    
+          <button className='bg-white p-[1rem] rounded-xl font-medium'>Register</button>
+        }
       </form>
     </div>
   );

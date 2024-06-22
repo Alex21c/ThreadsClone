@@ -10,6 +10,7 @@ import { closeTheMuiSnackbar, openTheMuiSnackbar } from '../../Redux/Slices/muiS
 import API_ENDPOINTS from '../../config.mjs';
 import CircularProgressInfinite from '../MUI/CirclularProgressInfinite/CircularProgressInfinite.jsx';
 import { fetchThreadsCreatedByCurrentUser } from '../../Redux/Slices/threadsSlice.mjs';
+import { fetchThreadsForHomepage } from '../../Redux/Slices/threadsSlice.mjs';
 
 export default function Thread({threadData=null, totalItems=null, idx=null, createdByOtherUser=false}){  
 
@@ -20,8 +21,9 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
   const [stateMakingApiCallAfterBtnClick, setStateMakingApiCallAfterBtnClick] = React.useState(false);
   const auth = useSelector(store=>store.auth);  
   const user = useSelector(store=>store.user); 
-
   const theme = useSelector((store)=>store.theme);
+  const threads = useSelector((store)=>store.threads);
+  
     
   const refTextarea = useRef(null);
   const refDivVerticalLine =useRef(null);
@@ -67,11 +69,13 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
     debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refThreadBodyImage);
   }, []);
     
-  async function handleReqUnLikeThread(threadID=null){   
+  async function handleReqUnLikeThread(threadID=null, threads=null){   
     // console.log(threadID) 
     try {
       if(!threadID){
         throw new Error("threadID not provided");
+      }else if(!threads){
+        throw new Error('threads not provided');
       }
       setStateMakingApiCallAfterBtnClick(true);
       setStateApiReqMessage("Un-Liking...");
@@ -104,7 +108,16 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
 
       // show success message
       dispatch(openTheMuiSnackbar({message: response.message, type: "success"}));
-      dispatch(fetchThreadsCreatedByCurrentUser(auth));
+      // now here the question is, does user likes thread of his own or any other user
+      // does this thread belogs to user?
+      const isThreadCreatedByCurrentUser = threads?.threadsCreatedByCurrentUser?.some(thread => thread._id === threadID);
+      if(isThreadCreatedByCurrentUser){
+        dispatch(fetchThreadsCreatedByCurrentUser(auth));
+      } else{
+        // if it is of any other user then, it would be on homepage of any other users,
+        // now lets try to make fetch req
+          dispatch(fetchThreadsForHomepage(auth));
+      }     
 
 
     } catch (error) {
@@ -155,7 +168,19 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
 
       // show success message
       dispatch(openTheMuiSnackbar({message: response.message, type: "success"})) ;
-      dispatch(fetchThreadsCreatedByCurrentUser(auth));
+      
+      // does this thread belogs to user?
+      const isThreadCreatedByCurrentUser = threads?.threadsCreatedByCurrentUser?.some(thread => thread._id === threadID);
+      
+
+      if(isThreadCreatedByCurrentUser){
+        dispatch(fetchThreadsCreatedByCurrentUser(auth));
+      } else{
+        // if it is of any other user then, it would be on homepage of any other users,
+        // now lets try to make fetch req
+          dispatch(fetchThreadsForHomepage(auth));
+      }  
+
 
     } catch (error) {
       console.error(process.env.REACT_APP_PREFIX_LOCALSTORAGE + "CustomError: " +error.message);
@@ -272,7 +297,7 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
 
               {threadData.likes.includes(user.data._id) ?
               <div className="flex gap-[.5rem] items-center text-red-600">
-                <i className="fa-solid fa-heart text-[1.3rem] cursor-pointer" title="Like" onClick={()=>{handleReqUnLikeThread(threadData._id)}}></i>
+                <i className="fa-solid fa-heart text-[1.3rem] cursor-pointer" title="Like" onClick={()=>{handleReqUnLikeThread(threadData._id, threads)}}></i>
                 <span>{threadData.likes.length}</span>
               </div>
               

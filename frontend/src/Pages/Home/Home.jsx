@@ -12,6 +12,43 @@ import API_ENDPOINTS from "../../config.mjs";
 import { useState } from "react";
 import Thread from "../../Components/Thread/Thread";
 import { handshakeHello } from "../../Redux/Slices/handshakeSlice.mjs";
+import { fetchThreadsForHomepage } from "../../Redux/Slices/threadsSlice.mjs";
+
+// export async function fetchThreadsForHomepage(auth){
+//   try {
+//     console.log('fetching homepage Threads threds !'); // keep it
+//     const headers = {          
+//       "Authorization": auth.authorization
+//     };
+    
+//     const requestOptions = {
+//       method: "GET",
+//       headers: headers
+//     };
+    
+
+//     const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.Thread['get-homepage-threads-for-current-user']}`;    
+    
+//     let response = await fetch(reqURL, requestOptions);   
+    
+//     if(response?.statusText === "Unauthorized"){
+//       // just delete the authorization from local storage
+//       localStorage.removeItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE +"Authorization");
+      
+//       throw new Error ("Kindly login again");
+//     }
+//     response = await response.json();
+//     // console.log(response);
+
+//     if(response.success){        
+//       setStateHomepageThreads(response.data);
+//     }else {
+//       throw new Error(response.message);
+//     }
+//   } catch (error) {
+//     console.error('ThreadsCloneCustomError: failed to req to fetch threads for homepage ' + error.message)
+//   }
+// }
 
 export default function Home(){
   const navigate = useNavigate();
@@ -20,44 +57,12 @@ export default function Home(){
   const auth = useSelector(store=>store.auth);
   const icons = useSelector(store=>store.icons);
   const theme = useSelector(store=>store.theme);
+  const threads = useSelector(store=>store.threads);
   const user = useSelector(store=>store.user);
 
-  const [stateHomepageThreads, setStateHomepageThreads] = useState([]);
-  async function fetchThreadsForHomepage(){
-    try {
-      console.log('fetching homepage Threads threds !'); // keep it
-      const headers = {          
-        "Authorization": auth.authorization
-      };
-      
-      const requestOptions = {
-        method: "GET",
-        headers: headers
-      };
-      
   
-      const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.Thread['get-homepage-threads-for-current-user']}`;    
-      
-      let response = await fetch(reqURL, requestOptions);   
-      
-      if(response?.statusText === "Unauthorized"){
-        // just delete the authorization from local storage
-        localStorage.removeItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE +"Authorization");
-        
-        throw new Error ("Kindly login again");
-      }
-      response = await response.json();
-      // console.log(response);
 
-      if(response.success){        
-        setStateHomepageThreads(response.data);
-      }else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      console.error('ThreadsCloneCustomError: failed to req to fetch threads for homepage ' + error.message)
-    }
-  }
+
   useEffect(()=>{
     document.title=process.env.REACT_APP_PRJ_NAME;
 
@@ -74,9 +79,7 @@ export default function Home(){
 
     // perform handshake with server
     dispatch(handshakeHello());
-
-
-    fetchThreadsForHomepage();
+    dispatch(fetchThreadsForHomepage(auth));
 
 
   }, []);
@@ -88,7 +91,7 @@ export default function Home(){
   }
   
   return (
-    <div className="flex justify-between" style={{backgroundColor: theme.background, color: theme.primaryText}}>
+    <div className="flex justify-between " style={{backgroundColor: theme.background, color: theme.primaryText}}>
       <HeaderLeft/>
       <MuiModalCreateNewThread/>
       <main style={{ backgroundColor: theme.backgroundHover, borderColor: theme.borderColor, color: theme.primaryText}}
@@ -112,15 +115,20 @@ export default function Home(){
           </div>
 
           {
-          stateHomepageThreads.length >0 && 
-          stateHomepageThreads.map((thread, idx)=><Thread key={thread._id} threadData={thread} totalItems={stateHomepageThreads.length} idx={idx} createdByOtherUser={true}/>)
+          threads?.homepageThreads?.length >0 && 
+          threads.homepageThreads.map(
+            (thread, idx)=>
+            <Thread 
+              key={thread._id} threadData={thread} totalItems={threads.homepageThreads.length} idx={idx} createdByOtherUser={true}
+            />
+          )
 
         }
 
         
       </main>
 
-      <div className="p-[1rem] self-end" onClick={()=> handleReqCreateThreadBtnClicked() }>
+      <div className="p-[1rem] sticky top-[89vh] right-0 self-start" onClick={()=> handleReqCreateThreadBtnClicked() }>
          <div className='flex items-center gap-[1rem] flex-col '>
           <div  className="flex items-center justify-center cursor-pointer  border-[.1rem] w-[5.5rem] h-[4.5rem] p-[1.8rem] transition  rounded-2xl hover:scale-[1.1]"
           style={{borderColor: theme.borderColor, backgroundColor: theme.backgroundHover}}

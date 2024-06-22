@@ -7,6 +7,8 @@ import { setJwt } from '../../Redux/Slices/authSlice.mjs';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import API_ENDPOINTS from '../../config.mjs';
+import CircularProgressInfinite from '../MUI/CirclularProgressInfinite/CircularProgressInfinite.jsx';
+import { useState } from 'react';
 
 export default function LoginForm(){
   const theme = useSelector(store => store.theme);
@@ -14,6 +16,8 @@ export default function LoginForm(){
   const refUsernameOrEmailOrMobile = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [stateApiReqMessage, setStateApiReqMessage] = useState('Wait...');
+  const [stateMakingApiCallAfterBtnClick, setStateMakingApiCallAfterBtnClick] = useState(false);
 
   async function handleSubmitRequest(event){
     event.preventDefault();
@@ -29,6 +33,9 @@ export default function LoginForm(){
 
     // make http req
       try {
+        setStateMakingApiCallAfterBtnClick(true);
+        setStateApiReqMessage("Logging You In ...");
+
         const data ={
           "usernameOrEmailOrMobile" : refUsernameOrEmailOrMobile.current.value,
           "password" : refPassword.current.value
@@ -65,6 +72,8 @@ export default function LoginForm(){
       } catch (error) {        
         dispatch(openTheMuiSnackbar({message: error.message, type: "error"}));
         console.log(error.message);
+      } finally {
+        setStateMakingApiCallAfterBtnClick(false);
       }
   }
 
@@ -77,7 +86,16 @@ export default function LoginForm(){
         <input ref={refUsernameOrEmailOrMobile} type="text" placeholder='Username, phone or email' className='bg-[#1e1e1e] p-[1rem] rounded-md w-[20rem] outline-none focus:border-[#f3f5f726] border border-transparent focus:text-[#f3f5f7] transition' />
         <PasswordField ref={refPassword}/>
         
-        <button className='bg-white p-[1rem] rounded-xl font-medium'>Log in</button>
+        {
+          stateMakingApiCallAfterBtnClick ?
+          <div className='self-end'>
+            <CircularProgressInfinite message={stateApiReqMessage}/> 
+          </div>
+          :          
+          <button className='bg-white p-[1rem] rounded-xl font-medium'>Log in</button>
+        }
+
+
         <a href="/auth/forgot-password" className='text-center mt-[.7rem] hover:underline transition'>Forgot Password?</a>
         <div className='border-[#f3f5f726] border-b-[.1rem] relative h-[1rem] mb-[1rem]'>
           <span className='absolute bg-[#101010] top-[.2rem] left-[42%] w-[3rem] text-center'>or</span>

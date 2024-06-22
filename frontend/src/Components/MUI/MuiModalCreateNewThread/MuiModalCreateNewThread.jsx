@@ -227,7 +227,7 @@ export default function MuiModalCreateNewThread(){
         slotProps={{
           backdrop: {
             sx: {
-               backgroundColor: 'rgba(0, 0, 0, 0.9)', // Darker background color
+               backgroundColor: theme.background
             },
           },
         }}        

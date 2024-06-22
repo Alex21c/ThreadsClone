@@ -90,7 +90,7 @@ const getHomepageThreadsForCurrentUser = async(req, res, next)=>{
 const getAllTheThreadsCreatedByCurrentUser = async(req, res, next)=>{
   try {
     // query the database and ask for all the threads created by current user
-      const threadsCreatedByCurrentUser = await ThreadModel.find({createdBy: req.user._id});
+      const threadsCreatedByCurrentUser = await ThreadModel.find({createdBy: req.user._id}).sort({createdAt: -1});
       // console.log(threadsCreatedByCurrentUser);
     // if no thread are there just send success false
       if(threadsCreatedByCurrentUser.length === 0){
