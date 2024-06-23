@@ -66,7 +66,7 @@ const getHomepageThreadsForCurrentUser = async(req, res, next)=>{
   try {
     // just get threads crated by alex21c as of now    
 
-      const threadsCreatedByAlex21C = await ThreadModel.find({ createdBy: "6677efca7ab6d21a8c4cfd20" })
+      const threadsCreatedByAlex21C = await ThreadModel.find({ createdBy: "66781930292326504172713b" })
       .populate({
         path: 'replies',
         populate: {
