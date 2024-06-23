@@ -87,7 +87,7 @@ const loginUser = async (req, res, next)=>{
       typeOfID='mobile';
     }
 
-    console.log(typeOfID, usernameOrEmailOrMobile, password);
+    
     // find the document
     const userDoc = await UserModel.findOne({ [typeOfID]: usernameOrEmailOrMobile});
     if(!userDoc){

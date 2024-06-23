@@ -39,7 +39,7 @@ function a11yProps(index) {
   };
 }
 
-export default function MuiTabForProfilePage() {
+export default function MuiTabForProfilePage({wantOnlySelfReplyLatestOne=false}) {
   const [value, setValue] = React.useState(0);
   const theme = useSelector(store=>store.theme);
   const user = useSelector(store=>store.user);
@@ -68,8 +68,9 @@ export default function MuiTabForProfilePage() {
   
 
   return (
-    <Box sx={{ width: '40rem', backgroundColor: theme.backgroundHover, borderColor: theme.borderColor, color: theme.primaryText}}
-    className = "border border-[.1rem] rounded-xl p-[1rem]" >
+    <Box sx={{ width: '40rem', backgroundColor: theme.backgroundHover, borderColor: theme.borderColor, color: theme.primaryText}}    
+    className = "border-[.1rem] rounded-tl-2xl rounded-tr-2xl p-[1rem] pb-[0] w-[40rem] min-h-[91vh] border-b-[0] m-[auto] mt-[1rem]"   
+    >
       <MuiModalCreateNewThread/>
       <Box>
         <div className="flex justify-between">
@@ -122,7 +123,11 @@ export default function MuiTabForProfilePage() {
       <CustomTabPanel value={value} index={0}>
         {
           threads?.threadsCreatedByCurrentUser?.length >0 ?
-           threads?.threadsCreatedByCurrentUser?.map((thread, idx)=><Thread key={thread._id} threadData={thread} totalItems={threads?.threadsCreatedByCurrentUser?.length} idx={idx}/>)
+           threads?.threadsCreatedByCurrentUser?.filter((thread)=>thread.replyBelongsToThisThreadID === null)
+           .map((thread, idx)=><Thread  key={thread._id} threadData={thread} totalItems={threads?.threadsCreatedByCurrentUser?.length} idx={idx}
+            wantOnlySelfReplyLatestOne={wantOnlySelfReplyLatestOne}
+           />)
+
            :
            <div className="flex flex-col gap-[1rem]">
             <span>
@@ -137,7 +142,7 @@ export default function MuiTabForProfilePage() {
         
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+        
       </CustomTabPanel>
     </Box>
   );

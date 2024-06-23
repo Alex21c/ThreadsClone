@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const muiModalCreateNewThreadSlice = createSlice({
-  name: 'muiModalHavingQrCodeForAppDownload',
+  name: 'muiModalCreateNewThread',
   initialState,
   reducers: {
     openMuiModalCreateNewThread: (state)=>{

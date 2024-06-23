@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import HeaderLeft from "../../Components/HeaderLeft/HeaderLeft";
 import MuiModalCreateNewThread from "../../Components/MUI/MuiModalCreateNewThread/MuiModalCreateNewThread";
+import MuiModalCreateNewReply from "../../Components/MUI/MuiModalCreateNewReply/MuiModalCreateNewReply";
 import { openMuiModalCreateNewThread } from "../../Redux/Slices/muiModalCreateNewThreadSlice.mjs";
 import { useDispatch } from "react-redux";
 import { closeTheMuiSnackbar } from "../../Redux/Slices/muiSnackbarSlice.mjs";
@@ -94,8 +95,9 @@ export default function Home(){
     <div className="flex justify-between " style={{backgroundColor: theme.background, color: theme.primaryText}}>
       <HeaderLeft/>
       <MuiModalCreateNewThread/>
+      <MuiModalCreateNewReply isItHomepage= {true}/>
       <main style={{ backgroundColor: theme.backgroundHover, borderColor: theme.borderColor, color: theme.primaryText}}
-        className = "border border-[.1rem] rounded-tl-2xl rounded-tr-2xl p-[1rem] w-[40rem] min-h-[96vh] border-b-[0] m-[auto] mt-[2rem]" >
+        className = "border-[.1rem] rounded-tl-2xl rounded-tr-2xl p-[1rem] w-[40rem] min-h-[96vh] border-b-[0] m-[auto] mt-[2rem]" >
 
           <div className="flex justify-between items-center">
             <div className="flex gap-[1rem] items-center ">
@@ -106,7 +108,7 @@ export default function Home(){
               <span style={{color: theme.secondaryText}}>Start a thread...</span>
             </div>
             <div>
-              <button className='px-[1rem] py-[.4rem] border border-[.1rem] rounded-xl w-[5rem] h- ' style={{borderColor:theme.borderColor}} onClick={()=>handleReqCreateThreadBtnClicked()}>Post</button>
+              <button className='px-[1rem] py-[.4rem] border-[.1rem] rounded-xl w-[5rem] h- ' style={{borderColor:theme.borderColor}} onClick={()=>handleReqCreateThreadBtnClicked()}>Post</button>
             </div>
           </div>
 

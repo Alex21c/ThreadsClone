@@ -7,7 +7,7 @@ import { useRef } from 'react';
 import Utils from '../../../Utils.mjs';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
-import { openTheMuiSnackbar } from '../../../Redux/Slices/muiSnackbarSlice.mjs';
+import { openTheMuiSnackbar, closeTheMuiSnackbar } from '../../../Redux/Slices/muiSnackbarSlice.mjs';
 import MuiSnackbar from '../MuiSnackbar/MuiSnackbar.jsx';
 import CircularProgressInfinite from '../CirclularProgressInfinite/CircularProgressInfinite';
 import API_ENDPOINTS from '../../../config.mjs';
@@ -203,6 +203,7 @@ export default function MuiModalCreateNewThread(){
   useEffect(()=>{
     // adjust height of vertical bar between users
     debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser);
+    dispatch(closeTheMuiSnackbar());
     setTimeout(()=>{
 
       if(refTextarea.current){
@@ -235,7 +236,7 @@ export default function MuiModalCreateNewThread(){
       >
         <Box sx={style} className={`outline-none p-[.8rem] border rounded-xl  cursor-pointer hover:border-[blue-300]  w-[35rem]  flex flex-col `} >
           
-          <h2 className='font-bold self-center top-[-1.3rem] relative font-semibold text-[1.1rem]'>New thread</h2>
+          <h2 className='self-center top-[-1.3rem] relative font-semibold text-[1.1rem]'>New thread</h2>
           <div className="flex gap-[2rem]">
             <div  className='flex items-center flex-col w-[10%]'>
               <div className='w-[3rem]  overflow-hidden  ' >
@@ -274,7 +275,7 @@ export default function MuiModalCreateNewThread(){
                   <CircularProgressInfinite /> 
                 </div>
                 :
-                <button className='px-[1rem] py-[.5rem] border border-[.1rem] rounded-xl w-[5rem] self-end' style={{borderColor:theme.borderColor}} onClick={()=>handleReqCreateANewPost()}>Post</button>
+                <button className='px-[1rem] py-[.5rem]  border-[.1rem] rounded-xl w-[5rem] self-end' style={{borderColor:theme.borderColor}} onClick={()=>handleReqCreateANewPost()}>Post</button>
               }
               <input ref={refInputFile} type="file" className='invisible absolute' onChange={()=>handleInputImageFileChange()}/>
 

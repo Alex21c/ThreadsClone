@@ -6,7 +6,8 @@ const ThreadSchema = new mongoose.Schema({
   createdBy : {type: mongoose.Types.ObjectId, ref:'users', required: true},
   likes: [{type:mongoose.Types.ObjectId, ref: 'users'}],
   replies: [{type:mongoose.Types.ObjectId, ref:'threads'}],
-  replyBelongsToThisThreadID: {type: mongoose.Types.ObjectId, ref: 'threads', default: null}
+  replyBelongsToThisThreadID: {type: mongoose.Types.ObjectId, ref: 'threads', default: null},
+  replyBelongsToThreadCreatedByThisUser: {type: mongoose.Types.ObjectId, ref: 'users', default: null}
   
 }, {timestamps: true});
 

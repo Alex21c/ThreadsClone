@@ -20,7 +20,7 @@ export default async function InputValidationReplyMiddleware(req, res, next){
       }
 
       // append thread doc to req
-      req.replyBelongsToThisThread = replyBelongsToThisThread;
+      req.thread = replyBelongsToThisThread;
 
     // Processing replyID
       if(req.body?.req && req.body.req === "delete-a-reply"){

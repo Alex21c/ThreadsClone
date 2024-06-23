@@ -9,6 +9,7 @@ import NotFound from './Pages/NotFound/NotFound';
 import Home from './Pages/Home/Home';
 import './Assests/fontAwesomeProIcons/fontAwesomeIcons.css';
 import Profile from './Pages/Profile/Profile';
+import SpecificThreadPage from './Pages/Thread/SpecificThreadPage';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
   {
     path: "/auth/:req",
     element: <AuthPage/>,
+    errorElement: <NotFound/>
+  },
+  {
+    path: "/thread/:threadID",
+    element: <SpecificThreadPage/>,
     errorElement: <NotFound/>
   }
 ])

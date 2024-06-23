@@ -64,10 +64,19 @@ const createNewThread = async (req, res, next)=>{
 
 const getHomepageThreadsForCurrentUser = async(req, res, next)=>{
   try {
-    // just get threads crated by alex21c as of now
-    
-      const threadsCreatedByAlex21C = await ThreadModel.find({createdBy: "6675a61ce6d62838497e55a3"}).populate('createdBy', 'username profileImage').
-      sort({createdAt: -1});
+    // just get threads crated by alex21c as of now    
+
+      const threadsCreatedByAlex21C = await ThreadModel.find({ createdBy: "6677efca7ab6d21a8c4cfd20" })
+      .populate({
+        path: 'replies',
+        populate: {
+          path: 'createdBy',
+          select: 'username profileImage'
+        }
+      })
+      .populate('createdBy', 'username profileImage')
+      .sort({ createdAt: -1 });
+
       
     // if no thread are there just send success false
       if(threadsCreatedByAlex21C.length === 0){
@@ -87,10 +96,21 @@ const getHomepageThreadsForCurrentUser = async(req, res, next)=>{
   }
 
 }
+
 const getAllTheThreadsCreatedByCurrentUser = async(req, res, next)=>{
   try {
     // query the database and ask for all the threads created by current user
-      const threadsCreatedByCurrentUser = await ThreadModel.find({createdBy: req.user._id}).sort({createdAt: -1});
+      // const threadsCreatedByCurrentUser = await ThreadModel.find({createdBy: req.user._id}).populate('replies').populate('createdBy', 'username profileImage').sort({createdAt: -1});
+      const threadsCreatedByCurrentUser = await ThreadModel.find({ createdBy: req.user._id })
+      .populate({
+        path: 'replies',
+        populate: {
+          path: 'createdBy',
+          select: 'username profileImage'
+        }
+      })
+      .populate('createdBy', 'username profileImage')
+      .sort({ createdAt: -1 });
       // console.log(threadsCreatedByCurrentUser);
     // if no thread are there just send success false
       if(threadsCreatedByCurrentUser.length === 0){
@@ -109,6 +129,38 @@ const getAllTheThreadsCreatedByCurrentUser = async(req, res, next)=>{
     return next(new CustomError(500, "failed to fetch all the threads, ERROR: "+ error.message));
   }
 }
+const getSpecificThread = async(req, res, next)=>{
+  
+  try {
+      const populatedThread = await ThreadModel.findById(req.thread._id)
+      .populate({
+        path: 'replies',
+        populate: {
+          path: 'createdBy',
+          select: 'username profileImage'
+        }
+      })
+      .populate('createdBy', 'username profileImage')
+      .sort({ createdAt: -1 });
+      
+    // if no thread are there just send success false
+      if(!populatedThread){
+        return res.json({
+          success: false, 
+          message: `thread not found !`
+        })
+      }
+    // send the threads back 
+      res.json({
+        success: true, 
+        data: populatedThread
+      })
+    
+  } catch (error) {
+    return next(new CustomError(500, "failed to fetch specific thread, ERROR: "+ error.message));
+  }
+}
+
 
 const likeAThread = async(req, res, next)=>{
   try {
@@ -181,5 +233,5 @@ const deleteAThread = async(req, res, next)=>{
 
 
 
-const ThreadController = {createNewThread, likeAThread, unlikeAThread, deleteAThread, getAllTheThreadsCreatedByCurrentUser, getHomepageThreadsForCurrentUser};
+const ThreadController = {createNewThread, likeAThread, unlikeAThread, deleteAThread, getAllTheThreadsCreatedByCurrentUser, getHomepageThreadsForCurrentUser, getSpecificThread};
 export default ThreadController;

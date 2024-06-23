@@ -7,6 +7,9 @@ import { useDispatch } from "react-redux";
 import { closeTheMuiSnackbar } from "../../Redux/Slices/muiSnackbarSlice.mjs";
 import { fetchUser } from "../../Redux/Slices/userSlice.mjs";
 import { handshakeHello } from "../../Redux/Slices/handshakeSlice.mjs";
+import MuiModalCreateNewReply from "../../Components/MUI/MuiModalCreateNewReply/MuiModalCreateNewReply";
+
+
 export default function Profile(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,11 +37,12 @@ export default function Profile(){
 
   return (
     <div className="flex " style={{backgroundColor: theme.background, color: theme.primaryText}}>
-      <HeaderLeft/>      
-      <main className=" w-[100%] p-[1rem]">
+      <HeaderLeft/>   
+      <MuiModalCreateNewReply/>   
+      <main className=" w-[100%] p-[1rem] ">
         <div className="flex flex-col items-center gap-[1rem] w-[100%] ">
-          <h2>Profile</h2>
-          <MuiTabForProfilePage/>
+          <h2 className="font-bold">Profile</h2>
+          <MuiTabForProfilePage wantOnlySelfReplyLatestOne={true}/>
         </div>
       </main>
 

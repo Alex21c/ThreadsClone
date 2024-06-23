@@ -1,0 +1,129 @@
+import Utils from "../../Utils.mjs";
+import { openMuiModalCreateNewReply } from "../../Redux/Slices/muiModalCreateNewReplySlice.mjs";
+import { fetchReplyingToThisThread } from "../../Redux/Slices/muiModalCreateNewReplySlice.mjs";
+import { fetchSpecificThread } from "../../Redux/Slices/threadsSlice.mjs";
+export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=null, handleReqLikeThread=null, handleReqDeleteThread=null, theme=null, user=null, threads=null, navigate=null, isItSpecificThreadPage=false, dispatch=null, auth=null ,handleReqDeleteReply=null}){
+
+  if( !threadData?._id  || !handleReqUnLikeThread || !handleReqUnLikeThread || !handleReqDeleteThread || !theme || !user || !threads || !navigate || !dispatch){
+    console.log('ThreadSegment: empty data provided as args');
+    return ;
+  }
+  
+
+  
+  
+  
+ 
+
+  return (    
+      <div className='w-[90%] flex gap-[1rem] cursor-pointer' onClick={()=>{
+        const threadID = threadData._id;
+        console.log('clicking');        
+        dispatch(fetchSpecificThread({threadID, auth, navigate}));
+        setTimeout(()=>{
+          navigate(`/thread/${threadData._id}`)
+        }, 1000)
+        
+
+      }
+      }
+        >        
+        <div className='w-[3rem]  overflow-hidden  ' >
+          <img src={threadData?.createdBy?.profileImage?.url} alt="user profile image" className='w-[100%] rounded-full' />
+        </div>
+        <div className='flex flex-col gap-[1rem]'>
+          <div className='flex gap-[1rem]'>
+            <h3 className='font-medium'>{threadData?.createdBy?.username}</h3>
+            <span style={{color: theme.secondaryText}}>
+              {Utils.getRelativeTime(threadData?.createdAt || null)}
+              
+            </span>
+          </div>
+          {
+            threadData?.bodyText && 
+            <p style={{backgroundColor: "transparent", color: theme.primaryText}} className='w-[100%] outline-none font-normal text-[1rem] '>
+              {threadData.bodyText}
+            </p>
+          }
+
+          {
+            threadData?.bodyImage?.url &&
+            <div className='w-[50%]'>              
+              <img  src={threadData.bodyImage.url} alt="image upload by user"/>
+            </div>
+
+          }
+
+    
+          <div className='flex gap-[2rem] items-center'>
+            <div>
+
+              {threadData?.likes?.includes(user.data._id) ?
+              <div className="flex gap-[.5rem] items-center text-red-600">
+                <i className="fa-solid fa-heart text-[1.3rem] cursor-pointer" title="Like" onClick={(event)=>{
+                  event.stopPropagation();
+                  handleReqUnLikeThread(threadData._id, threads, isItSpecificThreadPage)}
+                  }></i>
+                <span>{threadData.likes.length}</span>
+              </div>
+              
+              :
+              <div className="flex gap-[.5rem] items-center">              
+                <i className="fa-light fa-heart text-[1.3rem] cursor-pointer" title="Like" onClick={(event)=>{
+                   event.stopPropagation();
+                   handleReqLikeThread(threadData._id, isItSpecificThreadPage)}}></i>
+                <span>{threadData.likes.length>0 && threadData.likes.length}</span>
+              </div>
+                            
+              }
+              
+            </div>
+
+            <div className="flex gap-[.5rem] items-center" style={{color: theme.secondaryText}}
+              onClick={(event )=> {
+                event.stopPropagation();
+                const threadID = threadData._id;
+                dispatch(fetchReplyingToThisThread({threadID, auth}));
+                       
+                dispatch(openMuiModalCreateNewReply());
+              }  
+
+              }
+            >              
+                <i className="fa-light fa-comment text-[1.3rem] cursor-pointer" title="Reply"></i>
+                <span>{threadData.replies.length>0 && threadData.replies.length}</span>
+              </div>
+
+            
+
+            <i className="fa-light fa-trash text-[1.3rem] cursor-pointer" title="Delete"
+            style={{color: theme.secondaryText}}
+              onClick={(event)=>{
+                event.stopPropagation();
+                // how to know whether to its a thread or reply ?
+                if(threadData?.replyBelongsToThisThreadID){
+                  console.log('its a reply');
+                  if(handleReqDeleteReply){
+                    
+                    handleReqDeleteReply(threadData._id, threadData.replyBelongsToThisThreadID, isItSpecificThreadPage);
+                  }
+                }else{
+                  // console.log('its a thread');
+                  handleReqDeleteThread(threadData._id, isItSpecificThreadPage)
+                  
+                }
+                
+                
+                }
+              }
+            ></i>
+          </div>
+
+          
+
+
+        </div>      
+      </div>
+    
+  );
+}

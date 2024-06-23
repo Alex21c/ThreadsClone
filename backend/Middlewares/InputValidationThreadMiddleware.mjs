@@ -4,7 +4,14 @@ import mongoose from "mongoose";
 export default async function InputValidationThreadMiddleware(req, res, next){
   try {        
     // console.log(req.body);
-    const {threadID} = req.body;
+    let {threadID} = req.body;
+    if(!threadID){
+      // is it in params ?
+        if(req?.params?.threadID){
+          threadID = req.params.threadID;
+        }
+    }
+    
     if(!threadID){
       return next(new CustomError(400, "Missing threadID in the request !"));      
     } 
@@ -25,6 +32,7 @@ export default async function InputValidationThreadMiddleware(req, res, next){
     // allow to proceed
     next();
   } catch (error) {
+    console.log(error);
     return next(new CustomError(500, "Input validation failed for Thread Middleware, ERR: ", error.message));
   }
 }
