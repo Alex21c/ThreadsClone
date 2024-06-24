@@ -66,7 +66,7 @@ const getHomepageThreadsForCurrentUser = async(req, res, next)=>{
   try {
     // just get threads crated by alex21c as of now    
 
-      const threadsCreatedByAlex21C = await ThreadModel.find({ createdBy: "66781930292326504172713b" })
+      const threadsCreatedByAlex21C = await ThreadModel.find({ createdBy: "667936c01a89c30b67dda396", replyBelongsToThreadCreatedByThisUser: null })
       .populate({
         path: 'replies',
         populate: {
@@ -76,7 +76,7 @@ const getHomepageThreadsForCurrentUser = async(req, res, next)=>{
       })
       .populate('createdBy', 'username profileImage')
       .sort({ createdAt: -1 });
-
+      
       
     // if no thread are there just send success false
       if(threadsCreatedByAlex21C.length === 0){
@@ -101,7 +101,7 @@ const getAllTheThreadsCreatedByCurrentUser = async(req, res, next)=>{
   try {
     // query the database and ask for all the threads created by current user
       // const threadsCreatedByCurrentUser = await ThreadModel.find({createdBy: req.user._id}).populate('replies').populate('createdBy', 'username profileImage').sort({createdAt: -1});
-      const threadsCreatedByCurrentUser = await ThreadModel.find({ createdBy: req.user._id })
+      const threadsCreatedByCurrentUser = await ThreadModel.find({ createdBy: req.user._id, replyBelongsToThreadCreatedByThisUser: null })
       .populate({
         path: 'replies',
         populate: {

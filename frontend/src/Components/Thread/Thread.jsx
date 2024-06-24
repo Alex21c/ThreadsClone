@@ -26,58 +26,11 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
   const theme = useSelector((store)=>store.theme);
   const threads = useSelector((store)=>store.threads);
   
-    
-  const refTextarea = useRef(null);
-  const refDivVerticalLine =useRef(null);
-  const refThreadBodyImage =useRef(null);
+      
+  const refDivVerticalLine =useRef(null);  
   const refThread = useRef(null);
 
-  // computing
-    const createdByUserName = createdByOtherUser ? threadData.createdBy.username : user.data.username;
-    const createdByUserProfileImage= createdByOtherUser ? threadData.createdBy.profileImage.url : user.data.profileImage.url;
-  
-  
-  function handleThreadAreaChange(refThread ){
-    try {    
-      if(!refThread?.current?.style){
-        return;
-      }
-      refThread.current.style.height = 'auto';
-      refThread.current.style.height = refThread.current.scrollHeight + "px";
-        // const previewImageScrollHeight = refThreadBodyImage?.current ? refThreadBodyImage.current.scrollHeight : 0;
-        let decrement = refThread.current.scrollHeight - ((70/100)*refThread.current.scrollHeight);
-        if(wantOnlySelfReplyLatestOne){
-          decrement = refThread.current.scrollHeight - ((50/100)*refThread.current.scrollHeight);
-        }
-    
-        if(refDivVerticalLine?.current?.style){
-
-           refDivVerticalLine.current.style.height  = Number(refThread.current.scrollHeight - decrement )+ "px";  
-        } 
-      
-    } catch (error) {
-      console.error(error.message);
-    }    
-        
-  }
-  const debouncedHandleTextareaChange = useCallback(
-    Utils.debouce(
-      (refThread)=>handleThreadAreaChange(refThread), 100
-    ), [handleThreadAreaChange]
-  );
-   
-
-
-
-  useEffect(()=>{
-    // adjust height of vertical bar between users
-    debouncedHandleTextareaChange(refThread);
-  }, []);
-    
-  async function handleReqUnLikeThread(threadID=null, threads=null, isItSpecificThreadPage=false){   
-    
-  
-    
+    async function handleReqUnLikeThread(threadID=null, threads=null, isItSpecificThreadPage=false){   
     // console.log(threadID) 
     try {
       if(!threadID){
@@ -347,25 +300,58 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
     // console.log( threadData)
 
       
-      
+    
+    function handleThreadAreaChange(refThread ){
+      try {    
+        if(!refThread?.current?.style){
+          return;
+        }
+        refThread.current.style.height = 'auto';
+        
+
+          // const previewImageScrollHeight = refThreadBodyImage?.current ? refThreadBodyImage.current.scrollHeight : 0;
+          let decrement = refThread.current.scrollHeight - ((85/100)*refThread.current.scrollHeight);
+          if(wantOnlySelfReplyLatestOne){
+            decrement = refThread.current.scrollHeight - ((78/100)*refThread.current.scrollHeight);
+          }          
+          if(refDivVerticalLine?.current){
+            console.log('drawing the vertical thread line ...');
+             refDivVerticalLine.current.style.height  = Number(refThread.current.scrollHeight - decrement )+ "px";  
+          } 
+        
+      } catch (error) {
+        console.error(error.message);
+      }    
+          
+    }
+    const debouncedHandleTextareaChange = useCallback(
+      Utils.debouce(
+        (refThread)=>handleThreadAreaChange(refThread), 100
+      ), [handleThreadAreaChange]
+      );
+   
+    
+    useEffect(()=>{
+      // adjust height of vertical bar between users
+      debouncedHandleTextareaChange(refThread);
+    }, [refThread?.current]);
 
   return (
-    <div className='flex flex-col  w-[100%] pl-[2rem]'>
-      <MuiSnackbar/>
+    <div className='flex flex-col  w-[100%] pl-[2rem]'>      
 
       <div className="flex gap-[0rem]">
-        <div  className='flex items-center flex-col w-[0%]'>
+        <div  className='flex items-center flex-col'>
           {
             threadData?.replies?.length > 0 
             &&
-            <div key={threadData._id} ref={refDivVerticalLine} className='w-[.1rem] h-[2rem] my-[1rem]' style={{backgroundColor: theme.borderColor}}/>            
+            <div key={threadData._id} ref={refDivVerticalLine} className='w-[.15rem] h-[2rem] my-[.5rem]' style={{backgroundColor: theme.borderColor}}/>            
 
           }
           
 
         </div>
 
-        <div ref={refThread} className='flex flex-col w-[100%] gap-[1rem] relative left-[-1.5rem]'>
+        <div ref={refThread} className='flex flex-col  gap-[1rem] relative left-[-2rem] '>
           <ThreadSegment threadData={threadData}  handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} navigate={navigate} isItSpecificThreadPage={isItSpecificThreadPage} dispatch={dispatch} auth={auth}/>
           
           {            

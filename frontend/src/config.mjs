@@ -16,6 +16,7 @@ const API_ENDPOINTS = {
   },
   "Reply":{
     "create-new-reply": "/api/v1/reply/create-new-reply",
+    "get-all-the-replies-made-by-current-user": "/api/v1/reply/get-all-the-replies-made-by-current-user",
     "delete-a-reply": "/api/v1/reply/delete-a-reply"
   }
 };

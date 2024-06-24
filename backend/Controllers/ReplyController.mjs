@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 const deleteAReply = async (req, res, next)=>{
   try {    
+
     // remove replyID from parent thread
       req.thread.replies.pull(req.reply._id);
       req.thread.save();
@@ -57,6 +58,36 @@ const createNewReply = async (req, res, next)=>{
   }
 
 }
+const getAllTheRepliesMadeByCurrentUser = async(req, res, next)=>{
+  try {
+      const threadsCreatedByCurrentUser = await ThreadModel.find({ createdBy: req.user._id, replyBelongsToThreadCreatedByThisUser: { $ne: null } })
+      .populate({
+        path: 'replies',
+        populate: {
+          path: 'createdBy',
+          select: 'username profileImage'
+        }
+      })
+      .populate('createdBy', 'username profileImage')
+      .sort({ createdAt: -1 });
+      // console.log(threadsCreatedByCurrentUser);
+    // if no thread are there just send success false
+      if(threadsCreatedByCurrentUser.length === 0){
+        return res.json({
+          success: false, 
+          message: `hello ${req.user.username}, You havn't created any thread yet!`
+        })
+      }
+    // send the threads back 
+      res.json({
+        success: true, 
+        data: threadsCreatedByCurrentUser
+      })
+    
+  } catch (error) {
+    return next(new CustomError(500, "failed to fetch all the threads, ERROR: "+ error.message));
+  }
+}
 
-const ReplyController = {createNewReply, deleteAReply};
+const ReplyController = {createNewReply, deleteAReply, getAllTheRepliesMadeByCurrentUser};
 export default ReplyController;

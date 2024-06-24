@@ -15,41 +15,6 @@ import Thread from "../../Components/Thread/Thread";
 import { handshakeHello } from "../../Redux/Slices/handshakeSlice.mjs";
 import { fetchThreadsForHomepage } from "../../Redux/Slices/threadsSlice.mjs";
 
-// export async function fetchThreadsForHomepage(auth){
-//   try {
-//     console.log('fetching homepage Threads threds !'); // keep it
-//     const headers = {          
-//       "Authorization": auth.authorization
-//     };
-    
-//     const requestOptions = {
-//       method: "GET",
-//       headers: headers
-//     };
-    
-
-//     const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.Thread['get-homepage-threads-for-current-user']}`;    
-    
-//     let response = await fetch(reqURL, requestOptions);   
-    
-//     if(response?.statusText === "Unauthorized"){
-//       // just delete the authorization from local storage
-//       localStorage.removeItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE +"Authorization");
-      
-//       throw new Error ("Kindly login again");
-//     }
-//     response = await response.json();
-//     // console.log(response);
-
-//     if(response.success){        
-//       setStateHomepageThreads(response.data);
-//     }else {
-//       throw new Error(response.message);
-//     }
-//   } catch (error) {
-//     console.error('ThreadsCloneCustomError: failed to req to fetch threads for homepage ' + error.message)
-//   }
-// }
 
 export default function Home(){
   const navigate = useNavigate();

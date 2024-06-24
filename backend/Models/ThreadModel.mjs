@@ -11,5 +11,22 @@ const ThreadSchema = new mongoose.Schema({
   
 }, {timestamps: true});
 
+ThreadSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+  try {
+    // Find all replies to this thread
+    const replies = await ThreadModel.find({ replyBelongsToThisThreadID: this._id });
+
+    // Recursively delete all replies
+    for (let reply of replies) {      
+      await reply.deleteOne();
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 const ThreadModel = mongoose.model('threads', ThreadSchema);
 export default ThreadModel;

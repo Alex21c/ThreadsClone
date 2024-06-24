@@ -5,6 +5,7 @@ import InputValidationReplyMiddleware from "../Middlewares/InputValidationReplyM
 
 const ReplyRouter = e.Router();
 ReplyRouter.post('/create-new-reply', passport.authenticate('jwt', {session: false}),InputValidationReplyMiddleware, ReplyController.createNewReply);
+ReplyRouter.get('/get-all-the-replies-made-by-current-user', passport.authenticate('jwt', {session: false}), ReplyController.getAllTheRepliesMadeByCurrentUser);
 ReplyRouter.delete('/delete-a-reply', passport.authenticate('jwt', {session: false}),InputValidationReplyMiddleware, ReplyController.deleteAReply);
 
 

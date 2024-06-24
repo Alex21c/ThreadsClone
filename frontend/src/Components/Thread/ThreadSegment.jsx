@@ -16,9 +16,8 @@ export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=n
  
 
   return (    
-      <div className='w-[90%] flex gap-[1rem] cursor-pointer' onClick={()=>{
-        const threadID = threadData._id;
-        console.log('clicking');        
+      <div className='flex gap-[1rem] cursor-pointer w-[100%] ' onClick={()=>{
+        const threadID = threadData._id;           
         dispatch(fetchSpecificThread({threadID, auth, navigate}));
         setTimeout(()=>{
           navigate(`/thread/${threadData._id}`)
@@ -28,10 +27,10 @@ export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=n
       }
       }
         >        
-        <div className='w-[3rem]  overflow-hidden  ' >
-          <img src={threadData?.createdBy?.profileImage?.url} alt="user profile image" className='w-[100%] rounded-full' />
+        <div className='overflow-hidden w-[4rem] min-w-[4rem] ' >
+          <img src={threadData?.createdBy?.profileImage?.url} alt="user profile image" className='rounded-full' />
         </div>
-        <div className='flex flex-col gap-[1rem]'>
+        <div className='flex flex-col gap-[1rem]  w-[100%]'>
           <div className='flex gap-[1rem]'>
             <h3 className='font-medium'>{threadData?.createdBy?.username}</h3>
             <span style={{color: theme.secondaryText}}>
@@ -48,8 +47,8 @@ export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=n
 
           {
             threadData?.bodyImage?.url &&
-            <div className='w-[50%]'>              
-              <img  src={threadData.bodyImage.url} alt="image upload by user"/>
+            <div className='w-[90%] '>              
+              <img  src={threadData.bodyImage.url} alt="image upload by user" className="rounded-xl"/>
             </div>
 
           }
@@ -95,28 +94,32 @@ export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=n
               </div>
 
             
+            {
+              (threadData?.createdBy?._id === user.data._id) &&
 
-            <i className="fa-light fa-trash text-[1.3rem] cursor-pointer" title="Delete"
-            style={{color: theme.secondaryText}}
-              onClick={(event)=>{
-                event.stopPropagation();
-                // how to know whether to its a thread or reply ?
-                if(threadData?.replyBelongsToThisThreadID){
-                  console.log('its a reply');
-                  if(handleReqDeleteReply){
+              <i className="fa-light fa-trash text-[1.3rem] cursor-pointer" title="Delete"
+              style={{color: theme.secondaryText}}
+                onClick={(event)=>{
+                  event.stopPropagation();
+                  // how to know whether to its a thread or reply ?              
+                  if(threadData?.replyBelongsToThisThreadID){
+                    console.log('its a reply');
+                    if(handleReqDeleteReply){
+                      
+                      handleReqDeleteReply(threadData._id, threadData.replyBelongsToThisThreadID, isItSpecificThreadPage);
+                    }
+                  }else{
+                    // console.log('its a thread');
+                    handleReqDeleteThread(threadData._id, isItSpecificThreadPage)
                     
-                    handleReqDeleteReply(threadData._id, threadData.replyBelongsToThisThreadID, isItSpecificThreadPage);
                   }
-                }else{
-                  // console.log('its a thread');
-                  handleReqDeleteThread(threadData._id, isItSpecificThreadPage)
                   
+                  
+                  }
                 }
-                
-                
-                }
-              }
-            ></i>
+              ></i>
+            }
+     
           </div>
 
           
