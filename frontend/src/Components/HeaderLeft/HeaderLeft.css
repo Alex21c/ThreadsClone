@@ -1,0 +1,12 @@
+.darkThemeHover{
+  background-color: #101010;
+}
+.darkThemeHover:hover{
+  background-color: #f3f5f726;
+}
+.lightThemeHover{
+  background-color: #fafafa;
+}
+.lightThemeHover:hover{
+  background-color: #00000026;
+}

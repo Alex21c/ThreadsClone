@@ -12,6 +12,7 @@ import { useState } from 'react';
 
 export default function LoginForm(){
   const theme = useSelector(store => store.theme);
+  // console.log(theme)
   const refPassword = useRef(null);
   const refUsernameOrEmailOrMobile = useRef(null);
   const dispatch = useDispatch();
@@ -76,6 +77,12 @@ export default function LoginForm(){
         setStateMakingApiCallAfterBtnClick(false);
       }
   }
+  const styles = {
+    backgroundColor: theme.backgroundHover, 
+    borderColor: theme.borderColor,
+    color: theme.primaryText
+
+  }
 
 
   return (
@@ -83,8 +90,8 @@ export default function LoginForm(){
       <MuiSnackbar/>
       <h2 className='font-medium text-[1.2rem]' style={{color: theme.primaryText}} >Log in</h2>
       <form className='flex flex-col gap-[.5rem]' onSubmit={(event)=>handleSubmitRequest(event)}>
-        <input ref={refUsernameOrEmailOrMobile} type="text" placeholder='Username, phone or email' className='bg-[#1e1e1e] p-[1rem] rounded-md w-[20rem] outline-none focus:border-[#f3f5f726] border border-transparent focus:text-[#f3f5f7] transition' />
-        <PasswordField ref={refPassword}/>
+        <input ref={refUsernameOrEmailOrMobile} type="text" placeholder='Username, phone or email' className=' p-[1rem] rounded-md w-[20rem] outline-none  border border-transparent transition ' style={styles} />
+        <PasswordField ref={refPassword} />
         
         {
           stateMakingApiCallAfterBtnClick ?
@@ -92,13 +99,13 @@ export default function LoginForm(){
             <CircularProgressInfinite message={stateApiReqMessage}/> 
           </div>
           :          
-          <button className='bg-white p-[1rem] rounded-xl font-medium'>Log in</button>
+          <button className='bg-white p-[1rem] rounded-xl font-medium border' style={styles}>Log in</button>
         }
 
 
         <a href="/auth/forgot-password" className='text-center mt-[.7rem] hover:underline transition'>Forgot Password?</a>
-        <div className='border-[#f3f5f726] border-b-[.1rem] relative h-[1rem] mb-[1rem]'>
-          <span className='absolute bg-[#101010] top-[.2rem] left-[42%] w-[3rem] text-center'>or</span>
+        <div className=' border-b-[.1rem] relative h-[1rem] mb-[1rem]'>
+          <span className='absolute  top-[.2rem] left-[42%] w-[3rem] text-center' style={{backgroundColor: theme.background}}>or</span>
         </div>
         <a href="/auth/create-a-new-account" className='text-center mt-[.7rem] hover:underline text-[1.2rem] font-medium'  style={{color: theme.primaryText}}>Create a new account</a>
       </form>

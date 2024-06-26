@@ -251,7 +251,7 @@ export default function MuiModalCreateNewReply({isItHomepage= false, isItSpecifi
             </div>
             <div className='w-[90%] flex flex-col gap-[1rem]'>
               <div className='flex gap-[1rem]'>
-                <h3 className='font-medium'>{muiModalCreateNewReply.replyingToThisThread?.createdBy?.username}</h3>
+                <h3 style={{color:theme.primaryText}} className='font-medium'>{muiModalCreateNewReply.replyingToThisThread?.createdBy?.username} </h3>
                 <span style={{color: theme.secondaryText}}>
                   {Utils.getRelativeTime(muiModalCreateNewReply.replyingToThisThread?.createdAt || null)}
                   
@@ -315,7 +315,7 @@ export default function MuiModalCreateNewReply({isItHomepage= false, isItSpecifi
                   <CircularProgressInfinite /> 
                 </div>
                 :
-                <button className='px-[1rem] py-[.5rem] border-[.1rem] rounded-xl w-[5rem] self-end' style={{borderColor:theme.borderColor}} onClick={()=>handReqCreateANewReply(muiModalCreateNewReply?.replyingToThisThread?._id)}>Reply</button>
+                <button className='px-[1rem] py-[.5rem] border-[.1rem] rounded-xl w-[5rem] self-end' style={{borderColor:theme.borderColor, color: theme.primaryText, backgroundColor: theme.background}} onClick={()=>handReqCreateANewReply(muiModalCreateNewReply?.replyingToThisThread?._id)}>Reply</button>
               }
               <input ref={refInputFile} type="file" className='invisible absolute' onChange={()=>handleInputImageFileChange()}/>
 

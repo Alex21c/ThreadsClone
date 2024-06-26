@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import MuiModalCreateNewThread from '../MuiModalCreateNewThread/MuiModalCreateNewThread';
 import { openMuiModalCreateNewThread } from '../../../Redux/Slices/muiModalCreateNewThreadSlice.mjs';
+import { fetchRepliesMadeByCurrentUser } from '../../../Redux/Slices/replySlice.mjs';
 import { fetchThreadsCreatedByCurrentUser } from '../../../Redux/Slices/threadsSlice.mjs';
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,6 +45,7 @@ export default function MuiTabForProfilePage({wantOnlySelfReplyLatestOne=false})
   const theme = useSelector(store=>store.theme);
   const user = useSelector(store=>store.user);
   const auth = useSelector(store=>store.auth);  
+  const replies = useSelector(store=>store.replies);
   const threads = useSelector(store=>store.threads);
   const dispatch = useDispatch()
   
@@ -56,6 +58,10 @@ export default function MuiTabForProfilePage({wantOnlySelfReplyLatestOne=false})
   useEffect(()=>{
     if(threads?.threadsCreatedByCurrentUser?.length === 0){
       dispatch(fetchThreadsCreatedByCurrentUser(auth))
+    }
+
+    if(replies?.repliesMadeByCurrentUser?.length === 0){
+      dispatch(fetchRepliesMadeByCurrentUser(auth))
     }
 
   }, [])
@@ -142,7 +148,20 @@ export default function MuiTabForProfilePage({wantOnlySelfReplyLatestOne=false})
         
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        
+      {
+          replies?.repliesMadeByCurrentUser?.length >0 ?
+          replies?.repliesMadeByCurrentUser.map((thread, idx)=><Thread  key={thread._id} threadData={thread} totalItems={replies?.repliesMadeByCurrentUser?.length} idx={idx}
+          wantToSeeReplyBelongsToThisThreadID={true}
+          />)
+
+          :
+          <div className="flex flex-col gap-[1rem]">
+           <span>
+             hello {user.data.firstName}, you haven't made any replies yet !
+           </span>
+
+          </div>
+        }        
       </CustomTabPanel>
     </Box>
   );

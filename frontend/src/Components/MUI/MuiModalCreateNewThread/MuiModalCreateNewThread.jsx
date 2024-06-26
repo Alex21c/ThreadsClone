@@ -252,7 +252,7 @@ export default function MuiModalCreateNewThread(){
             </div>
 
             <div className='w-[90%] flex flex-col gap-[1rem]'>
-              <h3 className='font-medium'>{user?.data?.username || "username"}</h3>
+              <h3 className='font-medium' style={{color: theme.primaryText}}>{user?.data?.username || "username"}</h3>
               <textarea ref={refTextarea} onChange={()=>debouncedHandleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser)} type="text" style={{backgroundColor: "transparent", color: theme.primaryText}} className='w-[100%] outline-none font-normal text-[1rem] ' placeholder="Start a thread"/>
 
               {
@@ -275,7 +275,7 @@ export default function MuiModalCreateNewThread(){
                   <CircularProgressInfinite /> 
                 </div>
                 :
-                <button className='px-[1rem] py-[.5rem]  border-[.1rem] rounded-xl w-[5rem] self-end' style={{borderColor:theme.borderColor}} onClick={()=>handleReqCreateANewPost()}>Post</button>
+                <button className='px-[1rem] py-[.5rem]  border-[.1rem] rounded-xl w-[5rem] self-end' style={{borderColor:theme.borderColor, background: theme.backgroundHover,  color:theme.primaryText}} onClick={()=>handleReqCreateANewPost()}>Post</button>
               }
               <input ref={refInputFile} type="file" className='invisible absolute' onChange={()=>handleInputImageFileChange()}/>
 

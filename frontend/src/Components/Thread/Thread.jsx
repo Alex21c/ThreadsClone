@@ -16,7 +16,7 @@ import { fetchSpecificThread } from '../../Redux/Slices/threadsSlice.mjs';
 
 
 
-export default function Thread({threadData=null, totalItems=null, idx=null, createdByOtherUser=false, wantOnlySelfReplyLatestOne=false, isItSpecificThreadPage=false}){  
+export default function Thread({threadData=null, totalItems=null, idx=null, createdByOtherUser=false, wantOnlySelfReplyLatestOne=false, isItSpecificThreadPage=false, wantToSeeReplyBelongsToThisThreadID=false}){  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [stateApiReqMessage, setStateApiReqMessage] = useState('Wait...');
@@ -342,8 +342,7 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
       <div className="flex gap-[0rem]">
         <div  className='flex items-center flex-col'>
           {
-            threadData?.replies?.length > 0 
-            &&
+            (threadData?.replies?.length > 0 ||  wantToSeeReplyBelongsToThisThreadID) &&
             <div key={threadData._id} ref={refDivVerticalLine} className='w-[.15rem] h-[2rem] my-[.5rem]' style={{backgroundColor: theme.borderColor}}/>            
 
           }
@@ -352,6 +351,11 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
         </div>
 
         <div ref={refThread} className='flex flex-col  gap-[1rem] relative left-[-2rem] '>
+          {
+            wantToSeeReplyBelongsToThisThreadID && 
+            <ThreadSegment threadData={threadData?.replyBelongsToThisThreadID}  handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} navigate={navigate} dispatch={dispatch} auth={auth} 
+            />
+          }
           <ThreadSegment threadData={threadData}  handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} navigate={navigate} isItSpecificThreadPage={isItSpecificThreadPage} dispatch={dispatch} auth={auth}/>
           
           {            

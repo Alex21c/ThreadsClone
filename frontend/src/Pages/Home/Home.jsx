@@ -47,7 +47,7 @@ export default function Home(){
     dispatch(handshakeHello());
     dispatch(fetchThreadsForHomepage(auth));
 
-
+// console.log(theme)
   }, []);
 
   function handleReqCreateThreadBtnClicked(){
@@ -73,7 +73,7 @@ export default function Home(){
               <span style={{color: theme.secondaryText}}>Start a thread...</span>
             </div>
             <div>
-              <button className='px-[1rem] py-[.4rem] border-[.1rem] rounded-xl w-[5rem] h- ' style={{borderColor:theme.borderColor}} onClick={()=>handleReqCreateThreadBtnClicked()}>Post</button>
+              <button className='px-[1rem] py-[.4rem] border-[.1rem] rounded-xl w-[5rem] h- ' style={{borderColor:theme.borderColor, background: theme.background}} onClick={()=>handleReqCreateThreadBtnClicked()}>Post</button>
             </div>
           </div>
 
@@ -100,7 +100,7 @@ export default function Home(){
           <div  className="flex items-center justify-center cursor-pointer  border-[.1rem] w-[5.5rem] h-[4.5rem] p-[1.8rem] transition  rounded-2xl hover:scale-[1.1]"
           style={{borderColor: theme.borderColor, backgroundColor: theme.backgroundHover}}
           >
-            <img src={icons.createAPost} alt="icon home" className='w-[2rem] ' />        
+            <img src={icons[theme.currentThemeIs].createAThread} alt="icon home" className='w-[2rem] ' />        
           </div>
         </div> 
       </div>

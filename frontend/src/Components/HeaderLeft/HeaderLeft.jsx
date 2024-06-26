@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useRef, useState, useEffect } from 'react';
 import { useCallback } from 'react';
+import './HeaderLeft.css';
 import Utils from '../../Utils.mjs';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -8,9 +9,10 @@ import { clearHandshakeData } from '../../Redux/Slices/handshakeSlice.mjs';
 import { clearUserData } from '../../Redux/Slices/userSlice.mjs';
 import { clearThreadsData } from '../../Redux/Slices/threadsSlice.mjs';
 import { removeJwt } from '../../Redux/Slices/authSlice.mjs';
-
+import { setLightTheme, setDarkTheme } from '../../Redux/Slices/themeSlice.mjs';
 export default function HeaderLeft(){
   const navigate = useNavigate();
+  const user = useSelector(store=>store.user);
   const theme = useSelector(store=>store.theme);
   const icons = useSelector(store=>store.icons);
   const dispatch = useDispatch();
@@ -24,7 +26,7 @@ export default function HeaderLeft(){
       if(event?.target?.firstChild?.src){
         event.target.firstChild.src = icon;
       }
-      event.target.style.backgroundColor = theme.background;      
+      // event.target.style.backgroundColor = theme.background;      
     } catch (error) {
       console.error(`${process.env.REACT_APP_PRJ_NAME.replaceAll(' ', '')}-ERROR: ${error.message}`);
     }
@@ -36,7 +38,7 @@ export default function HeaderLeft(){
       if(event?.target?.firstChild?.src){
         event.target.firstChild.src = activeIcon;    
       }
-      event.target.style.backgroundColor = theme.backgroundHover;      
+      // event.target.style.backgroundColor = theme.borderColor;      
     } catch (error) {
       console.error(`${process.env.REACT_APP_PRJ_NAME.replaceAll(' ', '')}-ERROR: ${error.message}`);
     }
@@ -47,7 +49,7 @@ export default function HeaderLeft(){
     try {
       event.target.childNodes.forEach(element=>{
         element.style.borderColor= borderColorActive;   
-        event.target.style.backgroundColor = theme.backgroundHover;   
+        // event.target.style.backgroundColor = theme.backgroundHover;   
       });    
       
     } catch (error) {
@@ -59,7 +61,7 @@ export default function HeaderLeft(){
     try {
       event.target.childNodes.forEach(element=>{
         element.style.borderColor= borderColor;
-        event.target.style.backgroundColor = theme.background;
+        // event.target.style.backgroundColor = theme.background;
       })    
       
     } catch (error) {
@@ -136,54 +138,52 @@ export default function HeaderLeft(){
   return (  
     <header style={{backgroundColor: theme.background}} className='py-[1rem] flex flex-col w-[5rem] h-[100vh] items-center justify-between sticky top-[0] left-[0rem]'>
       <a href="/"  className='cursor-pointer'>
-        <img src={icons.logo} alt="logo" className='w-[2.1rem] scale:1 hover:scale-[1.2] transition' />
+        <img src={icons[theme.currentThemeIs].logo} alt="logo" className='w-[2.1rem] scale:1 hover:scale-[1.2] transition' />
       </a>
 
       <div className='flex items-center gap-[1rem] flex-col '>
-        <div onClick={()=>navigate('/')}   className="cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"
+        <div onClick={()=>navigate('/')}   className={`cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md ${theme.currentThemeIs === 'dark'? 'darkThemeHover' : 'lightThemeHover' }`}
         
-        onMouseLeave={(event)=>debouncedMouseLeave(event, icons.home)} 
-        onMouseEnter={(event)=>debouncedMouseEnter(event, icons.homeActive)}
+        onMouseLeave={(event)=>debouncedMouseLeave(event, icons[theme.currentThemeIs].home)} 
+        onMouseEnter={(event)=>debouncedMouseEnter(event, icons[theme.currentThemeIs].homeActive)}
         >
-          <img src={icons.home} alt="icon home" className='w-[100%] '/>        
+          <img src={icons[theme.currentThemeIs].home} alt="icon home" className='w-[100%] '/>        
         </div>
 
-        <div  className="cursor-pointer  w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"
+        <div  className={`cursor-pointer  w-[4rem] h-[4rem] p-[1rem] transition  rounded-md  ${theme.currentThemeIs === 'dark'? 'darkThemeHover' : 'lightThemeHover' }`}
         
-        onMouseLeave={(event)=>debouncedMouseLeave(event, icons.search)} 
-        onMouseEnter={(event)=>debouncedMouseEnter(event, icons.searchActive)}
+        onMouseLeave={(event)=>debouncedMouseLeave(event, icons[theme.currentThemeIs].search)} 
+        onMouseEnter={(event)=>debouncedMouseEnter(event, icons[theme.currentThemeIs].searchActive)}
         >          
-          <img src={icons.search} alt="icon search" className='w-[100%]' />
+          <img src={icons[theme.currentThemeIs].search} alt="icon search" className='w-[100%]' />
         </div>
 
-        <div  className="cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"
+        <div  className={`cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md  ${theme.currentThemeIs === 'dark'? 'darkThemeHover' : 'lightThemeHover' }`}
         
-        onMouseLeave={(event)=>debouncedMouseLeave(event, icons.heart)} 
-        onMouseEnter={(event)=>debouncedMouseEnter(event, icons.heartActive)}
+        onMouseLeave={(event)=>debouncedMouseLeave(event, icons[theme.currentThemeIs].heart)} 
+        onMouseEnter={(event)=>debouncedMouseEnter(event, icons[theme.currentThemeIs].heartActive)}
         >
-          <img src={icons.heart} alt="icon heart" className='w-[100%]' />
+          <img src={icons[theme.currentThemeIs].heart} alt="icon heart" className='w-[100%]' />
         </div>
 
-        <div onClick={()=>navigate('/profile')} className="cursor-pointer  w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"
-        onMouseLeave={(event)=>debouncedMouseLeave(event, icons.user)} 
-        onMouseEnter={(event)=>debouncedMouseEnter(event, icons.userActive)}
+        <div onClick={()=>navigate('/profile')} className="cursor-pointer  w-[5rem] h-[5rem] p-[1rem] transition   overflow-hidden"
         >
-          <img src={icons.user} alt="icon user" className='w-[100%]' />
+          <img src={user?.data?.profileImage?.url || icons[theme.currentThemeIs].user} alt="icon user" className='w-[100%] rounded-full' />
         </div>
         
       </div>
 
       <div className='flex flex-col gap-[2rem] items-center'>        
-        <div  className="cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md"         
-         onMouseLeave={(event)=>debouncedMouseLeave(event, icons.pin)} 
-         onMouseEnter={(event)=>debouncedMouseEnter(event, icons.pinActive)} 
+        <div  className={`cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md  ${theme.currentThemeIs === 'dark'? 'darkThemeHover' : 'lightThemeHover' }`}         
+         onMouseLeave={(event)=>debouncedMouseLeave(event, icons[theme.currentThemeIs].pin)} 
+         onMouseEnter={(event)=>debouncedMouseEnter(event, icons[theme.currentThemeIs].pinActive)} 
         >
-          <img src={icons.pin} alt="icon pin" className='w-[100%]'
+          <img src={icons[theme.currentThemeIs].pin} alt="icon pin" className='w-[100%]'
           />
         </div>
         {
           !stateOpenTheLogoutAndThemeChangeMenu ? 
-          <div className="flex flex-col gap-[.3rem] cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md justify-center"
+          <div className={`flex flex-col gap-[.3rem] cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md justify-center  ${theme.currentThemeIs === 'dark'? 'darkThemeHover' : 'lightThemeHover' }`}
             onClick = {()=>{setStateOpenTheLogoutAndThemeChangeMenu(true)}}
             onMouseEnter={(event)=>debouncedMouseEnterSettingsBar(event, theme.primaryText)} 
             onMouseLeave={(event)=>debouncedMouseLeaveSettingsBar(event, theme.secondaryText)} 
@@ -192,13 +192,13 @@ export default function HeaderLeft(){
             <div className='border-b border-[.13rem] rounded-full w-[1rem]' style={{borderColor: theme.secondaryText}}></div>
           </div>
           :
-          <ul ref={menuRef} className=' ml-[9rem] flex flex-col gap-[1rem] items-center  p-[1rem] rounded-xl absolute bottom-[0]'
-              style={{backgroundColor: theme.background}}>
-            <li className='select-none flex flex-col items-center w-[100%] gap-[.5rem] px-[2rem] p-[1rem] rounded-xl' style={{backgroundColor: theme.backgroundHover}}>
+          <ul ref={menuRef} className=' ml-[9rem]  flex flex-col gap-[1rem] items-center  p-[1rem] rounded-xl absolute bottom-[0]'
+              style={{backgroundColor: theme.background, borderColor: theme.borderColor}}>
+            <li className='select-none flex flex-col items-center w-[100%] gap-[.5rem] px-[2rem] p-[1rem] rounded-xl border-[.15rem]' style={{backgroundColor: theme.backgroundHover, borderColor: theme.borderColor}}>
               <div>Appearance</div>
               <div className='text-[1.5rem] flex gap-[1rem] items-center' style={{color:theme.secondaryText}}>
-                <i className="hover:scale-[1.1] transition cursor-pointer fa-thin fa-sun-bright"></i>
-                <i className="hover:scale-[1.1] transition cursor-pointer fa-thin fa-moon"  style={activeThemeStyle}></i>
+                <i className="hover:scale-[1.1] transition cursor-pointer fa-thin fa-sun-bright" onClick={()=>{dispatch(setLightTheme())}} style={theme.currentThemeIs=== 'light' ? activeThemeStyle : {}}></i>
+                <i className="hover:scale-[1.1] transition cursor-pointer fa-thin fa-moon"  onClick={()=>{dispatch(setDarkTheme())}} style={theme.currentThemeIs=== 'dark' ? activeThemeStyle : {}}></i>
               </div>
             </li>
 
@@ -206,7 +206,7 @@ export default function HeaderLeft(){
             <li className='mt-[.3rem]  border-b-[.15rem] w-[100%]' style={{borderColor: theme.borderColor}}>                                      
             </li>
 
-            <li onClick={()=>handleReqLogOut()} className='select-none cursor-pointer  flex items-center justify-center  w-[100%]  py-[.7rem] px-[1rem] rounded-xl hover:scale-[1.1] transition' style={{backgroundColor: theme.backgroundHover}}>Logout</li>
+            <li onClick={()=>handleReqLogOut()} className='border-[.15rem] select-none cursor-pointer  flex items-center justify-center  w-[100%]  py-[.7rem] px-[1rem] rounded-xl hover:scale-[1.1] transition' style={{backgroundColor: theme.backgroundHover, borderColor: theme.borderColor}}>Logout</li>
           </ul>
         }
 

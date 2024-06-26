@@ -140,9 +140,12 @@ export const threadsSlice = createSlice({
     },
     clearThreadsData: (state, action)=>{
       localStorage.removeItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE+"threadsCreatedByCurrentUser");
+
       state.threadsCreatedByCurrentUser = []; 
       localStorage.removeItem(process.env.REACT_APP_PREFIX_LOCALSTORAGE+"homepageThreads")
       state.homepageThreads = []; 
+
+      state.specificThread= {};
     }
 
   },

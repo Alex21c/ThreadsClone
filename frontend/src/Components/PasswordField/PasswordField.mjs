@@ -1,6 +1,8 @@
 import React, { forwardRef } from 'react';
+import { useSelector } from 'react-redux';
 
 const PasswordField = forwardRef((props, refPassword) => {
+  const theme = useSelector(store=>store.theme);
   const handleEyeClick = (event) => {
     if (refPassword.current) {
       refPassword.current.type = refPassword.current.type === "password" ? "text" : "password";
@@ -14,6 +16,12 @@ const PasswordField = forwardRef((props, refPassword) => {
       event.target.classList.remove("fa-eye-slash");
     }
   };
+  const styles = {
+    backgroundColor: theme.backgroundHover, 
+    borderColor: theme.borderColor,
+    color: theme.primaryText
+
+  }
 
   // console.log(refPassword);
 
@@ -24,7 +32,8 @@ const PasswordField = forwardRef((props, refPassword) => {
         required
         type="password"
         placeholder='Password *'
-        className='bg-[#1e1e1e] p-[1rem] rounded-md w-[100%] outline-none focus:border-[#f3f5f726] border border-transparent focus:text-[#f3f5f7] transition'
+        style={styles}
+        className=' p-[1rem] rounded-md w-[100%] outline-none  border border-transparent  transition'
       />
       <span
         className="fa-solid fa-eye-slash text-[2rem]"

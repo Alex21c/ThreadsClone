@@ -3,7 +3,7 @@ import themeReducer from "./Slices/themeSlice.mjs";
 import muiModalHavingQrCodeForAppDownloadSliceReducer from './Slices/muiModalHavingQrCodeForAppDownloadSlice.mjs';
 import muiModalCreateNewThreadSliceReducer from './Slices/muiModalCreateNewThreadSlice.mjs';
 import muiModalCreateNewReplySliceReducer from "./Slices/muiModalCreateNewReplySlice.mjs";
-
+import reducerReplySlice from "./Slices/replySlice.mjs";
 import muiSnackbarReducer from "./Slices/muiSnackbarSlice.mjs";
 import reducerAuthSlice from "./Slices/authSlice.mjs";
 import reducericonsSlice from "./Slices/iconsSlice.mjs";
@@ -21,6 +21,7 @@ export const store = configureStore({
     'icons': reducericonsSlice,
     'user': reducerUserSlice,
     'threads': reducerThreadsSlice,
+    'replies': reducerReplySlice,
     'handshake': reducerHandshakeSlice
   }
 });

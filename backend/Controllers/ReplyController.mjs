@@ -68,6 +68,13 @@ const getAllTheRepliesMadeByCurrentUser = async(req, res, next)=>{
           select: 'username profileImage'
         }
       })
+      .populate({
+        path: 'replyBelongsToThisThreadID',
+        populate: {
+          path: 'createdBy',
+          select: 'username profileImage'
+        }
+      })      
       .populate('createdBy', 'username profileImage')
       .sort({ createdAt: -1 });
       // console.log(threadsCreatedByCurrentUser);
