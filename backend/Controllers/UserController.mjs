@@ -2,7 +2,7 @@ import UserModel from "../Models/UserModel.mjs";
 import CustomError from "../Utils/CustomError.mjs";
 import Utils from "../Utils/Utils.mjs";
 import validator from "validator";
-
+import 'dotenv/config';
 
 const registerUser= async (req, res, next)=>{
   try {
@@ -110,6 +110,50 @@ const loginUser = async (req, res, next)=>{
 
 };
 
+const unFollowUser = async (req, res, next)=>{
+  try {
+   // first pop the current userID inside followers of other user who our current user just followed
+    req.user2.followers.pop(req.user._id);
+    req.user2.save();
+    
+   // pop the current userID inside current User following
+   req.user.following.pop(req.user2._id);
+   req.user.save();
+
+   // return success 
+   res.json({
+    success: true, 
+    message: `${req.user2.username} unfollowed successfully !`
+   });
+    
+  } catch (error) {
+    return next(new CustomError(500, "Failed to follow user, ERROR: " + error.message));
+  }
+
+};
+const followUser = async (req, res, next)=>{
+  try {
+   // first push the current userID inside followers of other user who our current user just followed
+    req.user2.followers.addToSet(req.user._id);
+    req.user2.save();
+    
+   // push the current userID inside current User following
+   req.user.following.addToSet(req.user2._id);
+   req.user.save();
+
+   // return success 
+   res.json({
+    success: true, 
+    message: `${req.user2.username} followed successfully !`
+   });
+    
+  } catch (error) {
+    return next(new CustomError(500, "Failed to follow user, ERROR: " + error.message));
+  }
+
+};
+
+
 const handshakeHello = async (req, res)=>{
   res.json({
     success: true,
@@ -117,5 +161,50 @@ const handshakeHello = async (req, res)=>{
   });
 }
 
-const UserController = {registerUser,loginUser, getCurrentUserInfo, handshakeHello};
+const getAllTheUsersExceptCurrentOne= async (req, res, next)=>{
+  try {
+      const {howManyUsers} = req.query;    
+    // make to query to mongo db    
+      const allTheUsers = await UserModel.find({_id: {$ne: req.user._id}}).limit(howManyUsers || Number(process.env.ByDefaultHowManyUsersToFetchForSearchPage) || 100);
+    // check if it contains result
+      if(allTheUsers.length === 0){
+        throw new Error("No users exist in DB !");
+      }
+    // return the result
+    res.json({
+      success: true, 
+      data: allTheUsers
+    });
+  } catch (error) {
+    return next(new CustomError(500, "Failed to getAllTheUsersExceptCurrentOne, "+ error.message));
+  }
+}
+
+const getSpecificUserInfo = async (req, res, next)=>{
+  try {
+    // does there is any username ?
+      const {username} = req.params;
+      if(!username){        
+        return next(new CustomError(400, "Missing username inside params !"));
+      }
+    // just find the db if there is any user matching ?
+      const specificUser =  await UserModel.findOne({username})
+                                            .select('-password -mobile -email');
+      
+      if(!specificUser){
+        return next(new CustomError(500, "User not found !"));
+      }
+    
+
+      res.json({
+        success: true, 
+        data: specificUser
+      })
+
+  } catch (error) {
+    return next(new CustomError(500, "Failed to getSpecificUserInfo, "+ error.message));
+  }
+}
+
+const UserController = {registerUser,loginUser, getCurrentUserInfo, handshakeHello, getAllTheUsersExceptCurrentOne, followUser, unFollowUser, getSpecificUserInfo};
 export default UserController;

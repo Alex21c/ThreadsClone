@@ -72,7 +72,7 @@ export default function MuiModalCreateNewThread(){
         
   }
   const debouncedHandleTextareaChange = useCallback(
-    Utils.debouce(
+    Utils.debounce(
       (refTextarea,refDivVerticalLine,refImageUploadByUser)=>handleTextareaChange(refTextarea,refDivVerticalLine,refImageUploadByUser), 100
     ), [handleTextareaChange]
   );

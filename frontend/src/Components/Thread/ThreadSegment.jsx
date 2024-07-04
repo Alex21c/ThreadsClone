@@ -2,7 +2,7 @@ import Utils from "../../Utils.mjs";
 import { openMuiModalCreateNewReply } from "../../Redux/Slices/muiModalCreateNewReplySlice.mjs";
 import { fetchReplyingToThisThread } from "../../Redux/Slices/muiModalCreateNewReplySlice.mjs";
 import { fetchSpecificThread } from "../../Redux/Slices/threadsSlice.mjs";
-export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=null, handleReqLikeThread=null, handleReqDeleteThread=null, theme=null, user=null, threads=null, navigate=null, isItSpecificThreadPage=false, dispatch=null, auth=null ,handleReqDeleteReply=null}){
+export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=null, handleReqLikeThread=null, handleReqDeleteThread=null, theme=null, user=null, threads=null, navigate=null, isItSpecificThreadPage=false, dispatch=null, auth=null ,handleReqDeleteReply=null, username=null}){
 
   if( !threadData?._id  || !handleReqUnLikeThread || !handleReqUnLikeThread || !handleReqDeleteThread || !theme || !user || !threads || !navigate || !dispatch){
     console.log('ThreadSegment: empty data provided as args');
@@ -61,7 +61,7 @@ export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=n
               <div className="flex gap-[.5rem] items-center text-red-600">
                 <i className="fa-solid fa-heart text-[1.3rem] cursor-pointer" title="Like" onClick={(event)=>{
                   event.stopPropagation();
-                  handleReqUnLikeThread(threadData._id, threads, isItSpecificThreadPage)}
+                  handleReqUnLikeThread(threadData._id, threads, isItSpecificThreadPage, username)}
                   }></i>
                 <span>{threadData.likes.length}</span>
               </div>
@@ -69,8 +69,8 @@ export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=n
               :
               <div className="flex gap-[.5rem] items-center">              
                 <i className="fa-light fa-heart text-[1.3rem] cursor-pointer" title="Like" onClick={(event)=>{
-                   event.stopPropagation();
-                   handleReqLikeThread(threadData._id, isItSpecificThreadPage)}}></i>
+                   event.stopPropagation();                   
+                   handleReqLikeThread(threadData._id, isItSpecificThreadPage, username)}}></i>
                 <span>{threadData.likes.length>0 && threadData.likes.length}</span>
               </div>
                             
@@ -103,7 +103,7 @@ export default function ThreadSegment({threadData=null,  handleReqUnLikeThread=n
                   event.stopPropagation();
                   // how to know whether to its a thread or reply ?              
                   if(threadData?.replyBelongsToThisThreadID){
-                    console.log('its a reply');
+                    // console.log('its a reply');
                     if(handleReqDeleteReply){
                       
                       handleReqDeleteReply(threadData._id, threadData.replyBelongsToThisThreadID, isItSpecificThreadPage);

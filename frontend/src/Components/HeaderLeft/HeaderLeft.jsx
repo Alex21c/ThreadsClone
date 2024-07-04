@@ -71,21 +71,21 @@ export default function HeaderLeft(){
 
 
 
-  const debouncedMouseLeaveSettingsBar = useCallback(Utils.debouce(
+  const debouncedMouseLeaveSettingsBar = useCallback(Utils.debounce(
     (event, borderColor)=> handleMouseLeaveSettingsBar(event, borderColor), 100),
      [handleMouseLeaveSettingsBar]
   );
-  const debouncedMouseEnterSettingsBar = useCallback(Utils.debouce(
+  const debouncedMouseEnterSettingsBar = useCallback(Utils.debounce(
     (event, borderColorActive)=> handleMouseEnterSettingsBar(event, borderColorActive), 100),
      [handleMouseEnterSettingsBar]
   );
 
-  const debouncedMouseEnter = useCallback(Utils.debouce(
+  const debouncedMouseEnter = useCallback(Utils.debounce(
     (event, activeIcon)=> handleMouseEnter(event, activeIcon), 100),
      [handleMouseEnter]
   );
 
-  const debouncedMouseLeave = useCallback(Utils.debouce(
+  const debouncedMouseLeave = useCallback(Utils.debounce(
     (event, icon)=> handleMouseLeave(event, icon), 100), 
     [handleMouseLeave]
   );
@@ -151,7 +151,7 @@ export default function HeaderLeft(){
         </div>
 
         <div  className={`cursor-pointer  w-[4rem] h-[4rem] p-[1rem] transition  rounded-md  ${theme.currentThemeIs === 'dark'? 'darkThemeHover' : 'lightThemeHover' }`}
-        
+        onClick={()=>navigate('/search')}  
         onMouseLeave={(event)=>debouncedMouseLeave(event, icons[theme.currentThemeIs].search)} 
         onMouseEnter={(event)=>debouncedMouseEnter(event, icons[theme.currentThemeIs].searchActive)}
         >          

@@ -26,6 +26,8 @@ ThreadRouter.delete('/delete-a-thread', passport.authenticate('jwt', {session: f
 
 ThreadRouter.get('/get-specific-thread/:threadID', passport.authenticate('jwt', {session: false}), InputValidationThreadMiddleware, ThreadController.getSpecificThread);
 
+ThreadRouter.get('/get-all-the-threads-created-by-specific-user/:username', passport.authenticate('jwt', {session: false}), ThreadController.getAllTheThreadsCreatedBySpecificUser);
+
 ThreadRouter.get('/get-all-the-threads-created-by-current-user', passport.authenticate('jwt', {session: false}), ThreadController.getAllTheThreadsCreatedByCurrentUser);
 
 ThreadRouter.get('/get-homepage-threads-for-current-user', passport.authenticate('jwt', {session: false}), ThreadController.getHomepageThreadsForCurrentUser);

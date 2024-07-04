@@ -1,3 +1,4 @@
+import UserModel from "../Models/UserModel.mjs";
 import ThreadModel from "../Models/ThreadModel.mjs";
 import CustomError from "../Utils/CustomError.mjs";
 import mongoose from "mongoose";
@@ -82,7 +83,60 @@ const getAllTheRepliesMadeByCurrentUser = async(req, res, next)=>{
       if(threadsCreatedByCurrentUser.length === 0){
         return res.json({
           success: false, 
-          message: `hello ${req.user.username}, You havn't created any thread yet!`
+          message: `hello ${req.user.username}, You havn't made any replies yet!`
+        })
+      }
+    // send the threads back 
+      res.json({
+        success: true, 
+        data: threadsCreatedByCurrentUser
+      })
+    
+  } catch (error) {
+    return next(new CustomError(500, "failed to fetch all the threads, ERROR: "+ error.message));
+  }
+}
+const getAllTheRepliesMadeBySpecificUser = async(req, res, next)=>{
+    // does there is any username ?
+    const {username} = req.params;
+    if(!username){        
+      return next(new CustomError(400, "Missing username inside params !"));
+    }
+
+    // just find the db if there is any user matching ?
+    const specificUser =  await UserModel.findOne({username});
+
+    if(!specificUser){
+    return next(new CustomError(500, "User not found !"));
+    }
+    // update req.user
+    req.user = specificUser;
+
+
+  try {
+      const threadsCreatedByCurrentUser = await ThreadModel.find({ createdBy: req.user._id, replyBelongsToThreadCreatedByThisUser: { $ne: null } })
+      .populate({
+        path: 'replies',
+        populate: {
+          path: 'createdBy',
+          select: 'username profileImage'
+        }
+      })
+      .populate({
+        path: 'replyBelongsToThisThreadID',
+        populate: {
+          path: 'createdBy',
+          select: 'username profileImage'
+        }
+      })      
+      .populate('createdBy', 'username profileImage')
+      .sort({ createdAt: -1 });
+      // console.log(threadsCreatedByCurrentUser);
+    // if no thread are there just send success false
+      if(threadsCreatedByCurrentUser.length === 0){
+        return res.json({
+          success: false, 
+          message: `hello ${req.user.username}, You havn't made any replies yet!`
         })
       }
     // send the threads back 
@@ -96,5 +150,5 @@ const getAllTheRepliesMadeByCurrentUser = async(req, res, next)=>{
   }
 }
 
-const ReplyController = {createNewReply, deleteAReply, getAllTheRepliesMadeByCurrentUser};
+const ReplyController = {createNewReply, deleteAReply, getAllTheRepliesMadeByCurrentUser, getAllTheRepliesMadeBySpecificUser};
 export default ReplyController;

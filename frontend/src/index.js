@@ -10,6 +10,7 @@ import Home from './Pages/Home/Home';
 import './Assests/fontAwesomeProIcons/fontAwesomeIcons.css';
 import Profile from './Pages/Profile/Profile';
 import SpecificThreadPage from './Pages/Thread/SpecificThreadPage';
+import Search from './Pages/Search/Search';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,7 +18,17 @@ const router = createBrowserRouter([
     errorElement: <NotFound/>
   },
   {
+    path: "/search",
+    element: <Search/>,
+    errorElement: <NotFound/>
+  },
+  {
     path: "/profile",
+    element: <Profile/>,
+    errorElement: <NotFound/>
+  },
+  {
+    path: "/profile/:username",
     element: <Profile/>,
     errorElement: <NotFound/>
   },
@@ -30,7 +41,13 @@ const router = createBrowserRouter([
     path: "/thread/:threadID",
     element: <SpecificThreadPage/>,
     errorElement: <NotFound/>
+  },
+  {
+    path: "/404",
+    element: <NotFound/>,
+    errorElement: <NotFound/>    
   }
+
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

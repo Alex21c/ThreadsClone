@@ -24,7 +24,7 @@ export default function NotFound(){
     <div id='notFoundPageWrapper' className={`relative flex flex-col p-[1rem]`} style={{color: theme.secondaryText, backgroundColor: theme.background}} >    
         <MuiModalHavingQrCodeForAppDownload/>
         <div className="mt-[15rem] flex flex-col items-center">
-         <span className="text-red-300 font-medium text-[2rem] mt-[1rem]">Error: {error.status}, {error.statusText} !</span>
+         <span className="text-red-300 font-medium text-[2rem] mt-[1rem]">Error: {error?.status || 400}, {error?.statusText || "Not Found"} !</span>
          <a href="/" className='text-center mt-[.7rem] hover:underline text-[1.2rem] font-medium'  style={{color: theme.primaryText}}>Click here, to go Back to the Homepage!</a>
           
         </div>

@@ -5,7 +5,7 @@ export default class Utils{
 
   }
 
-  static debouce(func, delay){
+  static debounce(func, delay){
     let timeOutId = null;
     return function(...args){
       if(timeOutId){

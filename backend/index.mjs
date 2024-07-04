@@ -4,6 +4,7 @@ import morgan from "morgan";
 import UserRouter from "./Routes/UserRoutes.mjs";
 import ThreadRouter from "./Routes/ThreadRoutes.mjs";
 import ReplyRouter from "./Routes/ReplyRoutes.mjs";
+import SearchRouter from "./Routes/SearchRoutes.mjs";
 import mongoose, { mongo } from "mongoose";
 import passport from "./Passport/passport-config.mjs";
 import cors  from 'cors';
@@ -62,6 +63,8 @@ const app = new e();
   app.use('/api/v1/user',  UserRouter);
   app.use('/api/v1/thread',  ThreadRouter);  
   app.use('/api/v1/reply',  ReplyRouter);  
+  app.use('/api/v1/search',  SearchRouter);  
+
   
 
 

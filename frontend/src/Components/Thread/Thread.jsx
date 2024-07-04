@@ -13,10 +13,12 @@ import { fetchThreadsForHomepage } from '../../Redux/Slices/threadsSlice.mjs';
 import ThreadSegment from './ThreadSegment.jsx';
 import { useNavigate } from "react-router-dom";
 import { fetchSpecificThread } from '../../Redux/Slices/threadsSlice.mjs';
+import { fetchRepliesMadeByCurrentUser } from '../../Redux/Slices/replySlice.mjs';
+import { fetchSpecificUserInfo } from '../../Redux/Slices/userSlice.mjs';
+import { fetchSpecificUserThreads } from '../../Redux/Slices/threadsSlice.mjs';
+import { fetchSpecificUserReplies } from '../../Redux/Slices/replySlice.mjs';
 
-
-
-export default function Thread({threadData=null, totalItems=null, idx=null, createdByOtherUser=false, wantOnlySelfReplyLatestOne=false, isItSpecificThreadPage=false, wantToSeeReplyBelongsToThisThreadID=false}){  
+export default function Thread({threadData=null, totalItems=null, idx=null, createdByOtherUser=false, wantOnlySelfReplyLatestOne=false, isItSpecificThreadPage=false, wantToSeeReplyBelongsToThisThreadID=false, username=null}){  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [stateApiReqMessage, setStateApiReqMessage] = useState('Wait...');
@@ -30,7 +32,7 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
   const refDivVerticalLine =useRef(null);  
   const refThread = useRef(null);
 
-    async function handleReqUnLikeThread(threadID=null, threads=null, isItSpecificThreadPage=false){   
+    async function handleReqUnLikeThread(threadID=null, threads=null, isItSpecificThreadPage=false, username=null){   
     // console.log(threadID) 
     try {
       if(!threadID){
@@ -87,6 +89,16 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
         )
       }
 
+      if(username){
+        dispatch(fetchSpecificUserInfo({auth, username, navigate}));
+        dispatch(fetchSpecificUserThreads({auth, username}));          
+        dispatch(fetchSpecificUserReplies({auth, username}));          
+      }else{
+        dispatch(
+          fetchRepliesMadeByCurrentUser(auth)
+        );
+  
+      }
 
     } catch (error) {
       console.error(process.env.REACT_APP_PREFIX_LOCALSTORAGE + "CustomError: " +error.message);
@@ -99,8 +111,8 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
     
 
   }
-  async function handleReqLikeThread(threadID=null, isItSpecificThreadPage=false){   
-    // console.log(threadID) 
+  async function handleReqLikeThread(threadID=null, isItSpecificThreadPage=false, username=null){   
+    // console.log(`liking ${threadID}`) ;
     try {
       if(!threadID){
         throw new Error("threadID not provided");
@@ -133,6 +145,7 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
       if(!response.success){
         throw new Error(response.message);
       }
+      // console.log(response);
 
       // show success message
       dispatch(openTheMuiSnackbar({message: response.message, type: "success"})) ;
@@ -153,6 +166,19 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
         dispatch(
           fetchSpecificThread({threadID, auth, navigate})
         )
+      }
+
+
+      
+      if(username){
+        dispatch(fetchSpecificUserInfo({auth, username, navigate}));
+        dispatch(fetchSpecificUserThreads({auth, username}));          
+        dispatch(fetchSpecificUserReplies({auth, username}));          
+      }else{
+        dispatch(
+          fetchRepliesMadeByCurrentUser(auth)
+        );
+  
       }
 
     } catch (error) {
@@ -213,6 +239,10 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
         )
       }
 
+      dispatch(
+        fetchRepliesMadeByCurrentUser(auth)
+      );      
+
     } catch (error) {
       console.error(process.env.REACT_APP_PREFIX_LOCALSTORAGE + "CustomError: " +error.message);
       return dispatch(openTheMuiSnackbar({message: "Failed to Delete a Thread ! " + error.message, type: "error"})) ;
@@ -225,7 +255,8 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
 
   }
   async function handleReqDeleteReply(replyID=null, replyBelongsToThisThreadID=null,  isItSpecificThreadPage=false){   
-    // console.log(threadID) 
+    // console.log(`req made delete a reply ${replyID}` ) ;
+    replyBelongsToThisThreadID = replyBelongsToThisThreadID?._id || replyBelongsToThisThreadID;
     try {
       if(!replyID){
         throw new Error("replyID not provided");
@@ -275,6 +306,9 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
         )
       }
 
+      dispatch(
+        fetchRepliesMadeByCurrentUser(auth)
+      );        
     } catch (error) {
       console.error(process.env.REACT_APP_PREFIX_LOCALSTORAGE + "CustomError: " +error.message);
       return dispatch(openTheMuiSnackbar({message: "Failed to Delete a Reply ! " + error.message, type: "error"})) ;
@@ -315,7 +349,7 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
             decrement = refThread.current.scrollHeight - ((78/100)*refThread.current.scrollHeight);
           }          
           if(refDivVerticalLine?.current){
-            console.log('drawing the vertical thread line ...');
+            // console.log('drawing the vertical thread line ...');
              refDivVerticalLine.current.style.height  = Number(refThread.current.scrollHeight - decrement )+ "px";  
           } 
         
@@ -325,7 +359,7 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
           
     }
     const debouncedHandleTextareaChange = useCallback(
-      Utils.debouce(
+      Utils.debounce(
         (refThread)=>handleThreadAreaChange(refThread), 100
       ), [handleThreadAreaChange]
       );
@@ -342,7 +376,7 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
       <div className="flex gap-[0rem]">
         <div  className='flex items-center flex-col'>
           {
-            (threadData?.replies?.length > 0 ||  wantToSeeReplyBelongsToThisThreadID) &&
+            (threadData?.replies?.length > 0 &&  wantToSeeReplyBelongsToThisThreadID) &&
             <div key={threadData._id} ref={refDivVerticalLine} className='w-[.15rem] h-[2rem] my-[.5rem]' style={{backgroundColor: theme.borderColor}}/>            
 
           }
@@ -353,15 +387,15 @@ export default function Thread({threadData=null, totalItems=null, idx=null, crea
         <div ref={refThread} className='flex flex-col  gap-[1rem] relative left-[-2rem] '>
           {
             wantToSeeReplyBelongsToThisThreadID && 
-            <ThreadSegment threadData={threadData?.replyBelongsToThisThreadID}  handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} navigate={navigate} dispatch={dispatch} auth={auth} 
+            <ThreadSegment threadData={threadData?.replyBelongsToThisThreadID}  handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} navigate={navigate} dispatch={dispatch} auth={auth} username={username}
             />
           }
-          <ThreadSegment threadData={threadData}  handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} navigate={navigate} isItSpecificThreadPage={isItSpecificThreadPage} dispatch={dispatch} auth={auth}/>
+          <ThreadSegment threadData={threadData}  handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} navigate={navigate} isItSpecificThreadPage={isItSpecificThreadPage} dispatch={dispatch} auth={auth} username={username}/>
           
           {            
             replies?.length>0 && replies.map(threadData => {
               // console.log(threadData);              
-              return <ThreadSegment navigate={navigate} key={threadData._id} threadData={threadData} handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} isItSpecificThreadPage={isItSpecificThreadPage}  dispatch={dispatch} auth={auth}/>
+              return <ThreadSegment navigate={navigate} key={threadData._id} threadData={threadData} handleReqUnLikeThread={handleReqUnLikeThread} handleReqLikeThread={handleReqLikeThread} handleReqDeleteThread={handleReqDeleteThread} handleReqDeleteReply={handleReqDeleteReply} theme={theme} user={user} threads={threads} isItSpecificThreadPage={isItSpecificThreadPage}  dispatch={dispatch} auth={auth} username={username}/>
 
             }
               

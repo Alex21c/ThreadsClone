@@ -11,6 +11,14 @@ import MuiModalCreateNewThread from '../MuiModalCreateNewThread/MuiModalCreateNe
 import { openMuiModalCreateNewThread } from '../../../Redux/Slices/muiModalCreateNewThreadSlice.mjs';
 import { fetchRepliesMadeByCurrentUser } from '../../../Redux/Slices/replySlice.mjs';
 import { fetchThreadsCreatedByCurrentUser } from '../../../Redux/Slices/threadsSlice.mjs';
+import { useParams } from "react-router-dom";
+import MuiSnackbar from '../MuiSnackbar/MuiSnackbar';
+import { openTheMuiSnackbar } from '../../../Redux/Slices/muiSnackbarSlice.mjs';
+import API_ENDPOINTS from '../../../config.mjs';
+import { useNavigate } from 'react-router-dom';
+import { fetchSpecificUserInfo } from '../../../Redux/Slices/userSlice.mjs';
+import { fetchSpecificUserThreads } from '../../../Redux/Slices/threadsSlice.mjs';
+import { fetchSpecificUserReplies } from '../../../Redux/Slices/replySlice.mjs';
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -47,7 +55,90 @@ export default function MuiTabForProfilePage({wantOnlySelfReplyLatestOne=false})
   const auth = useSelector(store=>store.auth);  
   const replies = useSelector(store=>store.replies);
   const threads = useSelector(store=>store.threads);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {username}= useParams();
+
+
+
+  const defaultState = {
+    user : user?.data || {},
+    threads: threads?.threadsCreatedByCurrentUser || [],
+    replies: replies?.repliesMadeByCurrentUser || []
+  };
+
+  const speficUserInfo = {
+    user :  user?.specificUserInfo || {},
+    threads:  user?.specificUserThreads || [],
+    replies: user?.specificUserReplies  || []
+  }
+  
+
+
+
+
+
+  // specific user info
+  useEffect(()=>{
+    if(username){      
+      dispatch(fetchSpecificUserInfo({auth, username, navigate}));
+      dispatch(fetchSpecificUserThreads({auth, username}));      
+      dispatch(fetchSpecificUserReplies({auth, username}));      
+      
+
+    }
+  }, [])
+
+
+
+  let [stateProfilePage, setStateProfilePage] = useState(username? speficUserInfo : defaultState);
+  
+  // update if user interact with them
+  useEffect(()=>{
+    if(!username){
+      setStateProfilePage(previousState=>({
+        ...previousState,
+        user : user?.data || {},
+      }))
+    }else{
+      setStateProfilePage(previousState=>({
+        ...previousState,
+        user : user?.specificUserInfo || {},
+      }))
+    }
+  }, [user]);
+  useEffect(()=>{
+    if(!username){
+      setStateProfilePage(previousState=>({
+        ...previousState,
+        threads: threads?.threadsCreatedByCurrentUser || [],
+      }))
+    }else{
+      setStateProfilePage(previousState=>({
+        ...previousState,
+        threads: threads?.specificUserThreads || [],
+      }))
+      
+    }
+  }, [threads]);
+  useEffect(()=>{
+    if(!username){
+      setStateProfilePage(previousState=>({
+        ...previousState,
+        replies: replies?.repliesMadeByCurrentUser || []
+      }))
+    }else{
+      setStateProfilePage(previousState=>({
+        ...previousState,
+        replies: replies?.specificUserReplies || []
+      }))
+      
+    }
+  }, [replies]);
+
+
+
+
   
 
   const handleChange = (event, newValue) => {
@@ -56,11 +147,11 @@ export default function MuiTabForProfilePage({wantOnlySelfReplyLatestOne=false})
 
 
   useEffect(()=>{
-    if(threads?.threadsCreatedByCurrentUser?.length === 0){
+    if(stateProfilePage?.threads?.length === 0){
       dispatch(fetchThreadsCreatedByCurrentUser(auth))
     }
 
-    if(replies?.repliesMadeByCurrentUser?.length === 0){
+    if(stateProfilePage?.replies?.length === 0){
       dispatch(fetchRepliesMadeByCurrentUser(auth))
     }
 
@@ -78,21 +169,22 @@ export default function MuiTabForProfilePage({wantOnlySelfReplyLatestOne=false})
     className = "border-[.1rem] rounded-tl-2xl rounded-tr-2xl p-[1rem] pb-[0] w-[40rem] min-h-[91vh] border-b-[0] m-[auto] mt-[1rem]"   
     >
       <MuiModalCreateNewThread/>
+      <MuiSnackbar  />
       <Box>
         <div className="flex justify-between">
           <div className='flex flex-col gap-[1rem]'>
             <div className='flex flex-col gap-[0rem]'>
-              <h3 className='font-bold text-[1.5rem] hover:underline transition cursor-pointer'>{`${user?.data?.firstName} ${user?.data?.lastName}`}</h3>
-              <span>{user?.data?.username}</span>
+              <h3 className='font-bold text-[1.5rem] hover:underline transition cursor-pointer'>{`${stateProfilePage?.user?.firstName} ${stateProfilePage?.user?.lastName}`}</h3>
+              <span>{stateProfilePage?.user?.username}</span>
             </div>
 
-            <span>{user?.data?.bio}</span>
+            <span>{stateProfilePage?.user?.bio}</span>
 
-            <span  style={{color: theme.secondaryText}}  className=' hover:underline transition cursor-pointer'>{user?.data?.followers?.length} follower{user?.data?.followers?.length === 1 ? "": "s"}</span>
+            <span  style={{color: theme.secondaryText}}  className=' hover:underline transition cursor-pointer'>{stateProfilePage?.user?.followers?.length} follower{stateProfilePage?.user?.followers?.length === 1 ? "": "s"}</span>
 
           </div>
           <div className='w-[5rem] overflow-hidden'> 
-            <img src = {user?.data?.profileImage?.url || process.env.REACT_APP_DEFAULT_USER_PROFILE_IMAGE_URL} className='w-[100%] rounded-full'/>
+            <img src = {stateProfilePage?.user?.profileImage?.url || process.env.REACT_APP_DEFAULT_USER_PROFILE_IMAGE_URL} className='w-[100%] rounded-full'/>
           </div>
         </div>
       </Box>
@@ -128,38 +220,59 @@ export default function MuiTabForProfilePage({wantOnlySelfReplyLatestOne=false})
       </Box>
       <CustomTabPanel value={value} index={0}>
         {
-          threads?.threadsCreatedByCurrentUser?.length >0 ?
-           threads?.threadsCreatedByCurrentUser?.filter((thread)=>thread.replyBelongsToThisThreadID === null)
-           .map((thread, idx)=><Thread  key={thread._id} threadData={thread} totalItems={threads?.threadsCreatedByCurrentUser?.length} idx={idx}
+          stateProfilePage?.threads?.length >0 ?
+           stateProfilePage?.threads?.filter((thread)=>thread.replyBelongsToThisThreadID === null)
+           .map((thread, idx)=><Thread  key={thread._id} threadData={thread} totalItems={stateProfilePage?.threads?.length} idx={idx}
             wantOnlySelfReplyLatestOne={wantOnlySelfReplyLatestOne}
+            username={username}
            />)
 
            :
            <div className="flex flex-col gap-[1rem]">
-            <span>
-              hello {user.data.firstName}, you haven't created any threads yet !
-            </span>
+            {
+              !username ? 
+              <span>
+                hello {stateProfilePage.user.firstName}, you haven't created any threads yet !
+              </span>
+              :
+              <span>
+                {stateProfilePage.user.firstName} hasn't created any threads yet !
+              </span>
 
-            <button onClick={()=> handleReqCreateThreadBtnClicked()} className="p-[1rem] border-[.2rem] rounded-xl" style={{borderColor: theme.borderColor, backgroundColor: theme.backgroundHover}  }>
-              Create Yours first Thread !
-            </button>
+            }
+
+            {
+              !username && 
+              <button onClick={()=> handleReqCreateThreadBtnClicked()} className="p-[1rem] border-[.2rem] rounded-xl" style={{borderColor: theme.borderColor, backgroundColor: theme.backgroundHover}  }>
+                Create Yours first Thread !
+              </button>
+            }
            </div>
         }
         
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
       {
-          replies?.repliesMadeByCurrentUser?.length >0 ?
-          replies?.repliesMadeByCurrentUser.map((thread, idx)=><Thread  key={thread._id} threadData={thread} totalItems={replies?.repliesMadeByCurrentUser?.length} idx={idx}
+          stateProfilePage?.replies?.length >0 ?
+          stateProfilePage?.replies.map((thread, idx)=><Thread  key={thread._id} threadData={thread} totalItems={stateProfilePage?.replies?.length} idx={idx}
           wantToSeeReplyBelongsToThisThreadID={true}
+          username={username}
           />)
 
           :
           <div className="flex flex-col gap-[1rem]">
-           <span>
-             hello {user.data.firstName}, you haven't made any replies yet !
-           </span>
+            {
+              !username ? 
+              <span>
+                hello {stateProfilePage.user.firstName}, you haven't made any replies yet !
+              </span>
+              :
+              <span>
+                {stateProfilePage.user.firstName} hasn't made any replies yet !
+              </span>
 
+            }
+     
           </div>
         }        
       </CustomTabPanel>
