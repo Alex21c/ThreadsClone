@@ -71,7 +71,7 @@ const getHomepageThreadsForCurrentUser = async(req, res, next)=>{
     // if user doesn't follow anyone then let user see threads from alex21c
     // default id for alex21c is 66781930292326504172713b in mongodb atlas
     if(req?.user?.following?.length === 0){
-      query.push({ createdBy: "667936c01a89c30b67dda396", replyBelongsToThreadCreatedByThisUser: null });
+      query.push({ createdBy: "66781930292326504172713b", replyBelongsToThreadCreatedByThisUser: null });
     }
 
     req.user.following.forEach(user=>{
