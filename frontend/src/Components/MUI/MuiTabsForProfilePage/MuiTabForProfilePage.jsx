@@ -214,35 +214,41 @@ export default function MuiTabForProfilePage({
               </div>
             )}
           </div>
-          <FollowBtn
-            otherUser={stateProfilePage?.user}
-            theme={theme}
-            user={user}
-            auth={auth}
-            dispatch={dispatch}
-            setStateUserName={setStateUserName}
-            setStateMakingApiCallAfterBtnClick={
-              setStateMakingApiCallAfterBtnClick
-            }
-            setStateApiReqMessage={setStateApiReqMessage}
-            isItProfilePage={true}
-            fetchSpecificUserInfo={fetchSpecificUserInfo}
-            navigate={navigate}
-          />
+
+          {username && (
+            <FollowBtn
+              otherUser={stateProfilePage?.user}
+              theme={theme}
+              user={user}
+              auth={auth}
+              dispatch={dispatch}
+              setStateUserName={setStateUserName}
+              setStateMakingApiCallAfterBtnClick={
+                setStateMakingApiCallAfterBtnClick
+              }
+              setStateApiReqMessage={setStateApiReqMessage}
+              isItProfilePage={true}
+              fetchSpecificUserInfo={fetchSpecificUserInfo}
+              navigate={navigate}
+            />
+          )}
         </div>
-        <div>
-          <button
-            className=" px-[1.5rem] py-[.4rem] rounded-xl w-[100%] border-[.15rem] font-medium"
-            onClick={() => dispatch(openMuiModalEditProfile())}
-            style={{
-              backgroundColor: "transparent",
-              color: theme.primaryText,
-              borderColor: theme.borderColor,
-            }}
-          >
-            Edit Profile
-          </button>
-        </div>
+
+        {!username && (
+          <div>
+            <button
+              className=" px-[1.5rem] py-[.4rem] rounded-xl w-[100%] border-[.15rem] font-medium"
+              onClick={() => dispatch(openMuiModalEditProfile())}
+              style={{
+                backgroundColor: "transparent",
+                color: theme.primaryText,
+                borderColor: theme.borderColor,
+              }}
+            >
+              Edit Profile
+            </button>
+          </div>
+        )}
       </Box>
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

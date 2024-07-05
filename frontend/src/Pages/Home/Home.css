@@ -1,0 +1,9 @@
+#plusIconBtnCreateANewPost {
+  display: none;
+}
+
+@media screen and (max-width: 770px) {
+  main#homepageMain {
+    width: 86%;
+  }
+}

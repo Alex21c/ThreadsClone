@@ -1,4 +1,5 @@
 import Utils from "../../Utils.mjs";
+import "./ThreadSegment.css";
 import { openMuiModalCreateNewReply } from "../../Redux/Slices/muiModalCreateNewReplySlice.mjs";
 import { fetchReplyingToThisThread } from "../../Redux/Slices/muiModalCreateNewReplySlice.mjs";
 import { fetchSpecificThread } from "../../Redux/Slices/threadsSlice.mjs";
@@ -85,7 +86,7 @@ export default function ThreadSegment({
           )}
 
           {threadData?.bodyImage?.url && (
-            <div className="w-[90%] ">
+            <div id="threadBodyImgWrapper" className="w-[90%] ">
               <img
                 src={threadData.bodyImage.url}
                 alt="image upload by user"

@@ -10,6 +10,8 @@ import CircularProgressInfinite from "../CirclularProgressInfinite/CircularProgr
 import { openTheMuiSnackbar } from "../../../Redux/Slices/muiSnackbarSlice.mjs";
 import API_ENDPOINTS from "../../../config.mjs";
 import { fetchUser } from "../../../Redux/Slices/userSlice.mjs";
+import { fetchThreadsCreatedByCurrentUser } from "../../../Redux/Slices/threadsSlice.mjs";
+import { fetchRepliesMadeByCurrentUser } from "../../../Redux/Slices/replySlice.mjs";
 export default function MuiModalEditProfile() {
   const auth = useSelector((store) => store.auth);
   const user = useSelector((store) => store.user);
@@ -96,14 +98,14 @@ export default function MuiModalEditProfile() {
       if (refImageFile?.current?.files[0]) {
         userProfileImageUpdated = refImageFile.current.files[0];
       }
-      console.log(userProfileImageUpdated);
+      // console.log(userProfileImageUpdated);
 
       // has user made chanes to bio?
       let userBioUpdated = null;
       if (refBio.current.value != user?.data?.bio) {
         userBioUpdated = refBio.current.value;
       }
-      console.log(userBioUpdated);
+      // console.log(userBioUpdated);
 
       // is the link same or different ?
       let userCustomLinkUpdated = null;
@@ -182,6 +184,8 @@ export default function MuiModalEditProfile() {
       );
       // // refresh the profile
       dispatch(fetchUser(auth));
+      dispatch(fetchThreadsCreatedByCurrentUser(auth));
+      dispatch(fetchRepliesMadeByCurrentUser(auth));
 
       // close the modal
       /// clear image and textarea
