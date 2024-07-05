@@ -15,6 +15,7 @@ import API_ENDPOINTS from "../../config.mjs";
 import Thread  from "../../Components/Thread/Thread";
 import { fetchUser } from "../../Redux/Slices/userSlice.mjs";
 import { Link } from "react-router-dom";
+import FollowBtn from "../../Components/FollowBtn/FollowBtn";
 
 export default function Search(){
   let [stateQuery, setStateQuery] = useState('');
@@ -100,121 +101,7 @@ export default function Search(){
     });
   }
 
-  async function makeApiCallFollowUser(userID=null){   
-    try {
-      if(!userID){
-        throw new Error("userID not provided");
-      }
-      setStateMakingApiCallAfterBtnClick(true);
-      setStateApiReqMessage("Following...");
-      
-      const headers = {          
-        "Authorization": auth.authorization,
-        "Content-Type": "application/json"
-      };
-      const data ={      
-        userID
-      };    
-      const requestOptions = {
-        method: "PUT",
-        headers: headers,
-        body: JSON.stringify(data)
-      };
-      
-      const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.User['follow-user']}`;    
-    // console.log(reqURL);
-      
-      let response = await fetch(reqURL, requestOptions);  
-      
-      if(!response){
-        throw new Error("No response!");
-      }     
-      response = await response.json();    
-      if(!response.success){
-        throw new Error(response.message);
-      }
-      // console.log(response);
 
-      // show success message
-      dispatch(openTheMuiSnackbar({message: response.message, type: "success"})) ;
-      
-      
-     
-      // fetch 
-      dispatch(
-        fetchAllTheUsersExceptCurrentOne(auth)
-      );
-
-    } catch (error) {
-      console.error(process.env.REACT_APP_PREFIX_LOCALSTORAGE + "CustomError: " +error.message);
-      return dispatch(openTheMuiSnackbar({message: "Failed to Follower User ! " + error.message, type: "error"})) ;
-    }finally{
-      setStateMakingApiCallAfterBtnClick(false);
-      
-      
-    }
-    
-
-  }
-  async function makeApiCallUnFollowUser(userID=null){   
-    try {
-      if(!userID){
-        throw new Error("userID not provided");
-      }
-      setStateMakingApiCallAfterBtnClick(true);
-      setStateApiReqMessage("Un-Following...");
-      
-      const headers = {          
-        "Authorization": auth.authorization,
-        "Content-Type": "application/json"
-      };
-      const data ={      
-        userID
-      };    
-      const requestOptions = {
-        method: "PUT",
-        headers: headers,
-        body: JSON.stringify(data)
-      };
-      
-      const reqURL = `${process.env.REACT_APP_SERVER_BASE_URL}${API_ENDPOINTS.User['unfollow-user']}`;    
-    // console.log(reqURL);
-      
-      let response = await fetch(reqURL, requestOptions);  
-      
-      if(!response){
-        throw new Error("No response!");
-      }     
-      response = await response.json();    
-      if(!response.success){
-        throw new Error(response.message);
-      }
-      // console.log(response);
-
-      // show success message
-      dispatch(openTheMuiSnackbar({message: response.message, type: "success"})) ;
-      
-      
-     
-      // fetch 
-      dispatch(
-        fetchAllTheUsersExceptCurrentOne(auth)
-      );
-
-      // update user profile
-      dispatch(fetchUser(auth));
-
-    } catch (error) {
-      console.error(process.env.REACT_APP_PREFIX_LOCALSTORAGE + "CustomError: " +error.message);
-      return dispatch(openTheMuiSnackbar({message: "Failed to Unfollower User ! " + error.message, type: "error"})) ;
-    }finally{
-      setStateMakingApiCallAfterBtnClick(false);
-      
-      
-    }
-    
-
-  }
 
 
   async function makeApiCallFetchUsersOrThreadsMatchingSearchQuery(query=null){    
@@ -358,15 +245,10 @@ export default function Search(){
                             </Link>
                            
     
-                            {otherUser.followers.includes(user?.data?._id)? 
-                            <button 
-                            onClick={()=>{makeApiCallUnFollowUser(otherUser?._id); setStateUserName(otherUser?.username);}}
-                            className=" p-[.5rem] rounded-xl w-[100%] border-[.15rem]" style={{backgroundColor: theme.background, color: theme.primaryText, borderColor: theme.borderColor}}>Following</button>
-                            :                      
-                            <button 
-                            onClick={()=>{makeApiCallFollowUser(otherUser?._id); setStateUserName(otherUser?.username);}}
-                            className=" p-[.5rem] rounded-xl w-[100%]" style={{backgroundColor: theme.brightText, color: theme.background}}>Follow</button>
-                            }
+                            <FollowBtn otherUser={otherUser} theme={theme} user={user} auth={auth} dispatch={dispatch}
+                        setStateUserName={setStateUserName} setStateMakingApiCallAfterBtnClick={setStateMakingApiCallAfterBtnClick}
+                        setStateApiReqMessage={setStateApiReqMessage}
+                        />
     
     
                           </div>
@@ -387,14 +269,10 @@ export default function Search(){
                         <CircularProgressInfinite message={stateApiReqMessage}/>
                         :
     
-                        otherUser.followers.includes(user?.data?._id)? 
-                          <button
-                          onClick={()=>{makeApiCallUnFollowUser(otherUser?._id); setStateUserName(otherUser?.username);}}
-                          className=" px-[1.5rem] py-[.3rem] rounded-xl w-[100%] border-[.15rem]" style={{backgroundColor: theme.background, color: theme.secondaryText, borderColor:theme.borderColor}}>Following</button>
-                        :                      
-                        <button 
-                        onClick={()=>{makeApiCallFollowUser(otherUser?._id); setStateUserName(otherUser?.username);}}
-                        className=" px-[1.5rem] py-[.3rem] rounded-xl w-[100%] border-[.15rem]" style={{backgroundColor: theme.background, color: theme.primaryText, borderColor:theme.borderColor}}>Follow</button>
+                        <FollowBtn otherUser={otherUser} theme={theme} user={user} auth={auth} dispatch={dispatch}
+                        setStateUserName={setStateUserName} setStateMakingApiCallAfterBtnClick={setStateMakingApiCallAfterBtnClick}
+                        setStateApiReqMessage={setStateApiReqMessage}
+                        />
                                             
                       }
     

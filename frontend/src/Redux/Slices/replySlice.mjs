@@ -82,7 +82,7 @@ export const fetchSpecificUserReplies = createAsyncThunk('replies/fetchSpecificU
     // console.log(response);
     return response.data
   } catch (error) {
-    console.error('ThredsCloneCustomError: failed to make fetch req redux thunk ' + error.message)
+    console.info('ThredsCloneCustomError: failed to make fetch req redux thunk ' + error.message)
   }
 });
 

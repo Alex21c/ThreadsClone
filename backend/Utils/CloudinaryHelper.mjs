@@ -36,4 +36,14 @@ export default class CloudinaryHelper {
       }
     });
   }
+  deleteFolder(folderUniqueID) {
+    return new Promise(async (resolve, rejected) => {
+      try {
+        const response = await cloudinary.api.delete_folder(folderUniqueID);
+        resolve(response);
+      } catch (error) {
+        rejected(error);
+      }
+    });
+  }
 }
