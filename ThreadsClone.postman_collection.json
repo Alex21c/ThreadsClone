@@ -19,7 +19,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\"firstName\" : \"del\",\r\n\"lastName\" : \"\", \r\n\"email\" : \"del@alex21c.com\", \r\n\"mobile\" : \"1234567891\", \r\n\"username\" : \"del\", \r\n\"password\" : \"admin123\", \r\n\"bio\" : \"MERN Stack Developer\", \r\n\"customLink\" : \"https://www.alex21c.com\"\r\n}",
+									"raw": "{\r\n\"firstName\" : \"alex21c-99\",\r\n\"lastName\" : \"alex21c-99\", \r\n\"email\" : \"alex21c-99@alex21c.com\", \r\n\"mobile\" : \"01234567879\", \r\n\"username\" : \"alex21c-99\", \r\n\"password\" : \"admin123\", \r\n\"bio\" : \"MERN Stack Developer\", \r\n\"customLink\" : \"https://www.alex21c.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -50,7 +50,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n \"usernameOrEmailOrMobile\": \"admin1@alex21c.com\",\r\n \"password\": \"admin123\"\r\n}",
+									"raw": "{\r\n \"usernameOrEmailOrMobile\": \"alex21c\",\r\n \"password\": \"admin123\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -84,7 +84,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc1MzUzZWZiOGIyNDg3MzRkZDQwN2IiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODk1NzM3NCwiZXhwIjoxNzE5MDQzNzc0fQ.aKLzvCVFEYW78H3fwWTKiarVj_wwZebg0lWxD7JkYSw",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E",
 										"type": "text"
 									}
 								],
@@ -113,6 +113,250 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "get-specific-user-info",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/get-specific-user-info/popeye",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"get-specific-user-info",
+										"popeye"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-all-the-users-except-current-one",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/get-all-the-users-except-current-one?howManyUsers=100",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"get-all-the-users-except-current-one"
+									],
+									"query": [
+										{
+											"key": "howManyUsers",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "handshake-hello",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/handshake-hello",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"handshake-hello"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "follow-user",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"userID\" :  \"667936c01a89c30b67dda396\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/follow-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"follow-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "unfollow-user",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"userID\" :  \"667936c01a89c30b67dda396\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/unfollow-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"unfollow-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-profile",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "bodyImage",
+											"type": "file",
+											"src": "/C:/Users/MahamayaComputers/Documents/Testing/ThreadsClone/sampleImagesFOrCreatingNewPosts/mmtcSilver.png",
+											"disabled": true
+										},
+										{
+											"key": "userBioUpdated",
+											"value": "updated bio",
+											"type": "text"
+										},
+										{
+											"key": "userCustomLinkUpdated",
+											"value": "http://www.alex21c.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/user/update-profile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"update-profile"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -126,7 +370,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczOTRiNjcyZDgyYmZkOTczODMzYWYiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODk0MzEwNCwiZXhwIjoxNzE5MDI5NTA0fQ.DPZePmfRqWVPbRi0x_5ul7k3zKhtmPxKftMCDqgYKEw",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2ZWVhOTIxNDYzZGRmMTdkNjg1NzUiLCJmaXJzdE5hbWUiOiJwb3AiLCJpYXQiOjE3MTkwNzAzNzcsImV4cCI6MTcxOTE1Njc3N30.ymDgppbLcyBYw9gDIwvZRsXX1EtXMsVcbyUpDcNgnEo",
 										"type": "text"
 									}
 								],
@@ -136,13 +380,13 @@
 										{
 											"key": "bodyImage",
 											"type": "file",
-											"src": "/C:/Users/Admin/Pictures/Screenshots/Screenshot 2024-05-21 211503.png"
+											"src": "/C:/Users/Admin/Pictures/Screenshots/Screenshot 2024-05-21 211503.png",
+											"disabled": true
 										},
 										{
 											"key": "bodyText",
-											"value": "this is sample thread",
-											"type": "text",
-											"disabled": true
+											"value": "1",
+											"type": "text"
 										}
 									]
 								},
@@ -170,13 +414,13 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczOTRiNjcyZDgyYmZkOTczODMzYWYiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg1MDgwOSwiZXhwIjoxNzE4OTM3MjA5fQ.8kMHXZcYlBAPah7FIPGjxoMTmfkZAzmwD_1E_cX-u-0",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n \"threadID\" :  \"667394ca72d82bfd973833b2\"\r\n}",
+									"raw": "{\r\n \"threadID\" :  \"6676685caa7e004433c0da7f\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -207,13 +451,13 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczOTRiNjcyZDgyYmZkOTczODMzYWYiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg1MDgwOSwiZXhwIjoxNzE4OTM3MjA5fQ.8kMHXZcYlBAPah7FIPGjxoMTmfkZAzmwD_1E_cX-u-0",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n \"threadID\" :  \"667394ca72d82bfd973833b2\"\r\n}",
+									"raw": "{\r\n \"threadID\" :  \"6676685caa7e004433c0da7f\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -244,13 +488,13 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczYmE0NjhiODhlZDc3MzVkZDdlMzAiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg2MDM1OCwiZXhwIjoxNzE4OTQ2NzU4fQ.SP96QmUrxqL1khSmgJwiT1kJDIPOl3kki5OuHIcBt2g",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc2NjUyYWFhN2UwMDQ0MzNjMGRhNzkiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcxOTAzNTMwNywiZXhwIjoxNzE5MTIxNzA3fQ.3xybR40j3E-n0Qs5LrC0dGBmb3fO01JO5MGU83Y-Z_E",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n \"threadID\" :  \"6673c762fe63d6993bb6f033\"\r\n}",
+									"raw": "{\r\n \"threadID\" :  \"6676699aaa7e004433c0da93\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -284,7 +528,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc1MzUzZWZiOGIyNDg3MzRkZDQwN2IiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODk3MDQwNywiZXhwIjoxNzE5MDU2ODA3fQ.RDTFOvnJzYLZdM8DUNdCPil2OfgW5gUQLsv298gn3bM",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
 										"type": "text"
 									}
 								],
@@ -315,6 +559,88 @@
 							"response": []
 						},
 						{
+							"name": "get-all-the-threads-created-by-specific-user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/thread/get-all-the-threads-created-by-specific-user/nature",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"thread",
+										"get-all-the-threads-created-by-specific-user",
+										"nature"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-specific-thread",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/thread/get-specific-thread/6687ce24e22735f01cdecafe",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"thread",
+										"get-specific-thread",
+										"6687ce24e22735f01cdecafe"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "get-homepage-threads-for-current-user",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -324,7 +650,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc1YjQ1ZDU2OGEyOGQ1Yzk0OGUzYjMiLCJmaXJzdE5hbWUiOiJkZWwiLCJpYXQiOjE3MTg5ODk5MTcsImV4cCI6MTcxOTA3NjMxN30.9gWkeWWR4ROvh8zBxqVqpWW9htKDnJk2aHpcgd_csag",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
 										"type": "text"
 									}
 								],
@@ -360,19 +686,100 @@
 					"name": "Reply",
 					"item": [
 						{
+							"name": "get-all-the-replies-made-by-current-user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/reply/get-all-the-replies-made-by-current-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"reply",
+										"get-all-the-replies-made-by-current-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-all-the-replies-made-by-specific-user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/reply/get-all-the-replies-made-by-specific-user/nature",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"reply",
+										"get-all-the-replies-made-by-specific-user",
+										"nature"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "create-new-reply",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczN2ZhZDQyNWZiODc0ZTQwMDI3OWEiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg0NTM1NywiZXhwIjoxNzE4OTMxNzU3fQ.OJiYq5z8R75lnn09ZQt_AF4SfjO93-RLW-8lhAEu03k",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n \"bodyText\": \"this is a sample reply\",\r\n \"replyBelongsToThisThreadID\": \"66738564a7943506583715e0\"\r\n}",
+									"raw": "{\r\n \"bodyText\": \"its beautiful blue bird !\",\r\n \"replyBelongsToThisThreadID\": \"6687ce24e22735f01cdecafe\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -403,13 +810,13 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjczN2ZhZDQyNWZiODc0ZTQwMDI3OWEiLCJmaXJzdE5hbWUiOiJBYmhpc2hlayIsImlhdCI6MTcxODg0NTM1NywiZXhwIjoxNzE4OTMxNzU3fQ.OJiYq5z8R75lnn09ZQt_AF4SfjO93-RLW-8lhAEu03k",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n \"replyID\": \"667385b76f258ff09eb1bc81\",\r\n \"replyBelongsToThisThreadID\": \"66738564a7943506583715e0\",\r\n \"req\": \"delete-a-reply\"\r\n}",
+									"raw": "{\r\n \"replyID\": \"668bb55241f3e8260d66edd3\",\r\n \"replyBelongsToThisThreadID\": \"6687ce24e22735f01cdecafe\",\r\n \"req\": \"delete-a-reply\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -428,6 +835,52 @@
 										"v1",
 										"reply",
 										"delete-a-reply"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Search",
+					"item": [
+						{
+							"name": "get-all-users-or-threads-matching-search-query",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Njc5MzZjMDFhODljMzBiNjdkZGEzOTYiLCJmaXJzdE5hbWUiOiJhYmhpc2hlayIsImlhdCI6MTcyMDQyOTE3OCwiZXhwIjoxNzIwNTE1NTc4fQ.0yDd2MymHCqj6vlDf_lOiOVIT1R4hjhH9EKlQ5PhsyQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/search/get-all-users-or-threads-matching-search-query/gold",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"search",
+										"get-all-users-or-threads-matching-search-query",
+										"gold"
 									]
 								}
 							},
