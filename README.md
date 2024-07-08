@@ -8,27 +8,26 @@
 + Functionality is similar to Twitter, users can post text, images, and videos, as well as interact with other users' posts through replies, reposts, and likes.
 
 ## Features
-### User
-+ Register and create a new account
-+ Login into the system
-+ Follow/UnFollow other users
-+ Update profile (bio, link, profile image)
+### User Management
++ **User Registration**: Enable users to create new accounts.
++ **User Login**: Allow users to securely log in.
++ **Follow/Unfollow Users**: Users can follow or unfollow other users.
++ **Profile Management**: Users can update their profile information including bio, links, and profile image.
 
-### Thread
-+ create new threads having text, images
-+ like thread
-+ unlike thread
-+ delete thread
-+ see all the threads created by self/other-users
-
-### Reply
-+ create a new reply to thread
-+ delete a reply
-
-### Change Theme
-+ Switch between dark/light theme
+### Threads
++ **Create Threads**: Users can create new threads with text and images.
++ **Like/Unlike Threads**: Users can like or unlike threads.
++ **Delete Threads**: Users can delete their own threads.
++ **View Threads**: Users can view all threads created by themselves and others.
   
-  
+### Replies
++ **Create Replies**: Users can reply to threads.
++ **Delete Replies**: Users can delete their own replies.
+
+### Theming
++ **Dark/Light Theme**: Users can switch between dark and light themes.
+
+    
 
 ## Tech. Stack Used:
 ### Front End
