@@ -1,0 +1,15 @@
+@media screen and (max-width: 586px) {
+  div#wrapperBox {
+    width: 90%;
+    overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  div#wrapperEditBoxesAndProfileImage {
+    flex-direction: column-reverse;
+  }
+  div#formThreeBtns {
+    flex-direction: column;
+  }
+}

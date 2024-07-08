@@ -1,9 +1,25 @@
-div#AuthPageWrapper{
+div#AuthPageWrapper {
   background-image: url(../../Assests/Images/Login/kindOfBanner.png);
   background-repeat: no-repeat;
   background-position: top center;
-    
+
   min-height: 100vh;
+}
 
+@media screen and (max-width: 910px) {
+  div.qrCodeForGettingApp {
+    width: 10rem;
+    bottom: 1rem;
+    font-size: 0.9rem;
+  }
+}
 
+@media screen and (max-width: 500px) {
+  div.qrCodeForGettingApp {
+    display: none;
+  }
+  ul.footerLinks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }

@@ -3,3 +3,9 @@
     width: 100%;
   }
 }
+
+@media screen and (max-width: 370px) {
+  div.wrapperThread {
+    flex-direction: column;
+  }
+}

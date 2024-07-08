@@ -1,9 +1,15 @@
-#plusIconBtnCreateANewPost {
+div.createNewThreadIconOnSidebar {
   display: none;
 }
 
 @media screen and (max-width: 770px) {
   main#homepageMain {
     width: 86%;
+  }
+  #plusIconBtnCreateANewPost {
+    display: none;
+  }
+  div.createNewThreadIconOnSidebar {
+    display: initial;
   }
 }

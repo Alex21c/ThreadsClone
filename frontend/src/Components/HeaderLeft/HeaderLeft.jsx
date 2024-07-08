@@ -162,7 +162,7 @@ export default function HeaderLeft({ isItHomepage = null }) {
     <header
       id="sidebarLeft"
       style={{ backgroundColor: theme.background }}
-      className="py-[1rem] flex flex-col w-[5rem] h-[100vh] items-center justify-between sticky top-[0] left-[0rem]"
+      className="py-[1rem] flex flex-col w-[5rem] h-[100vh] items-center justify-between sticky top-[0] left-[0rem] z-[1000]"
     >
       <a href="/" className="cursor-pointer">
         <img
@@ -256,7 +256,7 @@ export default function HeaderLeft({ isItHomepage = null }) {
               dispatch(openMuiModalCreateNewThread());
               dispatch(closeTheMuiSnackbar());
             }}
-            className={`itsAndIconWrapper cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md  ${
+            className={`createNewThreadIconOnSidebar itsAndIconWrapper cursor-pointer w-[4rem] h-[4rem] p-[1rem] transition  rounded-md  ${
               theme.currentThemeIs === "dark"
                 ? "darkThemeHover"
                 : "lightThemeHover"
@@ -334,6 +334,7 @@ export default function HeaderLeft({ isItHomepage = null }) {
             style={{
               backgroundColor: theme.background,
               borderColor: theme.borderColor,
+              zIndex: 200,
             }}
           >
             <li

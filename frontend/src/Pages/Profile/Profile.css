@@ -1,0 +1,6 @@
+@media screen and (max-width: 770px) {
+  main#mainSectionProfilePage {
+    padding: 0;
+    width: 90%;
+  }
+}

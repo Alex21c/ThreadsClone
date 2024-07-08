@@ -1,0 +1,41 @@
+@media screen and (max-width: 1054px) {
+  input.firstName,
+  input.lastName,
+  input.email,
+  input.mobile {
+    width: 15rem;
+  }
+}
+
+@media screen and (max-width: 820px) {
+  input.firstName,
+  input.lastName,
+  input.email,
+  input.mobile {
+    width: 11rem;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  div.qrCodeForGettingApp {
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  div.wrapperCreateANewAccount {
+    margin-bottom: 2rem;
+  }
+}
+@media screen and (max-width: 390px) {
+  div.wrapperInputFields {
+    flex-direction: column;
+  }
+  input.firstName,
+  input.lastName,
+  input.email,
+  input.mobile,
+  div.wrapperCreateANewAccount,
+  form {
+    width: 100%;
+  }
+}

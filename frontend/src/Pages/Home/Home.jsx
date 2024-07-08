@@ -15,6 +15,7 @@ import Thread from "../../Components/Thread/Thread";
 import { handshakeHello } from "../../Redux/Slices/handshakeSlice.mjs";
 import { fetchThreadsForHomepage } from "../../Redux/Slices/threadsSlice.mjs";
 import "./Home.css";
+import zIndex from "@mui/material/styles/zIndex";
 
 export default function Home() {
   const navigate = useNavigate();

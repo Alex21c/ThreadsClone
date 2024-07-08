@@ -1,0 +1,12 @@
+@media screen and (max-width: 350px) {
+  input[type="text"],
+  input[type="password"],
+  button {
+    width: 100%;
+  }
+
+  div.wrapperForm,
+  form.wrapperInputFields {
+    width: 100%;
+  }
+}

@@ -1,3 +1,4 @@
+import "./MuiModalCreateNewThread.css";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -252,6 +253,7 @@ export default function MuiModalCreateNewThread() {
         <Box
           sx={style}
           className={`outline-none p-[.8rem] border rounded-xl  cursor-pointer hover:border-[blue-300]  w-[35rem]  flex flex-col `}
+          id="wrapperBox"
         >
           <h2 className="self-center top-[-1.3rem] relative font-semibold text-[1.1rem]">
             New thread
@@ -302,6 +304,7 @@ export default function MuiModalCreateNewThread() {
                 style={{
                   backgroundColor: "transparent",
                   color: theme.primaryText,
+                  maxHeight: "45vh",
                 }}
                 className="w-[100%] outline-none font-normal text-[1rem] "
                 placeholder="Start a thread"

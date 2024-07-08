@@ -1,3 +1,4 @@
+import "./MuiModalCreateNewReply.css";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -255,6 +256,7 @@ export default function MuiModalCreateNewReply({
         <Box
           sx={style}
           className={`outline-none p-[.8rem] border rounded-xl  cursor-pointer hover:border-[blue-300]  w-[35rem]  flex flex-col gap-[2rem]`}
+          id="wrapperBox"
         >
           <h2 className="font-bold self-center  relative text-[1.1rem]">
             New Reply
@@ -378,6 +380,7 @@ export default function MuiModalCreateNewReply({
                 style={{
                   backgroundColor: "transparent",
                   color: theme.primaryText,
+                  maxHeight: "47vh",
                 }}
                 className="w-[100%] outline-none font-normal text-[1rem] "
                 placeholder={`Reply to ${muiModalCreateNewReply?.replyingToThisThread?.createdBy?.username}...`}

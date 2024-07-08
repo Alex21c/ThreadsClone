@@ -22,6 +22,7 @@ import { fetchSpecificUserReplies } from "../../../Redux/Slices/replySlice.mjs";
 import FollowBtn from "../../FollowBtn/FollowBtn";
 import MuiModalEditProfile from "../MuiModalEditProfile/MuiModalEditProfile";
 import { openMuiModalEditProfile } from "../../../Redux/Slices/muiModalEditProfile.mjs";
+import "./MuiTabForProfilePage.css";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -162,6 +163,7 @@ export default function MuiTabForProfilePage({
         color: theme.primaryText,
       }}
       className="border-[.1rem] rounded-tl-2xl rounded-tr-2xl p-[1rem] pb-[0] w-[40rem] min-h-[91vh] border-b-[0] m-[auto] mt-[1rem]"
+      id="wrapperDivProfilePage"
     >
       <MuiModalCreateNewThread />
       <MuiModalEditProfile />
@@ -186,8 +188,11 @@ export default function MuiTabForProfilePage({
             />
           </div>
         </div>
-        <div className="flex  justify-between w-[100%] items-center py-[.5rem]">
-          <div className="flex gap-[.7rem]">
+        <div
+          className="flex  justify-between w-[100%] items-center py-[.5rem] "
+          id="parentFollowersCountAndLink"
+        >
+          <div className="flex gap-[.7rem]" id="followersCountAndLink">
             <span
               style={{ color: theme.secondaryText }}
               className=" hover:underline transition cursor-pointer"

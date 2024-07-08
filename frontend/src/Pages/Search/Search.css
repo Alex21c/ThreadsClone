@@ -1,0 +1,11 @@
+@media screen and (max-width: 770px) {
+  main#searchPageMain {
+    width: 86%;
+  }
+}
+@media screen and (max-width: 480px) {
+  div#wrapperUserIconUserNameAndFollowBtn {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

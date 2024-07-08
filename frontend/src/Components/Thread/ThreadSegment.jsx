@@ -35,11 +35,11 @@ export default function ThreadSegment({
   }
 
   return (
-    <div className="flex gap-[1rem] cursor-pointer w-[100%] ">
+    <div className="wrapperThread flex gap-[1rem] cursor-pointer w-[100%] ">
       <Link
         title={`visit ${threadData?.createdBy?.username} profile`}
         to={`/profile/${threadData?.createdBy?.username}`}
-        className="overflow-hidden w-[4rem] min-w-[4rem] "
+        className="overflow-hidden w-[4rem] min-w-[4rem] rounded-full "
       >
         <img
           src={threadData?.createdBy?.profileImage?.url}

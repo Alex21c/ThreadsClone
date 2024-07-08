@@ -1,0 +1,16 @@
+@media screen and (max-width: 770px) {
+  #wrapperDivProfilePage {
+    width: 86%;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  div#followersCountAndLink,
+  div#parentFollowersCountAndLink {
+    flex-direction: column;
+  }
+
+  div#parentFollowersCountAndLink {
+    gap: 1rem;
+  }
+}

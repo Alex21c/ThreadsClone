@@ -1,3 +1,4 @@
+import "./MuiModalEditProfile.css";
 import * as React from "react";
 import { isURL } from "validator";
 import Box from "@mui/material/Box";
@@ -245,13 +246,17 @@ export default function MuiModalEditProfile() {
         <Box
           sx={style}
           style={{ color: theme.primaryText }}
+          id="wrapperBox"
           className={`outline-none p-[.8rem] border rounded-xl  cursor-pointer hover:border-[blue-300]  w-[35rem]  flex flex-col `}
         >
           <h2 className="self-center top-[-1.3rem] relative font-semibold text-[1.1rem]">
             Edit Profile
           </h2>
           <form className="flex flex-col gap-[1rem] " action="#">
-            <div className="flex gap-[1rem]">
+            <div
+              className="flex gap-[1rem]"
+              id="wrapperEditBoxesAndProfileImage"
+            >
               <div className="flex flex-col gap-[1rem] w-[100%]">
                 <h3 className="font-medium">
                   {user?.data?.firstName} {user?.data?.lastName}
@@ -303,7 +308,7 @@ export default function MuiModalEditProfile() {
               </div>
             </div>
 
-            <div className="flex gap-[.5rem]">
+            <div className="flex gap-[.5rem]" id="formThreeBtns">
               {stateMakingApiCall ? (
                 <div>
                   <CircularProgressInfinite message={stateApiReqMessage} />
