@@ -1148,26 +1148,53 @@ JSON
 
 
 ## 4. Search Endpoints
-### 4.1 POST /api/v1/thread/create-new-thread
+### 4.1 GET /api/v1/search/get-all-users-or-threads-matching-search-query/:searchQuery
 ### Purpose:
-Create a new Thread
-### Request Body:
-Either bodyText or BodyImage is required, or can provide both !
+Get all the threads matching search Query
+
+### Example Req.
+```javascript
+ GET /api/v1/search/get-all-users-or-threads-matching-search-query/gold
+```
+### Request Headers:
 ```javascript
 HEADERS
 Authorization = Bearer JWT_TOKEN
-
-FORM-DATA
-bodyImage : Image File
-bodyText : my very first thread !
 ```
+
 ### Response Success:
 ```javascript
 JSON
 {
     "success": true,
-    "message": "Thread Created Successfully !",
-    "threadID": "6676685caa7e004433c0da7f"
+    "data": {
+        "users": [],
+        "threads": [
+            {
+                "_id": "6684f37050e7c6aadcdff8e6",
+                "bodyText": "talking about the gold !",
+                "createdBy": {
+                    "_id": "667936c01a89c30b67dda396",
+                    "username": "alex21c",
+                    "profileImage": {
+                        "public_id": null,
+                        "url": "https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718986666/SharedResources/Star_qudgtj.png"
+                    }
+                },
+                "likes": [
+                    "667937501a89c30b67dda3b4"
+                ],
+                "replies": [
+                    "6687c1f6e22735f01cdec95d"
+                ],
+                "replyBelongsToThisThreadID": null,
+                "replyBelongsToThreadCreatedByThisUser": null,
+                "createdAt": "2024-07-03T06:45:04.292Z",
+                "updatedAt": "2024-07-05T09:50:46.317Z",
+                "__v": 25
+            }
+        ]
+    }
 }
 ```
 
