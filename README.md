@@ -7,11 +7,12 @@
 + [Threads](https://threads.net/) is an online social media and social networking service operated by [Meta Platforms](https://en.wikipedia.org/wiki/Meta_Platforms).
 + Functionality is similar to Twitter, users can post text, images, and videos, as well as interact with other users' posts through replies, reposts, and likes.
 
-
 ## Features
 ### User
 + Register and create a new account
 + Login into the system
++ Follow/UnFollow other users
++ Update profile (bio, link, profile image)
 
 ### Thread
 + create new threads having text, images
@@ -20,6 +21,14 @@
 + delete thread
 + see all the threads created by self/other-users
 
+### Reply
++ create a new reply to thread
++ delete a reply
+
+### Change Theme
++ Switch between dark/light theme
+  
+  
 
 ## Tech. Stack Used:
 ### Front End
@@ -60,6 +69,7 @@ REACT_APP_SERVER_BASE_URL_RENDER=https://threadsclone-m3i6.onrender.com
 REACT_APP_SERVER_BASE_URL=http://localhost:4000
 REACT_APP_PRJ_NAME="Threads Clone"
 REACT_APP_DEFAULT_USER_PROFILE_IMAGE_URL=https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718603004/SharedResources/a7syt68cd0kyj3tiyhux.png
+REACT_APP_MAX_ALLOWED_PROFILE_IMAGE_SIZE_IN_KB=500
 ```
 
 ### Back End
@@ -74,6 +84,7 @@ CLOUDINARY_API_KEY=mlcToDo-get-yours-from-cloudinary
 CLOUDINARY_API_SECRET=mlcToDo-get-yours-from-cloudinary
 MAX_ALLOWED_FILE_UPLOAD_SIZE_IN_KB=500
 PRJ_NAME=ThreadsClone
+ByDefaultHowManyUsersToFetchForSearchPage=100
 DEFAULT_USER_PROFILE_IMAGE_URL=https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718603004/SharedResources/a7syt68cd0kyj3tiyhux.png
 ```
 ### Reference:
@@ -169,6 +180,7 @@ JSON
     "Authorization": "Bearer JWT_TOKEN"
 }
 ```
+
 ### 1.3 GET /api/v1/user/get-current-user-info
 ### Purpose:
 Get current user document from database, after excluding password, Useful for fetching what users follows, likes, profileImage and name etc.
@@ -204,6 +216,220 @@ JSON
     }
 }
 ```
+
+### 1.4 GET /api/v1/user/get-specific-user-info/:username
+### Purpose:
+Get the specific user info, everything except the password
+### Example Request
+```javascript
+GET api/v1/user/get-specific-user-info/popeye
+```
+### Request Body:
+```javascript
+HEADERS
+Authorization = Bearer JWT_TOKEN
+```
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "data": {
+        "_id": "667937501a89c30b67dda3b4",
+        "firstName": "pop",
+        "lastName": "eye",
+        "username": "popeye",
+        "profileImage": {
+            "public_id": "ThreadsClone/popeye-profileImage/potatoes-Wwcm3DnTn5qHXeaSFhnP0",
+            "url": "https://res.cloudinary.com/dwlfgbmsi/image/upload/v1720173217/ThreadsClone/popeye-profileImage/potatoes-Wwcm3DnTn5qHXeaSFhnP0.jpg"
+        },
+        "followers": [
+            "667936c01a89c30b67dda396",
+            "6685196ffe80aed1e4fc7e81"
+        ],
+        "following": [
+            "667936c01a89c30b67dda396"
+        ],
+        "likedThreads": [
+            "66793808f91b071aa3b6916f",
+            "6679435fe37d2d6a3a4b7f37",
+        ],
+        "createdAt": "2024-06-24T09:07:28.647Z",
+        "updatedAt": "2024-07-08T05:17:03.077Z",
+        "__v": 449,
+        "bio": "new bio2933",
+        "customLink": "http://www.abc.com"
+    }
+}
+```
+
+### 1.5 GET /api/v1/user/get-all-the-users-except-current-one?howManyUsers=100
+### Purpose:
+Get all the users info, except current user, useful when current user is searching for users on search page
+### Note
+`howManyUsers` here default value is 100, that means by default 100 users will be fetched !
+### Request Headers:
+```javascript
+HEADERS
+Authorization = Bearer JWT_TOKEN
+```
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "data": [
+        {
+            "_id": "667937501a89c30b67dda3b4",
+            "firstName": "pop",
+            "lastName": "eye",
+            "email": "pop@eye.com",
+            "mobile": "1123456789",
+            "username": "popeye",
+            "password": "$2b$10$FTncp5EPFQ37Eap.dJ.syek7xSYluUwDwZa68ujLUctsE.ti6Tb0m",
+            "profileImage": {
+                "public_id": "ThreadsClone/popeye-profileImage/potatoes-Wwcm3DnTn5qHXeaSFhnP0",
+                "url": "https://res.cloudinary.com/dwlfgbmsi/image/upload/v1720173217/ThreadsClone/popeye-profileImage/potatoes-Wwcm3DnTn5qHXeaSFhnP0.jpg"
+            },
+            "followers": [
+                "667936c01a89c30b67dda396",
+                "6685196ffe80aed1e4fc7e81"
+            ],
+            "following": [
+                "667936c01a89c30b67dda396"
+            ],
+            "likedThreads": [
+                "66793808f91b071aa3b6916f",
+                "6679435fe37d2d6a3a4b7f37",
+                "66851bcd780bc05289c29905"
+            ],
+            "createdAt": "2024-06-24T09:07:28.647Z",
+            "updatedAt": "2024-07-08T05:17:03.077Z",
+            "__v": 449,
+            "bio": "new bio2933",
+            "customLink": "http://www.abc.com"
+        },
+        {
+            "_id": "6685196ffe80aed1e4fc7e81",
+            "firstName": "nature",
+            "lastName": "",
+            "email": "nature@alex21c.com",
+            "mobile": "9999999999",
+            "username": "nature",
+            "password": "$2b$10$4PfeEjIE9/uRn5kZM2VExOYhBJwOZCxwgPp.Fa6UfXwVczk1PEuRi",
+            "bio": "",
+            "profileImage": {
+                "public_id": null,
+                "url": "https://res.cloudinary.com/dwlfgbmsi/image/upload/v1718603004/SharedResources/a7syt68cd0kyj3tiyhux.png"
+            },
+            "customLink": "",
+            "followers": [
+                "66867ab5b760fcdceb536abe",
+                "667936c01a89c30b67dda396"
+            ],
+            "following": [
+                "667937501a89c30b67dda3b4",
+                "667d41d4f302c7b316689987",
+                "667936c01a89c30b67dda396",
+                "6687d29878a34a0f0b6c63d3"
+            ],
+            "likedThreads": [
+                "66851ba8780bc05289c298c8",
+                "66851bcd780bc05289c29905"
+            ],
+            "createdAt": "2024-07-03T09:27:11.766Z",
+            "updatedAt": "2024-07-05T10:46:09.728Z",
+            "__v": 30
+        }
+    ]
+}
+```
+
+### 1.6 GET /api/v1/user/handshake-hello
+### Purpose:
+render server free edition, by default goes into inactive phase if there is no activity, this request is to make that server active once again !
+
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "message": "hi there!"
+}
+```
+
+### 1.7 PUT /api/v1/user/follow-user
+### Purpose:
+follow another user
+### Request Headers:
+```javascript
+HEADERS
+Authorization = Bearer JWT_TOKEN
+```
+### Request Body
+```javascript
+JSON
+{
+ "userID" :  "667936c01a89c30b67dda396"
+}
+```
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "message": "alex21c followed successfully !"
+}
+```
+
+### 1.7 PUT /api/v1/user/unfollow-user
+### Purpose:
+unfollow previously followed  user
+### Request Headers:
+```javascript
+HEADERS
+Authorization = Bearer JWT_TOKEN
+```
+### Request Body
+```javascript
+JSON
+{
+ "userID" :  "667936c01a89c30b67dda396"
+}
+```
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "message": "alex21c unfollowed successfully !"
+}
+```
+
+### 1.8 PUT /api/v1/user/update-profile
+### Purpose:
+unfollow previously followed  user
+### Request Headers:
+```javascript
+HEADERS
+Authorization = Bearer JWT_TOKEN
+```
+### Request Body
+```javascript
+FORM-DATA
+bodyImage: File | imageFile
+userBioUpdated: text | user new bio
+userCustomLinkUpdated : text | user new custom href link
+```
+### Response Success:
+```javascript
+JSON
+{
+    "success": true,
+    "message": "alex21c Profile udpated successfully !"
+}
+```
+
 
 
 ## 2. Thread Endpoints
