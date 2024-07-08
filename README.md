@@ -116,7 +116,7 @@ i express my gratitude towards [Geekster](https://www.geekster.in/) for providin
 
 
 ## API Endpoints
-![](api-endpoints-screenshot-v1.0.1.png)
+![](api-endpoints-screenshot-v1.0.2.png)
 ### Download Postman endpoints file 
 + [postman-api-endpoints.json](ThreadsClone.postman_collection.json)
 ### Server Base URL 
