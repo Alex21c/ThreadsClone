@@ -48,7 +48,7 @@ const registerUser = async (req, res, next) => {
     // just check if alex21c exist, if so then let the current user be following him
     // on localhsot
     const alex21cMongoDbIDs = [
-      "66781930292326504172713b",
+      "668bbb6b5226f4a722deab41",
       "667936c01a89c30b67dda396",
     ];
 
